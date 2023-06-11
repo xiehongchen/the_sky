@@ -51,17 +51,6 @@ export const useUserStore = defineStore('UserStore', {
         this.username = result.data.name
         this.avatar = result.data.avatar
         this.buttons = result.data.buttons
-        //计算当前用户需要展示的异步路由，路由是根据用户权限动态生成的
-        // const userAsyncRoute = filterAsyncRoute(
-        //   cloneDeep(asnycRoute),
-        //   result.data.routes,
-        // )
-        //菜单需要的数据整理完毕
-        // this.menuRoutes = [...constantRoute, ...userAsyncRoute, anyRoute]
-        //   //目前路由器管理的只有常量路由:用户计算完毕异步路由、任意路由动态追加
-        //   ;[...userAsyncRoute, anyRoute].forEach((route: any) => {
-        //     router.addRoute(route)
-        //   })
         return 'ok'
       } else {
         return Promise.reject(new Error(result.message))
