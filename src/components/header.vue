@@ -3,12 +3,7 @@
     <!-- 面包屑，独占一行，第一行 -->
     <template #breadcrumb>
       <el-breadcrumb separator-icon="ArrowRight">
-        <el-breadcrumb-item
-          v-for="(item, index) in route.matched"
-          :key="index"
-          v-show="item.meta.title"
-          :to="item.path"
-        >
+        <el-breadcrumb-item v-for="(item, index) in route.matched" :key="index" v-show="item.meta.title" :to="item.path">
           <span>{{ item.meta.title }}</span>
         </el-breadcrumb-item>
       </el-breadcrumb>
@@ -16,9 +11,7 @@
     <!-- 左侧按钮，第二行 -->
     <template #icon>
       <el-icon style="margin-right: 10px" @click="changeIcon">
-        <component
-          :is="layOutSettingStore.fold ? 'Fold' : 'Expand'"
-        ></component>
+        <component :is="layOutSettingStore.fold ? 'Fold' : 'Expand'"></component>
       </el-icon>
     </template>
     <!-- 左侧内容，第二行 -->
@@ -30,48 +23,27 @@
     </template>
     <!-- 右侧操作，第二行 -->
     <template #extra>
-      <div>
-        <el-button
-          type="primary"
-          icon="Search"
-          circle
-          @click="search"
-        ></el-button>
-        <el-button
-          type="primary"
-          icon="FullScreen"
-          circle
-          @click="FullScreen"
-        ></el-button>
+      <div class="right-extra">
+        <!-- 搜索 -->
+        <el-button type="primary" icon="Search" circle @click="goSearch"></el-button>
+
+        <!-- 输入框 -->
+        <el-input v-if="isSearch" v-model="inputText" @blur="blurInput" @input="inputEvent" @change="changeInput" @focus="focusInput"
+          placeholder="请输入搜索内容" ref="inputRef" class="input" />
+
+        <!-- 全屏 -->
+        <el-button type="primary" icon="FullScreen" circle @click="FullScreen"></el-button>
 
         <!-- 主题选择 -->
-        <el-popover
-          placement="bottom"
-          title="主题设置"
-          :width="300"
-          trigger="hover"
-        >
+        <el-popover placement="bottom" title="主题设置" :width="300" trigger="hover">
           <!-- 表单元素 -->
           <el-form>
             <el-form-item label="主题颜色">
-              <el-color-picker
-                @change="setColor"
-                v-model="color"
-                size="small"
-                show-alpha
-                :predefine="predefineColors"
-              />
+              <el-color-picker @change="setColor" v-model="color" size="small" show-alpha :predefine="predefineColors" />
             </el-form-item>
             <el-form-item label="暗黑模式">
-              <el-switch
-                @change="changeDark"
-                v-model="dark"
-                class="mt-2"
-                style="margin-left: 24px"
-                inline-prompt
-                active-icon="MoonNight"
-                inactive-icon="Sunny"
-              />
+              <el-switch @change="changeDark" v-model="dark" class="mt-2" style="margin-left: 24px" inline-prompt
+                active-icon="MoonNight" inactive-icon="Sunny" />
             </el-form-item>
           </el-form>
           <template #reference>
@@ -80,17 +52,14 @@
         </el-popover>
 
         <!-- 用户信息 -->
-        <img
-          :src="userStore.avatar"
-          style="
+        <img :src="userStore.avatar" style="
             width: 32px;
             height: 32px;
             margin: 0px 10px -10px 10px;
             border-radius: 50%;
-          "
-        />
+          " />
         <el-dropdown>
-          <span style="line-height: 30px">
+          <span style="line-height: 30px;width:60px;">
             {{ userStore.username }}
           </span>
           <template #dropdown>
@@ -101,6 +70,11 @@
         </el-dropdown>
       </div>
     </template>
+    <el-card v-if="searchResultList.length > 0" class="box-card" :style="{ top: cardTop + 'px', left: cardLeft + 'px' }">
+      <ul>
+        <li v-for="item, index in searchResultList" :key="index" class="text">{{ item }}</li>
+      </ul>
+    </el-card>
   </el-page-header>
 </template>
 
@@ -111,17 +85,61 @@ import { useLayOutSettingStore } from '@/store/setting'
 // 展开收起
 let layOutSettingStore = useLayOutSettingStore()
 const router = useRouter()
-console.log(router.currentRoute.value.fullPath)
 const route = useRoute()
-console.log(route.matched)
 
 const changeIcon = () => {
   layOutSettingStore.fold = !layOutSettingStore.fold
 }
 
 // 搜索
-const search = () => {
-  console.log('搜索')
+const inputRef = ref<HTMLInputElement>()
+const isSearch = ref<boolean>(true)
+const goSearch = () => {
+  isSearch.value = !isSearch.value
+  nextTick(() => {
+    inputRef.value?.focus()
+  })
+}
+const inputText = ref<string>('')
+const blurInput = () => {
+  // isSearch.value = !isSearch.value
+  searchResult.value = false
+  searchResultList.value = []
+}
+// enter键搜索
+const changeInput = () => {
+  // 开始搜索
+  searchResult.value = true
+  getData()
+}
+// 输入框搜索
+const inputEvent = () => {
+  // 开始搜索
+  searchResult.value = true
+  getData()
+}
+// 聚焦搜索
+const focusInput = () => {
+  // 开始搜索
+  searchResult.value = true
+  getData()
+}
+// 搜索结果
+const searchResult = ref<boolean>(false)
+const searchResultList = ref<Array<string>>([])
+
+function getData() {
+  searchResultList.value = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
+  calculateCardPosition()
+}
+
+const cardTop = ref<number>(0)
+const cardLeft = ref<number>(0)
+// 计算卡片位置
+function calculateCardPosition() {
+  const element = inputRef.value?.$el
+  cardTop.value = element?.getBoundingClientRect().top + 40
+  cardLeft.value = element?.getBoundingClientRect().left
 }
 
 // 全屏
@@ -198,6 +216,50 @@ const logout = async () => {
         }
       }
     }
+  }
+
+  :deep(.el-page-header__header) {
+    height: 30px;
+    line-height: 30px;
+
+    .el-page-header__extra {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+    }
+  }
+}
+
+.right-extra {
+  display: flex;
+  flex-direction: row;
+
+  .input {
+    width: 300px;
+    margin-right: 20px;
+    margin-left: 20px;
+    border-radius: 20px;
+  }
+}
+
+.box-card {
+  position: fixed;
+  padding: 0;
+  width: 300px;
+  height: 300px;
+  overflow: scroll;
+  --el-card-padding: 0px;
+  
+  .text {
+    height: 50px;
+    padding: 5px 5px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #409eff;
+    border-radius: 4px;
   }
 }
 </style>
