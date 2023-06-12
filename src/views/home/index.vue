@@ -10,6 +10,5 @@ main {
   width: 100%;
   padding: 5px;
   border-radius: 20px;
-  background-color: red;
 }
 </style>

@@ -25,7 +25,7 @@
     <template #extra>
       <div class="right-extra">
         <!-- 搜索 -->
-        <el-button type="primary" icon="Search" circle @click="goSearch"></el-button>
+        <el-button ref="test" type="primary" icon="Search" circle @click="goSearch"></el-button>
 
         <!-- 输入框 -->
         <el-input v-if="isSearch" v-model="inputText" @blur="blurInput" @input="inputEvent" @change="changeInput" @focus="focusInput"
@@ -92,8 +92,8 @@ const changeIcon = () => {
 }
 
 // 搜索
-const inputRef = ref<HTMLInputElement>()
-const isSearch = ref<boolean>(true)
+const inputRef:Ref<HTMLElement | null> = ref(null)
+const isSearch = ref<boolean>(false)
 const goSearch = () => {
   isSearch.value = !isSearch.value
   nextTick(() => {
@@ -137,9 +137,9 @@ const cardTop = ref<number>(0)
 const cardLeft = ref<number>(0)
 // 计算卡片位置
 function calculateCardPosition() {
-  const element = inputRef.value?.$el
-  cardTop.value = element?.getBoundingClientRect().top + 40
-  cardLeft.value = element?.getBoundingClientRect().left
+  if(!inputRef.value) return
+  cardTop.value = inputRef.value.getBoundingClientRect().top + 40
+  cardLeft.value = inputRef.value.getBoundingClientRect().left
 }
 
 // 全屏
