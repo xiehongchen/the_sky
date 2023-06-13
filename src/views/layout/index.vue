@@ -31,6 +31,7 @@ import Header from '@/components/header.vue'
 
     .el-main {
       padding: 0;
+      border-top: 0;
     }
   }
 }
