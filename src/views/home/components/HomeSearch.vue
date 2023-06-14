@@ -65,14 +65,18 @@ onMounted(() => {
   height: 60px;
   text-align: center;
   background-color: beige;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   :deep(.el-autocomplete) {
     width: 70%;
     height: 30px;
   }
   .button-box {
-    width: 60px;
+    width: 20%;
     height: 30px;
-    margin: 15px 10px;
+    margin: 15px 0;
   }
 }
 </style>
