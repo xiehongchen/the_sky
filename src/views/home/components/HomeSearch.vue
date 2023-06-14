@@ -56,7 +56,12 @@ const clickSearch = () => {
 
 onMounted(() => {
   restaurants.value = loadAll()
+  getWeather()
 })
+function getWeather() {
+  console.log('1')
+  requestWeather()
+}
 </script>
 
 <style lang="scss" scoped>
