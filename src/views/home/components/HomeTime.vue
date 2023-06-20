@@ -229,6 +229,7 @@ section {
           span {
             display: flex;
             flex-direction: column;
+            width: 100px;
             padding: 20px 10px;
             border-radius: 20px;
             transition: all 0.3s ease;

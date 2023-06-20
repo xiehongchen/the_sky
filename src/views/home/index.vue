@@ -40,6 +40,7 @@ import HomePlan from './components/HomePlan.vue'
     'task-box task-box plan-box plan-box';
 }
 .time-box {
+  box-sizing: border-box;
   grid-area: time-box;
   border-radius: 10px;
   padding: 5px 10px;
