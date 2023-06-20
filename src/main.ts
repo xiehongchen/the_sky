@@ -6,6 +6,7 @@ import router from './router/routers'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import '@/styles/index.scss'
 import pinia from './store'
+import './assets/iconfont/iconfont.css'
 // 暗黑模式
 import 'element-plus/theme-chalk/dark/css-vars.css'
 const app = createApp(App)

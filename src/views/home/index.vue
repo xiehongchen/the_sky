@@ -31,7 +31,7 @@ import HomePlan from './components/HomePlan.vue'
   border: none;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 200px 1fr 1fr;
   gap: 10px 10px;
   grid-auto-flow: row;
   grid-template-areas:
@@ -41,7 +41,6 @@ import HomePlan from './components/HomePlan.vue'
 }
 .time-box {
   grid-area: time-box;
-  background-color: red;
   border-radius: 10px;
   padding: 5px 10px;
 }
