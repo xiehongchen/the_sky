@@ -60,7 +60,6 @@ onMounted(() => {
 })
 function getWeather() {
   console.log('1')
-  requestWeather()
 }
 </script>
 
