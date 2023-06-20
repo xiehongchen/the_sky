@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { GET_TOKEN } from '@/utils/token'
 
 import type {
   loginFormData,
