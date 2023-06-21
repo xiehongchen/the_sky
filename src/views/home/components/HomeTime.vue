@@ -458,7 +458,7 @@ section {
   }
 
   .date-box-unfold {
-    height: 488px;
+    height: 490px;
   }
 }
 </style>
