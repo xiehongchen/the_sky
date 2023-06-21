@@ -53,9 +53,9 @@ import HomePlan from './components/HomePlan.vue'
 }
 .picture-box {
   grid-area: picture-box;
-  background-color: blue;
   border-radius: 10px;
   padding: 5px 10px;
+  height: 100%;
 }
 .task-box {
   grid-area: task-box;
