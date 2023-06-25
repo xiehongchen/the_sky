@@ -1,7 +1,8 @@
 <template>
   <section class="picture-box">
-    <div class="stat header">
+    <div class="stat-header">
       <h3 class="title">每日完成统计</h3>
+      <BaseDatePicker />
     </div>
     <div class="charts">
       <HomeStatisticsCharts />
@@ -10,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+import BaseDatePicker from '@/components/base-date-picker/baseDatePicker.vue'
 import HomeStatisticsCharts from './HomeStatisticsCharts.vue'
 </script>
 

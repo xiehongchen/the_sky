@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import * as echarts from 'echarts'
-import useDate from '@/utils/getDate'
+import useDate from '@/utils/useDate'
 import { useTodoStore } from '@/store/todo'
 const resizeFrame = ref()
 const charts = ref()

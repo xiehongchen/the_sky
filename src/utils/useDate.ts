@@ -1,9 +1,9 @@
 interface FormatDate {
-  year: number,
-  month: number,
-  day: number,
-  hours: string,
-  minutes: string,
+  year: number
+  month: number
+  day: number
+  hours: string
+  minutes: string
   seconds: string
 }
 
@@ -21,9 +21,9 @@ const endDate = ref('')
   第二个函数实现是一个函数的重载，它接收一个可选的 Date 参数，但是不传递 format 参数时，该函数返回一个带有 format 参数的函数。
   第三个函数实现是用来处理真正的日期格式化逻辑的，它接收 date 和 format 两个参数。
  */
-export default function getDate() {
-  function formatDate(date: Date, format: string): string;
-  function formatDate(d?: Date): FormatDate;
+export default function useDate() {
+  function formatDate(date: Date, format: string): string
+  function formatDate(d?: Date): FormatDate
   function formatDate(d = date.value, format?: string) {
     const year = d.getFullYear()
     const month = d.getMonth() + 1
@@ -45,9 +45,13 @@ export default function getDate() {
     }
   }
 
-  const laterDay = (date: Date,num: number) => {
+  const laterDay = (date: Date, num: number) => {
     const dateStamp = date.getTime()
+<<<<<<< HEAD:src/utils/getDate.ts
     const dayStamp = num*24*60*60*1000
+=======
+    const dayStamp = num * 24 * 60 * 60 * 1000
+>>>>>>> 774b95182062b941eb1e495488459941b3a88885:src/utils/useDate.ts
     const newDate = new Date(dateStamp + dayStamp)
     return newDate
   }
@@ -56,6 +60,6 @@ export default function getDate() {
     formatDate,
     startDate,
     endDate,
-    laterDay
+    laterDay,
   }
 }
