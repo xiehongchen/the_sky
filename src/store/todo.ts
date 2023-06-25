@@ -1,6 +1,14 @@
+import { nanoid } from 'nanoid'
 import { defineStore } from 'pinia'
+interface Data {
+  id: string
+  date: string
+  time: string
+  event: string
+}
+;[]
 
-export const useTodoStore = defineStore('todoStore', {
+export const useTodoStore = defineStore('todo', {
   state: () => ({
     finishTodo: [
       {
@@ -68,21 +76,87 @@ export const useTodoStore = defineStore('todoStore', {
       },
     ],
   }),
-  getters: {
-    getTodos() {
-      return this.todos
+  actions: {
+    // 删除一个待办
+    deleteTodo(id: string) {
+      for (let i = 0; i < this.todo.length; i++) {
+        if (this.todo[i].id === id) {
+          return this.todo.splice(i, 1)
+        }
+      }
+    },
+    // 新增一个已完成事件
+    addFinishTodo(dateStamp: number, timestamp: number, data: Data) {
+      // 如果已完成事件有相同日期，将事件加入该日期
+      for (let i = 0; i < this.getFinishTodoTimestamp.length; i++) {
+        if (this.getFinishTodoTimestamp[i].date == dateStamp) {
+          const child = this.getFinishTodoTimestamp[i].child
+          const len = child.length
+          const params = {
+            id: nanoid(),
+            time: data.time,
+            event: data.event,
+          }
+          if (timestamp < child[0]) {
+            this.finishTodo[i].child.unshift(params)
+            return
+          } else if (timestamp >= child[len - 1]) {
+            this.finishTodo[i].child.push(params)
+            return
+          } else {
+            for (let j = 1; j < len; j++) {
+              if (timestamp < child[j]) {
+                this.finishTodo[i].child.splice(j, 0, params)
+                return
+              }
+            }
+          }
+        }
+      }
+      // 没有相同日期
+      for (let i = 0; i < this.getFinishTodoTimestamp.length; i++) {
+        const params = {
+          date: data.date,
+          id: nanoid(),
+          child: [
+            {
+              id: nanoid(),
+              time: data.time,
+              event: data.event,
+            },
+          ],
+        }
+        const len = this.getFinishTodoTimestamp.length
+        if (dateStamp < this.getFinishTodoTimestamp[0].date || len === 0) {
+          this.finishTodo.unshift(params)
+          return
+        } else if (dateStamp > this.getFinishTodoTimestamp[len - 1].date) {
+          this.finishTodo.push(params)
+          return
+        } else {
+          for (let j = 1; j < len; j++) {
+            if (dateStamp < this.getFinishTodoTimestamp[j].date) {
+              this.finishTodo.splice(j, 0, params)
+              return
+            }
+          }
+        }
+      }
     },
   },
-  actions: {
-    addTodo() {
-      this.todos.push({
-        id: this.todos.length + 1,
-        title: 'todo' + (this.todos.length + 1),
-        done: false,
-      })
+  getters: {
+    getTodoTimestamp(state) {
+      return state.todo.map((item) => +new Date(item.date + ' ' + item.time))
     },
-    removeTodo() {
-      this.todos.pop()
+    getFinishTodoTimestamp(state) {
+      return state.finishTodo.map((item) => {
+        return {
+          date: new Date(item.date).getTime(),
+          child: item.child.map(
+            (childItem) => +new Date(item.date + ' ' + childItem.time),
+          ),
+        }
+      })
     },
   },
 })

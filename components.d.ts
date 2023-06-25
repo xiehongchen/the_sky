@@ -9,6 +9,9 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BaseDatePicker: typeof import('./src/components/base-date-picker/baseDatePicker.vue')['default']
+    BaseDateSelect: typeof import('./src/components/base-date-picker/baseDateSelect.vue')['default']
+    BaseScroll: typeof import('./src/components/base-scroll/baseScroll.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAutocomplete: typeof import('element-plus/es')['ElAutocomplete']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']

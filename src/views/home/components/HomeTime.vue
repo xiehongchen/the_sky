@@ -86,7 +86,7 @@
 
 <script setup lang="ts">
 import throttle from 'lodash/throttle'
-import getDate from '@/utils/getDate'
+import useDate from '@/utils/useDate'
 import { getAngle } from '@/utils/getAngle'
 const weeks = [
   '星期日',
@@ -97,8 +97,8 @@ const weeks = [
   '星期五',
   '星期六',
 ]
-const date = getDate().date
-const formatDate = getDate().formatDate
+const date = useDate().date
+const formatDate = useDate().formatDate
 
 const fold = ref<boolean>(true)
 const getCurrentDate = computed(() => formatDate(date.value))
@@ -240,6 +240,7 @@ section {
   min-width: 780px;
   color: var(--date-word);
   font-weight: bold;
+  z-index: 2;
 
   // 盒子
   .date-box {
@@ -439,6 +440,7 @@ section {
     // 底部按钮
     .toggle-btn {
       button {
+        border: none;
         width: 60px;
         height: 8px;
         margin-bottom: 10px;

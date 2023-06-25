@@ -1,7 +1,7 @@
 import axios from 'axios'
 // 使用element-plus ElMessage做消息提醒
 import { ElMessage } from 'element-plus'
-import useUserStore from '@/store/user'
+import { useUserStore } from '@/store/user'
 //1. 创建新的axios实例
 const request = axios.create({
   // 公共接口 开发环境还是线上环境也可以用api
