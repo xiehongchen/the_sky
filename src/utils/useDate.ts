@@ -47,11 +47,7 @@ export default function useDate() {
 
   const laterDay = (date: Date, num: number) => {
     const dateStamp = date.getTime()
-<<<<<<< HEAD:src/utils/getDate.ts
-    const dayStamp = num*24*60*60*1000
-=======
     const dayStamp = num * 24 * 60 * 60 * 1000
->>>>>>> 774b95182062b941eb1e495488459941b3a88885:src/utils/useDate.ts
     const newDate = new Date(dateStamp + dayStamp)
     return newDate
   }

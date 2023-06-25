@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <section class="weather" :style="{ backgroundImage: weatherBg }">
     <div class="weather-detail">
       <div class="detail-top">
@@ -24,19 +24,14 @@
 <script setup lang="ts">
 import useWeatherStore from '@/store/weather'
 const useWeather = useWeatherStore()
+console.log(useWeather.data)
 const wea_img = computed(() => useWeather.data.wea_img || 'qing')
-const weaImg = () => require(`@/assets/weather/${wea_img.value}.png`)
+const weaImg = () => '@/assets/weather/' + wea_img.value + '.png'
 const time = new Date().getHours()
 const weatherBg = computed(() => {
   if (time == 5) {
-    return `url(${require('@/assets/日出.png')})`
-  } else if (time > 5 && time < 18) {
-    return `url(${require('@/assets/白天.png')})`
-  } else if (time == 18) {
-    return `url(${require('@/assets/日落.png')})`
-  } else {
-    return `url(${require('@/assets/晚上.png')})`
-  }
+    return `url('@/assets/日出.png')`
+  } 
 })
 
 onMounted(async () => {
@@ -57,33 +52,40 @@ onMounted(async () => {
   color: #fff;
   background-size: 400px 175px;
   border-radius: 40px;
+
   .weather-detail {
     display: flex;
     flex-flow: column;
     align-items: center;
     padding-right: 10px;
+
     .detail-top {
       position: relative;
       z-index: 1;
       margin-bottom: 5px;
       border-bottom: solid 3px #fff;
       font-weight: bold;
+
       .temp {
         font-size: 30px;
         margin-right: 10px;
       }
+
       .city {
         font-size: 20px;
       }
     }
+
     .detail-bottom {
       position: relative;
       z-index: 1;
+
       .isolate {
         margin: 0 10px;
       }
     }
   }
+
   .filter {
     position: absolute;
     width: 114px;
@@ -92,6 +94,7 @@ onMounted(async () => {
     background-size: 400px 175px;
     filter: blur(10px);
   }
+
   .weather-icon {
     img {
       position: absolute;
@@ -102,17 +105,9 @@ onMounted(async () => {
     }
   }
 }
+
 @media screen and (max-width: 1500px) {
   .weather {
     display: none;
   }
-}
-</style> -->
-
-<template>
-  <div>天气</div>
-</template>
-
-<script setup lang="ts"></script>
-
-<style lang="scss" scoped></style>
+}</style>
