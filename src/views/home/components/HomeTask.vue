@@ -196,4 +196,169 @@ function finishChecked() {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.task-box {
+  display: flex;
+  flex-flow: column;
+  padding: 20px;
+  .title {
+    color: var(--main-child-title);
+    font-size: 18px;
+  }
+  .add-todo {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    height: 50px;
+    margin: 10px 0;
+    .add-todo-input {
+      width: 100%;
+      height: 30px;
+      padding: 0 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--todo-add-word);
+      border-radius: 15px;
+      border: solid 2px var(--todo-add-border);
+      background-color: var(--todo-add-bg);
+    }
+    .add-todo-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 0 0 55px;
+      height: 40px;
+      margin-left: 30px;
+      font-size: 40px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--todo-button-word);
+      border-radius: 10px;
+      border: solid 2px var(--todo-button-border);
+      background-color: var(--todo-button-bg);
+    }
+  }
+  .show-todo-list-container {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    flex: 1 1 0;
+    .all-todo-list-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding-right: 10px;
+      box-sizing: border-box;
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+      overflow-y: scroll;
+      .todo-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        .todo-container {
+          display: flex;
+          align-items: center;
+          padding: 0 10px;
+          width: 100%;
+          height: 40px;
+          font-weight: bold;
+          border-radius: 20px;
+          color: var(--todo-child-word);
+          background-color: var(--todo-child-bg);
+          .todo-checkbox {
+            position: relative;
+            margin-right: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: solid 2px var(--todo-button-border);
+            background-color: var(--todo-child-checkbox-bg);
+            label {
+              display: block;
+              width: 100%;
+              height: 100%;
+            }
+            .todo-checkbox-origin + label::after {
+              content: '';
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              width: 0;
+              height: 0;
+              transition: all 0.2s;
+            }
+            .todo-checkbox-origin:checked + label::after {
+              content: '';
+              position: absolute;
+              top: calc(50% - 4px);
+              left: calc(50% - 4px);
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              background-color: var(--todo-child-checkbox-checked);
+            }
+          }
+          .todo-date {
+            margin-right: 20px;
+            .date {
+              margin-right: 10px;
+            }
+          }
+          .todo-content {
+            flex: 1 1 0;
+          }
+          .delete {
+            background: none;
+          }
+        }
+        .finish {
+          flex: 0 0 55px;
+          margin-left: 30px;
+          padding: 10px 0;
+          border: solid 2px var(--todo-button-border);
+          border-radius: 10px;
+          color: var(--todo-button-word);
+          background-color: var(--todo-button-bg);
+        }
+      }
+      .todoList-move,
+      .todoList-enter-active,
+      .todoList-leave-active {
+        transition: all 0.4s ease;
+      }
+
+      .todoList-enter-from,
+      .todoList-leave-to {
+        opacity: 0;
+      }
+
+      .todoList-leave-active {
+        position: absolute;
+        width: calc(100% - 10px);
+      }
+    }
+    .all-todo-list-container::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  .bottom-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    .delete-checked,
+    .finish-checked {
+      margin: 0 10px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      color: var(--todo-button-word);
+    }
+    .delete-checked {
+      background-color: var(--todo-delete-button-bg);
+    }
+    .finish-checked {
+      background-color: var(--todo-button-bg);
+    }
+  }
+}
+</style>

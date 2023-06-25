@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <section class="weather" :style="{ backgroundImage: weatherBg }">
     <div class="weather-detail">
       <div class="detail-top">
@@ -107,4 +107,12 @@ onMounted(async () => {
     display: none;
   }
 }
-</style>
+</style> -->
+
+<template>
+  <div>天气</div>
+</template>
+
+<script setup lang="ts"></script>
+
+<style lang="scss" scoped></style>

@@ -39,6 +39,10 @@ import HomePlan from './components/HomePlan.vue'
   .picture-box {
     grid-column: 1 / span 3;
   }
+  .finish {
+    grid-column: 1 / span 1;
+    grid-row: 4 / span 1;
+  }
   .task-box {
     grid-column: 2 / span 2;
   }

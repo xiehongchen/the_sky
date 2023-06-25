@@ -12,6 +12,7 @@
   height: 100%;
 }
 .button {
+  border: none;
   cursor: pointer;
 }
 .default-transition {
