@@ -23,7 +23,7 @@ const endDate = ref('')
  */
 export default function getDate() {
   function formatDate(date: Date, format: string): string;
-  function formatDate(d?: date): FormatDate;
+  function formatDate(d?: Date): FormatDate;
   function formatDate(d = date.value, format?: string) {
     const year = d.getFullYear()
     const month = d.getMonth() + 1
@@ -48,7 +48,7 @@ export default function getDate() {
   const laterDay = (date: Date,num: number) => {
     const dateStamp = date.getTime()
     const dayStamp = num*24*60*60*1000
-    const newDate = new Date(dateStamp + dateStamp)
+    const newDate = new Date(dateStamp + dayStamp)
     return newDate
   }
   return {

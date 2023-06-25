@@ -98,10 +98,11 @@ const weeks = [
   '星期六',
 ]
 const date = getDate().date
+console.log(date.value)
 const formatDate = getDate().formatDate
 
 const fold = ref<boolean>(true)
-const getCurrentDate = computed(() => formatDate(date.value))
+let getCurrentDate = computed(() => formatDate(date.value))
 const perMonth = () => {
   date.value = new Date(date.value.setMonth(date.value.getMonth() - 1))
 }
@@ -439,6 +440,7 @@ section {
     // 底部按钮
     .toggle-btn {
       button {
+        border: none;
         width: 60px;
         height: 8px;
         margin-bottom: 10px;

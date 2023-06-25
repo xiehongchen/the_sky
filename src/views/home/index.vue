@@ -44,6 +44,7 @@ import HomePlan from './components/HomePlan.vue'
   grid-area: time-box;
   border-radius: 10px;
   padding: 5px 10px;
+  z-index: 10;
 }
 .right-box {
   grid-area: right-box;
