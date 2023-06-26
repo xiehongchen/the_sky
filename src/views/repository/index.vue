@@ -74,6 +74,18 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
+      <el-pagination
+        v-model:current-page="currentPage2"
+        v-model:page-size="pageSize2"
+        :page-sizes="[10, 20, 30, 50]"
+        :small="small"
+        :disabled="disabled"
+        :background="background"
+        layout="prev, pager, next, jumper, sizes, total"
+        :total="1000"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </el-tabs>
   </div>
 </template>
@@ -126,6 +138,17 @@ function getData(params: any) {
     tableData.value = tableDataList.slice(8, 10)
   }
   console.log(tableData.value)
+}
+const currentPage2 = ref(5)
+const pageSize2 = ref(10)
+const small = ref(false)
+const background = ref(true)
+const disabled = ref(false)
+const handleSizeChange = (val: number) => {
+  console.log(`${val} items per page`)
+}
+const handleCurrentChange = (val: number) => {
+  console.log(`current page: ${val}`)
 }
 </script>
 

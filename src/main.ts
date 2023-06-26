@@ -9,9 +9,14 @@ import pinia from './store'
 import './assets/iconfont/iconfont.css'
 // 暗黑模式
 import 'element-plus/theme-chalk/dark/css-vars.css'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+
+
 const app = createApp(App)
 
-app.use(ElementPlus)
+app.use(ElementPlus, {
+  locale: zhCn,
+})
 app.use(router)
 app.use(pinia)
 
