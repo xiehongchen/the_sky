@@ -1,13 +1,23 @@
 <template>
   <div class="repository-box">
     <el-form :model="searchForm" inline class="form-box">
-      <el-form-item label="标题" style="margin-left: 10px;">
-        <el-input v-model="searchForm.title" placeholder="请输入标题" style="width:200px;" />
+      <el-form-item label="标题" style="margin-left: 10px">
+        <el-input
+          v-model="searchForm.title"
+          placeholder="请输入标题"
+          style="width: 200px"
+        />
+      </el-form-item>
+      <el-form-item label="状态">
+        <el-select v-model="searchForm.state" placeholder="请选择状态">
+          <el-option label="成功" value="成功" />
+          <el-option label="失败" value="失败" />
+        </el-select>
       </el-form-item>
       <el-form-item label="标签">
-        <el-select v-model="searchForm.introduction" placeholder="请选择标签">
-          <el-option label="浏览器" value="浏览器" />
-          <el-option label="状态码" value="状态码" />
+        <el-select v-model="searchForm.label" placeholder="请选择标签">
+          <el-option label="成功" value="成功" />
+          <el-option label="失败" value="失败" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -15,12 +25,53 @@
       </el-form-item>
     </el-form>
     <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
-      <el-tab-pane v-for="item in tabsList" :label="item.title" :name="item.title" :key="item.id">
-        <el-table :data="tableData">
-          <el-table-column prop="title" label="标题" width="180"></el-table-column>
-          <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
-          <el-table-column prop="introduction" label="简介" width="180"></el-table-column>
-          <el-table-column prop="address" label="地址"></el-table-column>
+      <el-tab-pane
+        v-for="item in tabsList"
+        :label="item.title"
+        :name="item.title"
+        :key="item.id"
+      >
+        <el-table :data="tableData" stripe border>
+          <el-table-column
+            prop="title"
+            label="标题"
+            width="180"
+          ></el-table-column>
+          <el-table-column
+            prop="author"
+            label="作者"
+            width="120"
+          ></el-table-column>
+          <el-table-column
+            prop="createTime"
+            label="创建时间"
+            width="180"
+          ></el-table-column>
+          <el-table-column
+            prop="introduction"
+            label="简介"
+            width="180"
+          ></el-table-column>
+          <el-table-column prop="address" label="状态" width="180">
+            <template #default="scope">
+              <el-tag
+                :type="scope.row.stateType === 'Home' ? '' : 'success'"
+                disable-transitions
+              >
+                {{ scope.row.state }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="address" label="标签">
+            <template #default="scope">
+              <el-tag
+                :type="scope.row.tagType === 'Home' ? '' : 'success'"
+                disable-transitions
+              >
+                {{ scope.row.tag }}
+              </el-tag>
+            </template>
+          </el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
@@ -37,7 +88,8 @@ onMounted(() => {
 // 搜索
 const searchForm = ref<any>({
   title: '',
-  introduction: ''
+  state: '',
+  label: '',
 })
 const onSubmit = () => {
   console.log(searchForm.value)
@@ -47,7 +99,7 @@ const activeName = ref<string>('JS')
 const searchParams = ref<any>({
   tab: 'JS',
   page: 1,
-  size: 10
+  size: 10,
 })
 const handleClick = (tab: any) => {
   console.log(tab.paneName)

@@ -26,12 +26,18 @@ import useWeatherStore from '@/store/weather'
 const useWeather = useWeatherStore()
 console.log(useWeather.data)
 const wea_img = computed(() => useWeather.data.wea_img || 'qing')
-const weaImg = () => '@/assets/weather/' + wea_img.value + '.png'
+const weaImg = () => 'src/assets/weather/' + wea_img.value + '.png'
 const time = new Date().getHours()
 const weatherBg = computed(() => {
   if (time == 5) {
-    return `url('@/assets/日出.png')`
-  } 
+    return `url('src/assets/日出.png')`
+  } else if (time > 5 && time < 18) {
+    return `url('src/assets/白天.png')`
+  } else if (time == 18) {
+    return `url('src/assets/日落.png')`
+  } else {
+    return `url('src/assets/晚上.png')`
+  }
 })
 
 onMounted(async () => {
@@ -96,12 +102,14 @@ onMounted(async () => {
   }
 
   .weather-icon {
+    height: 80px;
+    width: 80px;
     img {
-      position: absolute;
+      // position: absolute;
       top: 0;
       right: 0;
-      width: 80px;
-      height: 80px;
+      width: 100%;
+      height: 100%;
     }
   }
 }
@@ -110,4 +118,5 @@ onMounted(async () => {
   .weather {
     display: none;
   }
-}</style>
+}
+</style>

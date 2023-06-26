@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <iframe ref="resizeFrame" class="resizeFrame" frameborder="0"></iframe>
   <div class="charts-container" ref="charts"></div>
 </template>
@@ -193,4 +193,11 @@ onMounted(() => {
   width: 100%;
   height: 100%;
 }
-</style>
+</style> -->
+<template>
+  <div></div>
+</template>
+
+<script setup lang="ts"></script>
+
+<style lang="scss" scoped></style>
