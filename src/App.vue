@@ -11,10 +11,12 @@
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
 }
+
 .button {
   border: none;
   cursor: pointer;
 }
+
 .default-transition {
   transition: all 0.4s;
 }
