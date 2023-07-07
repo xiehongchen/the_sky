@@ -2,11 +2,7 @@
   <div class="repository-box">
     <el-form :model="searchForm" inline class="form-box">
       <el-form-item label="标题" style="margin-left: 10px">
-        <el-input
-          v-model="searchForm.title"
-          placeholder="请输入标题"
-          style="width: 200px"
-        />
+        <el-input v-model="searchForm.title" placeholder="请输入标题" style="width: 200px" />
       </el-form-item>
       <el-form-item label="状态">
         <el-select v-model="searchForm.state" placeholder="请选择状态">
@@ -25,67 +21,31 @@
       </el-form-item>
     </el-form>
     <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
-      <el-tab-pane
-        v-for="item in tabsList"
-        :label="item.title"
-        :name="item.title"
-        :key="item.id"
-      >
+      <el-tab-pane v-for="item in tabsList" :label="item.title" :name="item.title" :key="item.id">
         <el-table :data="tableData" stripe border>
-          <el-table-column
-            prop="title"
-            label="标题"
-            width="180"
-          ></el-table-column>
-          <el-table-column
-            prop="author"
-            label="作者"
-            width="120"
-          ></el-table-column>
-          <el-table-column
-            prop="createTime"
-            label="创建时间"
-            width="180"
-          ></el-table-column>
-          <el-table-column
-            prop="introduction"
-            label="简介"
-            width="180"
-          ></el-table-column>
+          <el-table-column prop="title" label="标题" width="180"></el-table-column>
+          <el-table-column prop="author" label="作者" width="120"></el-table-column>
+          <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
+          <el-table-column prop="introduction" label="简介" width="180"></el-table-column>
           <el-table-column prop="address" label="状态" width="180">
             <template #default="scope">
-              <el-tag
-                :type="scope.row.stateType === 'Home' ? '' : 'success'"
-                disable-transitions
-              >
+              <el-tag :type="scope.row.stateType === 'Home' ? '' : 'success'" disable-transitions>
                 {{ scope.row.state }}
               </el-tag>
             </template>
           </el-table-column>
           <el-table-column prop="address" label="标签">
             <template #default="scope">
-              <el-tag
-                :type="scope.row.tagType === 'Home' ? '' : 'success'"
-                disable-transitions
-              >
+              <el-tag :type="scope.row.tagType === 'Home' ? '' : 'success'" disable-transitions>
                 {{ scope.row.tag }}
               </el-tag>
             </template>
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-pagination
-        v-model:current-page="currentPage2"
-        v-model:page-size="pageSize2"
-        :page-sizes="[10, 20, 30, 50]"
-        :small="small"
-        :disabled="disabled"
-        :background="background"
-        layout="prev, pager, next, jumper, sizes, total"
-        :total="1000"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+      <el-pagination v-model:current-page="currentPage2" v-model:page-size="pageSize2" :page-sizes="[10, 20, 30, 50]"
+        :small="small" :disabled="disabled" :background="background" layout="prev, pager, next, jumper,->, sizes, total"
+        :total="1000" @size-change="handleSizeChange" @current-change="handleCurrentChange" style="margin: 10px 0;"/>
     </el-tabs>
   </div>
 </template>

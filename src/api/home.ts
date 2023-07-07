@@ -1,4 +1,4 @@
-import request from '@/api/request'
+import request from '@/utils/request'
 
 // 获取天气信息
 // 使用的天气接口及参数 https://www.tianqiapi.com/index/doc?version=v61

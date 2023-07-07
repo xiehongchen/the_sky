@@ -14,14 +14,14 @@ const router = createRouter({
 })
 
 // 前置守卫
-router.beforeEach((to, from, next) => {
-  // console.log(to, from)
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   // console.log(to, from)
+//   next()
+// })
 
-// 后置守卫
-router.afterEach((to, from) => {
-  // console.log(to, from)
-})
+// // 后置守卫
+// router.afterEach((to, from) => {
+//   // console.log(to, from)
+// })
 
 export default router

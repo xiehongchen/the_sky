@@ -19,7 +19,8 @@
       <span @click="router.back()">返回</span>
     </template>
     <template #content>
-      <span>{{ router.currentRoute.value.meta.title }}</span>
+      <!-- <span>{{ router.currentRoute.value.meta.title }}</span> -->
+      <span>我的技术总站</span>
     </template>
     <!-- 右侧操作，第二行 -->
     <template #extra>
@@ -28,8 +29,14 @@
         <el-button ref="test" type="primary" icon="Search" circle @click="goSearch"></el-button>
 
         <!-- 输入框 -->
-        <el-input v-if="isSearch" v-model="inputText" @blur="blurInput" @input="inputEvent" @change="changeInput" @focus="focusInput"
-          placeholder="请输入搜索内容" ref="inputRef" class="input" />
+        <el-input v-if="isSearch" v-model="inputText" @blur="blurInput" @input="inputEvent" @change="changeInput"
+          @focus="focusInput" placeholder="请输入搜索内容" ref="inputRef" class="input" />
+
+        <el-card v-if="searchResultList.length > 0" class="box-card">
+          <ul>
+            <li v-for="item, index in searchResultList" :key="index" class="text">{{ item }}</li>
+          </ul>
+        </el-card>
 
         <!-- 全屏 -->
         <el-button type="primary" icon="FullScreen" circle @click="FullScreen"></el-button>
@@ -52,7 +59,7 @@
         </el-popover>
 
         <!-- 用户信息 -->
-        <img :src="userStore.avatar" style="
+        <img src="../assets/vue.svg" style="
             width: 32px;
             height: 32px;
             margin: 0px 10px -10px 10px;
@@ -60,7 +67,7 @@
           " />
         <el-dropdown>
           <span style="line-height: 30px;width:60px;">
-            {{ userStore.username }}
+            谢红尘
           </span>
           <template #dropdown>
             <el-dropdown-menu>
@@ -70,17 +77,12 @@
         </el-dropdown>
       </div>
     </template>
-    <el-card v-if="searchResultList.length > 0" class="box-card" :style="{ top: cardTop + 'px', left: cardLeft + 'px' }">
-      <ul>
-        <li v-for="item, index in searchResultList" :key="index" class="text">{{ item }}</li>
-      </ul>
-    </el-card>
   </el-page-header>
 </template>
 
 <script setup lang="ts">
 //获取用户相关的小仓库
-import { useUserStore } from '@/store/user'
+// import { useUserStore } from '@/store/user'
 import { useLayOutSettingStore } from '@/store/setting'
 // 展开收起
 let layOutSettingStore = useLayOutSettingStore()
@@ -92,7 +94,7 @@ const changeIcon = () => {
 }
 
 // 搜索
-const inputRef:Ref<HTMLElement | null> = ref(null)
+const inputRef: Ref<HTMLElement | null> = ref(null)
 const isSearch = ref<boolean>(false)
 const goSearch = () => {
   isSearch.value = !isSearch.value
@@ -130,17 +132,8 @@ const searchResultList = ref<Array<string>>([])
 
 function getData() {
   searchResultList.value = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
-  calculateCardPosition()
 }
 
-const cardTop = ref<number>(0)
-const cardLeft = ref<number>(0)
-// 计算卡片位置
-function calculateCardPosition() {
-  if(!inputRef.value) return
-  cardTop.value = inputRef.value.getBoundingClientRect().top + 40
-  cardLeft.value = inputRef.value.getBoundingClientRect().left
-}
 
 // 全屏
 const FullScreen = () => {
@@ -184,11 +177,10 @@ const changeDark = () => {
 }
 
 // 用户信息
-const userStore = useUserStore()
+// const userStore = useUserStore()
 
 // 退出登录
 const logout = async () => {
-  await userStore.userLogout()
   router.push('/login')
 }
 </script>
@@ -233,6 +225,7 @@ const logout = async () => {
 .right-extra {
   display: flex;
   flex-direction: row;
+  position: relative;
 
   .input {
     width: 300px;
@@ -240,26 +233,30 @@ const logout = async () => {
     margin-left: 20px;
     border-radius: 20px;
   }
-}
 
-.box-card {
-  position: fixed;
-  padding: 0;
-  width: 300px;
-  height: 300px;
-  overflow: scroll;
-  --el-card-padding: 0px;
-  
-  .text {
-    height: 50px;
-    padding: 5px 5px;
-    line-height: 50px;
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    background-color: #409eff;
-    border-radius: 4px;
+  .box-card {
+    position: absolute;
+    padding: 0;
+    top: 40px;
+    right: 210px;
+    width: 300px;
+    height: 300px;
+    overflow: scroll;
+    --el-card-padding: 0px;
+    z-index: 10;
+
+    .text {
+      height: 50px;
+      padding: 5px 5px;
+      line-height: 50px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #409eff;
+      border-radius: 4px;
+    }
   }
 }
 </style>
+@/store/userStore

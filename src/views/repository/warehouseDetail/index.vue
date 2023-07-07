@@ -99,7 +99,7 @@
       @dragstart="dragStart(item, $event)"
       @dragover="dragOver($event)"
       @drop="drop(item, $event)"
-      @dragend="dragEnd(item)"
+      @dragend="dragEnd()"
     >
       {{ item.name }}
     </div>
@@ -117,7 +117,6 @@
 <script lang="ts" setup>
 import { Minus, Plus } from '@element-plus/icons-vue'
 import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
-console.log(window.ActiveXObject)
 const value0 = ref([4, 8])
 interface Option {
   key: number
@@ -177,19 +176,19 @@ const value2 = ref(0.5)
 const voiedStatus = ref(false)
 
 // 得到用户输入的值并赋值
-const getUserInput = (val) => {
+const getUserInput = (val:any) => {
   input.value = val
 }
 // 语速选择
-const speakSpeedChoose = (val) => {
+const speakSpeedChoose = (val:any) => {
   value1.value = val
 }
 // 音量选择
-const voiceChoose = (val) => {
+const voiceChoose = (val:any) => {
   value2.value = val
 }
 // 播放方法
-const play = (status) => {
+const play = (status:any) => {
   // 判空
   if (!input.value) return
   // 创建实例，并传入输入的文字
@@ -230,7 +229,7 @@ let dragItem = ref(null)
 
 //在拖拽开始时，通过dragStart函数将当前拖拽的元素保存到dragItem变量中，
 // 并将拖拽的数据以字符串形式存储在数据传输对象中。
-function dragStart(item, event) {
+function dragStart(item:any, event:any) {
   dragItem.value = item
   //设置拖拽操作的效果为移动,
   //这里也可以说一下拖拽的几个效果
@@ -272,7 +271,7 @@ function drop(item: any, event: any) {
   list.value[index2] = item
 }
 //在拖拽结束时，通过dragEnd函数将dragItem变量重置为null。
-function dragEnd(item) {
+function dragEnd() {
   dragItem.value = null
 }
 </script>
