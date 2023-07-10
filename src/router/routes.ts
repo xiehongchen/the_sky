@@ -127,6 +127,15 @@ const routes: RouteRecordRaw[] = [
           icon: 'Operation',
         },
       },
+      {
+        path: '/new',
+        name: 'new',
+        component: () => import('@/views/new/index.vue'),
+        meta: {
+          title: '草稿',
+          icon: 'Operation',
+        },
+      },
     ],
   },
   {
