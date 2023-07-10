@@ -1,26 +1,27 @@
 <template>
   <main>
     <div class="box">
-      <el-input v-model="input" placeholder="请输入文字" @change="getUserInput" />
-      <div class="lable">
+      <div class="label">SpeechSynthesisUtterance</div>
+      <el-input class="label" v-model="input" placeholder="请输入文字" @change="getUserInput" />
+      <div class="label">
         <span>语速选择</span>
         <el-slider v-model="value1" :min="0.1" :max="10" :step="0.1" show-stops @change="speakSpeedChoose" />
       </div>
-      <div class="lable">
+      <div class="label">
         <span>音量选择</span>
         <el-slider v-model="value2" :min="0" :max="1" :step="0.1" @change="voiceChoose" />
       </div>
-      <div class="lable">
+      <div class="label">
         <span>语调选择</span>
         <el-slider v-model="value3" :min="0" :max="2" :step="0.1" @change="intonationChoose" />
       </div>
-      <div class="lable">
+      <div class="label">
         <span>声音选择</span>
-        <el-select v-model="value4" class="m-2" placeholder="声音选择" size="large">
+        <el-select v-model="value4" class="select" placeholder="声音选择" size="large">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </div>
-      <div class="lable button">
+      <div class="label button">
         <el-button type="success" round @click="playVoice">播放语音</el-button>
         <el-button type="success" round @click="stopVoice">暂停语音</el-button>
       </div>
@@ -34,8 +35,10 @@ const input = ref('')
 // 语速选择 0.1-10
 const value1 = ref(1)
 // 音量选择 0-1
-const value2 = ref(0.5)
+const value2 = ref(1)
+// 语调选择 0-2
 const value3 = ref(1)
+// 声音选择
 const value4 = ref('')
 // 声音的状态 true就是播放，false就是暂停
 const voiedStatus = ref(false)
@@ -103,12 +106,16 @@ const stopVoice = () => {
 main {
   .box {
     width: 600px;
-    margin: 100px auto;
+    // margin: 100px auto;
     padding: 20px;
     border-radius: 10px;
     background-color: #a0cfff;
     .label {
       padding: 10px 0;
+      .select {
+        width: 100%;
+        padding: 10px 0;
+      }
     }
     .button {
       display: flex;
