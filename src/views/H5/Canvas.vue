@@ -6,7 +6,7 @@
       height="600"
       @mousedown="startDrawing"
       @mousemove="draw3"
-      @mouseup="stopDrawing"
+      @mouseup="stopDrawing"s
       style="border: 1px solid #000000; margin: 0 20px"
     ></canvas>
     <div style="display: flex; flex-direction: column; flex: 1; margin: 0 20px">
