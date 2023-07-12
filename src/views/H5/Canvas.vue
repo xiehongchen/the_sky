@@ -1,39 +1,82 @@
 <template>
-  <div
-    @click="start"
-    style="border: 1px solid; width: 100px; margin-bottom: 20px"
-  >
-    canvas 开始
+  <div style="display: flex; margin: 10px 0">
+    <canvas
+      ref="myCanvas3"
+      width="1000"
+      height="600"
+      @mousedown="startDrawing"
+      @mousemove="draw3"
+      @mouseup="stopDrawing"
+      style="border: 1px solid #000000; margin: 0 20px"
+    ></canvas>
+    <div style="display: flex; flex-direction: column; flex: 1; margin: 0 20px">
+      <div style="display: flex">
+        <div @click="clearCanvas" class="button">清除</div>
+        <div @click="saveSignature" class="button">下载</div>
+        <div @click="toggleEraserMode" class="button">
+          <span v-if="eraserMode">笔画</span>
+          <span v-else>橡皮擦</span>
+        </div>
+      </div>
+      <div class="label">笔画:</div>
+      <el-slider
+        v-model="value1"
+        @change="changeNumber"
+        :min="1"
+        :step="1"
+        show-stops
+        show-input
+      />
+      <div class="label">
+        颜色:
+        <el-color-picker v-model="color1" @change="changeColor" />
+      </div>
+    </div>
   </div>
-  <canvas
-    ref="myCanvas"
-    width="300"
-    height="300"
-    style="border: 1px solid #000000"
-  ></canvas>
-  <canvas
-    ref="myCanvas2"
-    width="300"
-    height="300"
-    style="border: 1px solid #000000; margin: 0 20px"
-  ></canvas>
-  <canvas
-    ref="myCanvas3"
-    width="1000"
-    height="600"
-    style="border: 1px solid #000000; margin: 0 20px"
-  ></canvas>
+  <div style="display: flex">
+    <div
+      @click="start1"
+      style="border: 1px solid; width: 70px; margin-left: 20px"
+    >
+      canvas1
+    </div>
+    <div
+      @click="start2"
+      style="border: 1px solid; width: 70px; margin-left: 20px"
+    >
+      canvas2
+    </div>
+  </div>
+
+  <div style="display: flex; margin: 20px">
+    <canvas
+      ref="myCanvas"
+      width="300"
+      height="300"
+      style="border: 1px solid #000000"
+    ></canvas>
+    <canvas
+      ref="myCanvas2"
+      width="300"
+      height="300"
+      style="border: 1px solid #000000; margin: 0 20px"
+    ></canvas>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { ElMessage } from 'element-plus'
 const myCanvas: Ref<HTMLCanvasElement | null> = ref(null)
 const myCanvas2: Ref<HTMLCanvasElement | null> = ref(null)
 const myCanvas3: Ref<HTMLCanvasElement | null> = ref(null)
-const start = () => {
+const start1 = () => {
   init()
+}
+const start2 = () => {
   init2()
 }
 
+// canvas1
 function init() {
   let canvas = myCanvas.value
   if (!canvas) return
@@ -128,6 +171,7 @@ function drawDial(ctx) {
   ctx.restore()
 }
 
+// canvas2
 let sun: any = null
 let earth: any = null
 let moon: any = null
@@ -157,14 +201,14 @@ function draw2() {
   ctx.save()
   ctx.translate(150, 150)
 
-  //绘制earth轨道
+  // //绘制earth轨道
   ctx.beginPath()
   ctx.strokeStyle = 'rgba(255,255,0,0.5)'
   ctx.arc(0, 0, 100, 0, 2 * Math.PI)
   ctx.stroke()
 
   let time = new Date()
-  //绘制地球
+  // //绘制地球
   ctx.rotate(
     ((2 * Math.PI) / 60) * time.getSeconds() +
       ((2 * Math.PI) / 60000) * time.getMilliseconds(),
@@ -172,13 +216,13 @@ function draw2() {
   ctx.translate(100, 0)
   ctx.drawImage(earth, -12, -12)
 
-  //绘制月球轨道
+  // //绘制月球轨道
   ctx.beginPath()
   ctx.strokeStyle = 'rgba(255,255,255,.3)'
   ctx.arc(0, 0, 40, 0, 2 * Math.PI)
   ctx.stroke()
 
-  //绘制月球
+  // //绘制月球
   ctx.rotate(
     ((2 * Math.PI) / 6) * time.getSeconds() +
       ((2 * Math.PI) / 6000) * time.getMilliseconds(),
@@ -189,6 +233,113 @@ function draw2() {
 
   requestAnimationFrame(draw2)
 }
+
+// canvas3
+const eraserMode = ref(false)
+const drawing = ref(false)
+let lastX = 0
+let lastY = 0
+let context: any
+const value1 = ref(1)
+const color1 = ref('#000')
+
+function startDrawing(e: any) {
+  drawing.value = true
+  let canvas = myCanvas3.value
+  if (!canvas) return
+  context = canvas.getContext('2d')
+  if (!context) return
+  lastX = e.clientX - context.canvas.offsetLeft
+  lastY = e.clientY - context.canvas.offsetTop
+}
+function draw3(e: any) {
+  if (!drawing.value) return
+  if (!context) return
+  const newX = e.clientX - context.canvas.offsetLeft
+  const newY = e.clientY - context.canvas.offsetTop
+
+  context.beginPath()
+  context.moveTo(lastX, lastY)
+  context.lineTo(newX, newY)
+  context.closePath()
+  context.stroke()
+
+  lastX = newX
+  lastY = newY
+}
+function stopDrawing() {
+  drawing.value = false
+}
+function clearCanvas() {
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+  ElMessage({
+    message: '清除成功',
+    type: 'success',
+  })
+}
+function saveSignature() {
+  const dataUrl = context.canvas.toDataURL()
+  // 在这里可以将Data URL发送到服务器保存或执行其他操作
+  // window.open(dataUrl)
+  const a = document.createElement('a')
+  a.download = '11'
+  a.href = dataUrl
+  a.click()
+  ElMessage({
+    message: '下载成功',
+    type: 'success',
+  })
+}
+
+const changeNumber = () => {
+  console.log(value1)
+  context.lineWidth = value1.value
+}
+
+const changeColor = () => {
+  context.strokeStyle = color1.value
+}
+
+const toggleEraserMode = () => {
+  eraserMode.value = !eraserMode.value
+  if (eraserMode.value) {
+    context.strokeStyle = 'white'
+    context.lineWidth = 100
+    context.canvas.classList.add('canvas-eraser')
+    ElMessage({
+      message: '橡皮擦模式',
+      type: 'success',
+    })
+  } else {
+    context.canvas.classList.remove('canvas-eraser')
+    context.lineWidth = value1.value
+    context.strokeStyle = color1.value
+    ElMessage({
+      message: '笔画模式',
+      type: 'success',
+    })
+  }
+}
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.button {
+  border: 2px solid red;
+  height: 30px;
+  width: auto;
+  margin: 0 10px;
+  text-align: center;
+  line-height: 30px;
+}
+
+.label {
+  color: red;
+  margin: 10px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.canvas-eraser {
+  cursor: url('@/assets/vue.svg'), auto;
+}
+</style>

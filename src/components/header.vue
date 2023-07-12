@@ -3,7 +3,12 @@
     <!-- 面包屑，独占一行，第一行 -->
     <template #breadcrumb>
       <el-breadcrumb separator-icon="ArrowRight">
-        <el-breadcrumb-item v-for="(item, index) in route.matched" :key="index" v-show="item.meta.title" :to="item.path">
+        <el-breadcrumb-item
+          v-for="(item, index) in route.matched"
+          :key="index"
+          v-show="item.meta.title"
+          :to="item.path"
+        >
           <span>{{ item.meta.title }}</span>
         </el-breadcrumb-item>
       </el-breadcrumb>
@@ -11,7 +16,9 @@
     <!-- 左侧按钮，第二行 -->
     <template #icon>
       <el-icon style="margin-right: 10px" @click="changeIcon">
-        <component :is="layOutSettingStore.fold ? 'Fold' : 'Expand'"></component>
+        <component
+          :is="layOutSettingStore.fold ? 'Fold' : 'Expand'"
+        ></component>
       </el-icon>
     </template>
     <!-- 左侧内容，第二行 -->
@@ -26,31 +33,75 @@
     <template #extra>
       <div class="right-extra">
         <!-- 搜索 -->
-        <el-button ref="test" type="primary" icon="Search" circle @click="goSearch"></el-button>
+        <el-button
+          ref="test"
+          type="primary"
+          icon="Search"
+          circle
+          @click="goSearch"
+        ></el-button>
 
         <!-- 输入框 -->
-        <el-input v-if="isSearch" v-model="inputText" @blur="blurInput" @input="inputEvent" @change="changeInput"
-          @focus="focusInput" placeholder="请输入搜索内容" ref="inputRef" class="input" />
+        <el-input
+          v-if="isSearch"
+          v-model="inputText"
+          @blur="blurInput"
+          @input="inputEvent"
+          @change="changeInput"
+          @focus="focusInput"
+          placeholder="请输入搜索内容"
+          ref="inputRef"
+          class="input"
+        />
 
         <el-card v-if="searchResultList.length > 0" class="box-card">
           <ul>
-            <li v-for="item, index in searchResultList" :key="index" class="text">{{ item }}</li>
+            <li
+              v-for="(item, index) in searchResultList"
+              :key="index"
+              class="text"
+            >
+              {{ item }}
+            </li>
           </ul>
         </el-card>
 
         <!-- 全屏 -->
-        <el-button type="primary" icon="FullScreen" circle @click="FullScreen"></el-button>
+        <el-button
+          type="primary"
+          icon="FullScreen"
+          circle
+          @click="FullScreen"
+        ></el-button>
 
         <!-- 主题选择 -->
-        <el-popover placement="bottom" title="主题设置" :width="300" trigger="hover">
+        <el-popover
+          placement="bottom"
+          title="主题设置"
+          :width="300"
+          trigger="hover"
+        >
           <!-- 表单元素 -->
           <el-form>
             <el-form-item label="主题颜色">
-              <el-color-picker @change="setColor" v-model="color" size="small" show-alpha :predefine="predefineColors" />
+              <el-color-picker
+                @change="setColor"
+                v-model="color"
+                size="small"
+                show-alpha
+                :predefine="predefineColors"
+              />
             </el-form-item>
             <el-form-item label="暗黑模式">
-              <el-switch @change="changeDark" v-model="dark" class="mt-2" style="margin-left: 24px" inline-prompt
-                active-icon="MoonNight" inactive-icon="Sunny" />
+              <el-switch
+                @change="changeDark"
+                v-model="dark"
+                class="mt-2"
+                style="margin-left: 24px"
+                inline-prompt
+                active-icon="MoonNight"
+                inactive-icon="Sunny"
+              />
             </el-form-item>
           </el-form>
           <template #reference>
@@ -59,16 +110,17 @@
         </el-popover>
 
         <!-- 用户信息 -->
-        <img src="../assets/vue.svg" style="
+        <img
+          src="../assets/vue.svg"
+          style="
             width: 32px;
             height: 32px;
             margin: 0px 10px -10px 10px;
             border-radius: 50%;
-          " />
+          "
+        />
         <el-dropdown>
-          <span style="line-height: 30px;width:60px;">
-            谢红尘
-          </span>
+          <span style="line-height: 30px; width: 60px">谢红尘</span>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
@@ -131,9 +183,24 @@ const searchResult = ref<boolean>(false)
 const searchResultList = ref<Array<string>>([])
 
 function getData() {
-  searchResultList.value = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
+  searchResultList.value = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+  ]
 }
-
 
 // 全屏
 const FullScreen = () => {
