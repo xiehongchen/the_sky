@@ -1,570 +1,125 @@
 <template>
-  <div class="blog-box">
-    <div class="blog-content">
-      <div class="title">
-        <div>全部博客</div>
-        <div>
-          共
-          <span style="color: aquamarine">{{ number }}</span>
-          篇
-        </div>
-      </div>
-      <div class="card-box">
-        <div
-          class="card"
-          v-for="item in blogList"
-          @click="goDetail(item.id)"
-          :key="item.id"
-        >
-          <div class="card-img">
-            <img src="@/assets/vue.svg" />
-          </div>
-          <div class="card-right">
-            <div class="card-title">
-              {{ item.title }}
-            </div>
-            <div class="card-introduction">
-              {{ item.introduction }}
-            </div>
-            <div class="card-bottom">
-              <div class="user-img">
-                <img src="@/assets/vue.svg" />
-              </div>
-              <div class="user">
-                {{ item.author }}
-              </div>
-              <div class="time">
-                {{ item.time }}
-              </div>
-              <div class="tags">
-                <el-tag
-                  class="tag"
-                  v-for="i in item.tag"
-                  @click.stop="clickTag(i)"
-                  :key="i"
-                >
-                  {{ i }}
-                </el-tag>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- <el-pagination
-        class="pagination"
-        background
-        layout="prev, pager, next"
-        :total="blogList.length"
-      /> -->
+  <div id="test">
+    <div class="label">
+      <span>防抖函数：</span>
+      <input type="text" @input="handleInput1" class="input" />
+      <p>Input Value: {{ inputValue1 }}</p>
     </div>
-    <div class="blog-right">
-      <div class="blog-classification">
-        <div class="class-title">分类</div>
-        <div class="class-box">
-          <div
-            class="class-item"
-            v-for="item in classList"
-            @click="clickClass(item.title)"
-            :key="item.id"
-          >
-            <div class="class-img">
-              <img src="@/assets/vue.svg" />
-            </div>
-            <div class="class-name">
-              {{ item.title }}
-            </div>
-            <div class="class-num">
-              {{ item.number }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="blog-label">
-        <div class="label-title">标签</div>
-        <div class="container">
-          <div class="tag-box">
-            <span
-              class="tag-item"
-              v-for="item in styleTag"
-              :key="item.id"
-              :style="{
-                fontWeight: item.weight,
-                fontSize: item.size + 'px',
-                color: item.color,
-                height: item.size + 'px',
-              }"
-              @click="clickTag(item.title)"
-            >
-              {{ item.title }}
-            </span>
-          </div>
-        </div>
-      </div>
+    <div class="label">
+      <span>节流函数：</span>
+      <input type="text" @input="handleInput2" class="input" />
+      <p>Input Value: {{ inputValue2 }}</p>
+    </div>
+    <div class="label">
+      <span style="font-size: 20px; margin-right: 20px">canvas:</span>
+      <canvas ref="canvasRef" width="400" height="200"></canvas>
+      <button @click="convertToImage">转成img</button>
+      <button @click="cropImage1">切割图片成canvas</button>
+      <button @click="cropImage2">切割canvas成图片</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const number = ref(111)
-const blogList = reactive([
-  {
-    id: 1,
-    title: '123',
-    introduction:
-      '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑dsad大大大大adddd啊实打实大师大师d啊实打实大师dddddddddsad撒啊实打实大师大多asdasss',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 2,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 3,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 4,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 5,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 6,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 7,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 8,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 9,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 10,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 11,
-    title: '11',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-])
-const classList = reactive([
-  {
-    id: 1,
-    imgUrl: '',
-    title: 'Java',
-    number: 11,
-  },
-  {
-    id: 2,
-    imgUrl: '',
-    title: 'JavaScript',
-    number: 11,
-  },
-  {
-    id: 3,
-    imgUrl: '',
-    title: 'Python',
-    number: 11,
-  },
-  {
-    id: 4,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-  {
-    id: 5,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-  {
-    id: 6,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-  {
-    id: 7,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-])
-const clickTag = (item: string) => {
-  selectblog('', item)
-}
-const clickClass = (item: string) => {
-  selectblog(item, '')
-}
-function selectblog(classType?: string, label?: string) {
-  console.log(classType)
-  console.log(label)
-}
-const router = useRouter()
-const goDetail = (id: number) => {
-  router.push(`/detail?id=${id}`)
-}
-const tagList = reactive([
-  {
-    id: 0,
-    title: 'css',
-    number: 12,
-  },
-  {
-    id: 1,
-    title: 'css',
-    number: 12,
-  },
-  {
-    id: 2,
-    title: 'js',
-    number: 16,
-  },
-  {
-    id: 3,
-    title: 'ts',
-    number: 4,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 5,
-    title: 'c',
-    number: 15,
-  },
-  {
-    id: 6,
-    title: 'py',
-    number: 25,
-  },
-  {
-    id: 7,
-    title: 'c++',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-])
-const styleTag = ref([
-  {
-    id: 0,
-    title: '',
-    number: 0,
-    size: 0,
-    weight: 0,
-    color: '',
-  },
-])
-let weight = 0
-let size = 0
+import { debounce, throttle } from '@/utils/useUtils'
+import { ref, onMounted } from 'vue'
+import {
+  drawRectangle,
+  drawCircle,
+  drawText,
+  canvasToImage,
+  cropImageToCanvas,
+  cropCanvasToImage,
+} from '@/utils/useCanvas'
+
+// canvas
+const canvasRef = ref<HTMLCanvasElement | null>(null)
 onMounted(() => {
-  tagList.forEach((item) => {
-    console.log(item)
-    if (item.number < 5) {
-      size = 10
-      weight = 300
-    } else if (item.number < 10) {
-      size = 15
-      weight = 400
-    } else {
-      size = 20
-      weight = 600
+  const canvas = canvasRef.value
+  if (canvas) {
+    const ctx = canvas.getContext('2d')
+    if (ctx) {
+      ctx.fillStyle = 'yellow'
+      ctx.fillRect(0, 0, 400, 200)
+      drawRectangle(ctx, 50, 50, 100, 50, 'blue')
+      drawCircle(ctx, 300, 100, 50, 'red')
+      drawText(ctx, 'Hello, Canvas!', 50, 150, 'black', '20px Arial')
     }
-    styleTag.value.push({
-      id: item.id,
-      title: item.title,
-      number: item.number,
-      size: size,
-      weight: weight,
-      color:
-        'rgb(' +
-        parseInt(Math.random() * 255 + '') +
-        ',' +
-        parseInt(Math.random() * 255 + '') +
-        ',' +
-        parseInt(Math.random() * 255 + '') +
-        ')',
-    })
-  })
-  styleTag.value.shift()
+  }
 })
+
+const convertToImage = () => {
+  const canvas = canvasRef.value
+  if (canvas) {
+    const img = canvasToImage(canvas as HTMLCanvasElement)
+    // console.log(img)
+    document.getElementById('test')?.appendChild(img)
+  }
+}
+
+const cropImage1 = async () => {
+  const canvas = canvasRef.value
+  if (canvas) {
+    const img = canvasToImage(canvas as HTMLCanvasElement)
+    try {
+      const croppedCanvas = await cropImageToCanvas(img, 50, 50, 100, 50)
+      console.log(croppedCanvas)
+      document.getElementById('test')?.appendChild(croppedCanvas)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+const cropImage2 = () => {
+  const canvas = canvasRef.value
+  if (canvas) {
+    const croppedCanvas = cropCanvasToImage(
+      canvas as HTMLCanvasElement,
+      250,
+      50,
+      100,
+      100,
+    )
+    document.getElementById('test')?.appendChild(croppedCanvas)
+  }
+}
+// 防抖
+const inputValue1 = ref('')
+const handleInput1 = (event: Event) => {
+  const value = (event.target as HTMLInputElement).value
+  inputValue1.value = value
+
+  // 调用防抖函数，延迟 500 毫秒执行回调
+  debounce(() => {
+    console.log('Input value:', value)
+  }, 500)
+}
+
+// 节流
+const inputValue2 = ref('')
+const handleInput2 = (event: Event) => {
+  const value = (event.target as HTMLInputElement).value
+  inputValue2.value = value
+
+  // 调用节流函数，每隔 500 毫秒执行回调
+  throttle(() => {
+    console.log('Input value:', value)
+  }, 500)
+}
 </script>
 
 <style lang="scss" scoped>
-::-webkit-scrollbar {
-  /*隐藏滚轮*/
-  display: none;
-}
-
-.blog-box {
-  background-color: pink;
-  height: calc(100vh - 60px);
+.label {
   display: flex;
-  justify-content: center;
-  overflow: hidden;
+  align-items: center;
+  margin: 10px 0;
 
-  .blog-content {
-    width: 50%;
-    height: 100%;
-    padding: 20px;
-    border: 30px;
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: scroll;
-
-    .title {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      font-size: 20px;
-    }
-
-    .card-box {
-      padding: 5px 5px;
-
-      .card {
-        width: 100%;
-        height: 150px;
-        border-bottom: 2px solid bisque;
-        display: flex;
-
-        .card-img {
-          padding: 5px;
-          width: 150px;
-          height: 100%;
-
-          img {
-            width: 100%;
-          }
-        }
-
-        .card-right {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-
-          .card-title {
-            margin: 5px;
-            font-size: 20px;
-            font-weight: 700;
-          }
-
-          .card-introduction {
-            margin: 5px;
-            font-size: 15px;
-            font-weight: 500;
-            flex: 1;
-            line-height: 1.5;
-            text-indent: 2em;
-          }
-
-          .card-bottom {
-            height: 20px;
-            margin: 5px;
-            display: flex;
-
-            .user-img {
-              width: 20px;
-              height: 100%;
-              border-radius: 50%;
-              overflow: hidden;
-              margin-right: 10px;
-
-              img {
-                width: 100%;
-              }
-            }
-
-            .user {
-              color: red;
-              margin-right: 20px;
-            }
-
-            .time {
-              line-height: 20px;
-            }
-
-            .tags {
-              flex: 1;
-              display: flex;
-              justify-content: flex-end;
-
-              .tag {
-                margin: 0 5px;
-                cursor: pointer;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    .pagination {
-      padding: 10px 0;
-      display: flex;
-      width: 100%;
-      justify-content: center;
-    }
+  .input {
+    width: 400px;
+    margin: 0 20px;
   }
-
-  .blog-right {
-    flex-direction: column;
-    width: 20%;
-    padding: 0 20px;
-
-    .blog-classification {
-      background-color: #fff;
-      border-radius: 10px;
-      height: 300px;
-      margin-bottom: 20px;
-      padding: 5px;
-
-      .class-title {
-        text-align: center;
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 10px;
-      }
-
-      .class-box {
-        height: 250px;
-        overflow: scroll;
-
-        .class-item {
-          display: flex;
-          height: 50px;
-          justify-content: space-between;
-          align-items: center;
-          padding: 5px;
-          cursor: pointer;
-
-          .class-img {
-            height: 100%;
-            width: 40px;
-            border-radius: 50%;
-            overflow: hidden;
-
-            img {
-              width: 100%;
-            }
-          }
-        }
-      }
-    }
-
-    .blog-label {
-      background-color: #fff;
-      border-radius: 10px;
-      height: 300px;
-      margin-bottom: 20px;
-      padding: 5px;
-      .label-title {
-        text-align: center;
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 10px;
-      }
-      .container {
-        height: calc(100% - 30px);
-        .tag-box {
-          width: 100%;
-          height: 100%;
-          .tag-item {
-            margin: 5px;
-            cursor: pointer;
-            word-wrap: break-word;
-          }
-        }
-      }
-    }
-  }
+}
+button {
+  margin: 0 20px;
 }
 </style>
