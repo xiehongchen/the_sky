@@ -12,6 +12,7 @@ export default defineConfig(({ mode }) => {
       AutoImport({
         imports: ['vue', 'vue-router'],
         dts: 'src/auto-imports.d.ts',
+        eslintrc: { enabled: true },
       }),
       components({
         resolvers: [ElementPlusResolver()],

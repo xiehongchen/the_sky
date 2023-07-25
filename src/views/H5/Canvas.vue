@@ -85,7 +85,7 @@ function init() {
   draw(ctx)
 }
 
-function draw(ctx) {
+function draw(ctx: any) {
   requestAnimationFrame(function step() {
     drawDial(ctx) //绘制表盘
     drawAllHands(ctx) //绘制时分秒针
@@ -93,7 +93,7 @@ function draw(ctx) {
     requestAnimationFrame(step)
   })
 }
-function drawTime(ctx) {
+function drawTime(ctx: any) {
   const time1 = new Date()
 
   let s = time1.getSeconds()
@@ -104,7 +104,7 @@ function drawTime(ctx) {
   ctx.fillText(time2, 10, 20)
 }
 /*绘制时分秒针*/
-function drawAllHands(ctx) {
+function drawAllHands(ctx: any) {
   let time = new Date()
 
   let s = time.getSeconds()
@@ -127,7 +127,13 @@ function drawAllHands(ctx) {
  * 参数4：要绘制的针的颜色
  * 参数4：ctx
  * */
-function drawHand(angle, len, width, color, ctx) {
+function drawHand(
+  angle: number,
+  len: number,
+  width: number,
+  color: string,
+  ctx: any,
+) {
   ctx.save()
   ctx.translate(150, 150) //把坐标轴的远点平移到原来的中心
   ctx.rotate(-Math.PI / 2 + angle) //旋转坐标轴。 x轴就是针的角度
@@ -143,7 +149,7 @@ function drawHand(angle, len, width, color, ctx) {
 }
 
 /*绘制表盘*/
-function drawDial(ctx) {
+function drawDial(ctx: any) {
   let pi = Math.PI
 
   ctx.clearRect(0, 0, 300, 300) //清除所有内容

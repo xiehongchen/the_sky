@@ -17,6 +17,24 @@
       <button @click="cropImage1">切割图片成canvas</button>
       <button @click="cropImage2">切割canvas成图片</button>
     </div>
+    <input
+      type="file"
+      @change="handleFileChange"
+      accept=".xls, .xlsx"
+      multiple
+    />
+    <button @click="exportFile">前端导出</button>
+    <div class="label">
+      <el-table :data="tableData" border stripe style="width: 100%">
+        <el-table-column
+          v-for="(item, index) in headers"
+          :key="item"
+          :prop="index.toString()"
+          :label="item"
+          width="180"
+        ></el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
@@ -31,6 +49,114 @@ import {
   cropImageToCanvas,
   cropCanvasToImage,
 } from '@/utils/useCanvas'
+import * as XLSX from 'xlsx'
+
+// 模拟异步请求，这里用 setTimeout 来模拟实际请求的延迟
+function simulateAsyncRequest(id: number) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(`请求 ${id} 完成`)
+      resolve(`请求 ${id} 结果`)
+    }, Math.random() * 1000) // 假设每个请求耗时在 0 到 1000 毫秒之间
+  })
+}
+
+async function handleRequests() {
+  const numberOfRequests = 100
+  const concurrentLimit = 10 // 控制并发数量为 10
+
+  const results = [] // 存储所有请求的结果
+
+  for (let i = 1; i <= numberOfRequests; i++) {
+    const requestPromise = simulateAsyncRequest(i)
+
+    // 在请求达到并发限制后，使用 Promise.all 等待这批请求完成
+    if (i % concurrentLimit === 0) {
+      const batchRequests = results.slice(i - concurrentLimit, i)
+      await Promise.all(batchRequests)
+    }
+
+    const response = await requestPromise
+    results.push(response)
+  }
+
+  // 处理剩余的请求
+  const remainingRequests = results.slice(
+    numberOfRequests - (numberOfRequests % concurrentLimit),
+  )
+  await Promise.all(remainingRequests)
+
+  console.log('所有请求处理完成')
+  console.log(results)
+}
+
+handleRequests()
+
+// 导入和导出
+const dataLoaded: Ref<boolean> = ref(false)
+const headers: Ref<string[]> = ref([])
+const rows: Ref<string[][]> = ref([])
+const tableData: Ref<string[][]> = ref([])
+let jsonData: any[] = []
+const handleFileChange = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0]
+  console.log(file)
+  if (file) {
+    const fileReader = new FileReader()
+    fileReader.onload = (e: ProgressEvent<FileReader>) => {
+      const data = new Uint8Array(e.target?.result as ArrayBuffer)
+      console.log(data)
+      const workbook = XLSX.read(data, { type: 'array' })
+      const firstSheetName = workbook.SheetNames[0]
+      const worksheet = workbook.Sheets[firstSheetName]
+      const jsonDataValue: string[][] = XLSX.utils.sheet_to_json(worksheet, {
+        header: 1,
+      })
+      if (jsonDataValue.length > 0) {
+        headers.value = jsonDataValue[0]
+        rows.value = jsonDataValue.slice(1)
+        tableData.value = [...rows.value, ...tableData.value]
+        console.log(tableData.value)
+        jsonData = jsonDataValue // 将数据存储在jsonData属性中
+        dataLoaded.value = true
+      }
+    }
+    fileReader.readAsArrayBuffer(file)
+  }
+}
+const exportFile = () => {
+  if (jsonData.length > 0) {
+    // 将jsonData的值转换为非响应式的普通数组
+    const dataToExport = jsonData
+    console.log(dataToExport)
+    exportExcel(dataToExport) // 调用导出函数并传递jsonData数据
+  } else {
+    // 提示用户先选择文件或加载数据
+    alert('请先选择文件并加载数据！')
+  }
+}
+const exportExcel = (jsonData: any) => {
+  const worksheet = XLSX.utils.aoa_to_sheet(jsonData as string[][])
+  const workbook = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1')
+
+  // Generate Excel file
+  const excelBuffer = XLSX.write(workbook, { type: 'array' })
+
+  // Convert buffer to Blob
+  const blob = new Blob([excelBuffer], { type: 'application/octet-stream' })
+
+  // Create a temporary anchor element
+  const anchor = document.createElement('a')
+  anchor.href = URL.createObjectURL(blob)
+  anchor.download = 'data.xlsx'
+
+  // Trigger the download
+  anchor.click()
+
+  // Release the URL object
+  URL.revokeObjectURL(anchor.href)
+}
 
 // canvas
 const canvasRef = ref<HTMLCanvasElement | null>(null)

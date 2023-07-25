@@ -2,23 +2,57 @@
   <main>
     <div class="box">
       <div class="label">SpeechSynthesisUtterance</div>
-      <el-input class="label" v-model="input" placeholder="请输入文字" @change="getUserInput" />
+      <el-input
+        class="label"
+        v-model="input"
+        placeholder="请输入文字"
+        @change="getUserInput"
+      />
       <div class="label">
         <span>语速选择</span>
-        <el-slider v-model="value1" :min="0.1" :max="10" :step="0.1" show-stops @change="speakSpeedChoose" />
+        <el-slider
+          v-model="value1"
+          :min="0.1"
+          :max="10"
+          :step="0.1"
+          show-stops
+          @change="speakSpeedChoose"
+        />
       </div>
       <div class="label">
         <span>音量选择</span>
-        <el-slider v-model="value2" :min="0" :max="1" :step="0.1" @change="voiceChoose" />
+        <el-slider
+          v-model="value2"
+          :min="0"
+          :max="1"
+          :step="0.1"
+          @change="voiceChoose"
+        />
       </div>
       <div class="label">
         <span>语调选择</span>
-        <el-slider v-model="value3" :min="0" :max="2" :step="0.1" @change="intonationChoose" />
+        <el-slider
+          v-model="value3"
+          :min="0"
+          :max="2"
+          :step="0.1"
+          @change="intonationChoose"
+        />
       </div>
       <div class="label">
         <span>声音选择</span>
-        <el-select v-model="value4" class="select" placeholder="声音选择" size="large">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        <el-select
+          v-model="value4"
+          class="select"
+          placeholder="声音选择"
+          size="large"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </div>
       <div class="label button">
@@ -29,7 +63,7 @@
   </main>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 // 输入框的值
 const input = ref('')
 // 语速选择 0.1-10
@@ -58,10 +92,10 @@ const voiceChoose = (val: any) => {
 const intonationChoose = (val: any) => {
   value3.value = val
 }
-const synth = window.speechSynthesis;
+const synth = window.speechSynthesis
 console.log(synth)
 // 获取语言列表
-const voices = synth.getVoices();
+const voices = synth.getVoices()
 console.log(voices)
 const options = voices.map((voice: any) => ({
   label: `${voice.name} (${voice.lang})`,
@@ -76,9 +110,10 @@ const play = (status: any) => {
   let readTxt = new SpeechSynthesisUtterance(input.value)
   readTxt.volume = value2.value // 音量
   readTxt.rate = value1.value // 语速
-  readTxt.pitch = value3.value  // 语调
+  readTxt.pitch = value3.value // 语调
   readTxt.lang = 'zh-CN' // 语言
-  readTxt.voice = voices.find((voice: any) => voice.name === value4.value) || null // 声音
+  readTxt.voice =
+    voices.find((voice: any) => voice.name === value4.value) || null // 声音
   speechSynthesis.speak(readTxt) // 调用说的方法
   if (status) {
     speechSynthesis.resume() // 恢复播放
@@ -102,7 +137,7 @@ const stopVoice = () => {
 }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 main {
   .box {
     width: 600px;
