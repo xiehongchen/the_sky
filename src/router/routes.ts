@@ -72,6 +72,15 @@ const routes: RouteRecordRaw[] = [
         ],
       },
       {
+        path: '/JS',
+        name: 'JS全概',
+        component: () => import('@/views/JS/index.vue'),
+        meta: {
+          title: 'JS全概',
+          icon: 'Coin',
+        },
+      },
+      {
         path: '/H5',
         name: 'H5新特性',
         // component: () => import('@/views/repository/index.vue'),

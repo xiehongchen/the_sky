@@ -74,6 +74,14 @@
           @click="FullScreen"
         ></el-button>
 
+        <!-- 刷新 -->
+        <el-button
+          type="primary"
+          icon="Refresh"
+          circle
+          @click="refresh"
+        ></el-button>
+
         <!-- 主题选择 -->
         <el-popover
           placement="bottom"
@@ -213,6 +221,12 @@ const FullScreen = () => {
   }
 }
 
+// 刷新
+const refresh = () => {
+  location.reload()
+  // 从服务器重新加载页面
+  // window.location.reload(true)
+}
 // 主题颜色
 const color = ref('rgba(255, 69, 0, 0.68)')
 const predefineColors = ref([
@@ -305,7 +319,7 @@ const logout = async () => {
     position: absolute;
     padding: 0;
     top: 40px;
-    right: 210px;
+    right: 250px;
     width: 300px;
     height: 300px;
     overflow: scroll;

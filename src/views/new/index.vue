@@ -10,12 +10,17 @@
       <input type="text" @input="handleInput2" class="input" />
       <p>Input Value: {{ inputValue2 }}</p>
     </div>
-    <div class="label">
+    <div class="label" id="canvas">
       <span style="font-size: 20px; margin-right: 20px">canvas:</span>
       <canvas ref="canvasRef" width="400" height="200"></canvas>
       <button @click="convertToImage">转成img</button>
       <button @click="cropImage1">切割图片成canvas</button>
       <button @click="cropImage2">切割canvas成图片</button>
+    </div>
+    <div class="label">
+      <button @click="handleRequests">promise控制并发请求</button>
+      <button @click="promiseAll">promise.all</button>
+      <button @click="promiseReace">promise.race</button>
     </div>
     <input
       type="file"
@@ -53,10 +58,14 @@ import * as XLSX from 'xlsx'
 
 // 模拟异步请求，这里用 setTimeout 来模拟实际请求的延迟
 function simulateAsyncRequest(id: number) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       console.log(`请求 ${id} 完成`)
-      resolve(`请求 ${id} 结果`)
+      if (id === 12) {
+        reject(`请求 ${id} 失败`)
+      } else {
+        resolve(`请求 ${id} 结果`)
+      }
     }, Math.random() * 1000) // 假设每个请求耗时在 0 到 1000 毫秒之间
   })
 }
@@ -67,12 +76,13 @@ async function handleRequests() {
 
   const results = [] // 存储所有请求的结果
 
-  for (let i = 1; i <= numberOfRequests; i++) {
-    const requestPromise = simulateAsyncRequest(i)
+  for (let i = 0; i < numberOfRequests; i++) {
+    const requestPromise = simulateAsyncRequest(i).catch((err) => err)
 
     // 在请求达到并发限制后，使用 Promise.all 等待这批请求完成
-    if (i % concurrentLimit === 0) {
+    if (i !== 0 && i % concurrentLimit === 0) {
       const batchRequests = results.slice(i - concurrentLimit, i)
+      console.log(batchRequests)
       await Promise.all(batchRequests)
     }
 
@@ -90,7 +100,31 @@ async function handleRequests() {
   console.log(results)
 }
 
-handleRequests()
+const promise1 = Promise.resolve(1)
+const promise2 = new Promise((resolve) => setTimeout(resolve, 200, 2))
+const promise3 = Promise.reject('Error occurred')
+const promiseAll = () => {
+  const allPromises = [promise1, promise2, promise3]
+
+  Promise.all(allPromises)
+    .then((results) => {
+      console.log('Promise.all - All promises resolved:', results)
+    })
+    .catch((error) => {
+      console.error('Promise.all - One or more promises rejected:', error)
+    })
+}
+const promiseReace = () => {
+  const racePromises = [promise1, promise2, promise3]
+
+  Promise.race(racePromises)
+    .then((result) => {
+      console.log('Promise.race - One promise resolved:', result)
+    })
+    .catch((error) => {
+      console.error('Promise.race - All promises rejected:', error)
+    })
+}
 
 // 导入和导出
 const dataLoaded: Ref<boolean> = ref(false)
@@ -179,7 +213,7 @@ const convertToImage = () => {
   if (canvas) {
     const img = canvasToImage(canvas as HTMLCanvasElement)
     // console.log(img)
-    document.getElementById('test')?.appendChild(img)
+    document.getElementById('canvas')?.appendChild(img)
   }
 }
 
@@ -190,7 +224,7 @@ const cropImage1 = async () => {
     try {
       const croppedCanvas = await cropImageToCanvas(img, 50, 50, 100, 50)
       console.log(croppedCanvas)
-      document.getElementById('test')?.appendChild(croppedCanvas)
+      document.getElementById('canvas')?.appendChild(croppedCanvas)
     } catch (error) {
       console.log(error)
     }
@@ -206,7 +240,7 @@ const cropImage2 = () => {
       100,
       100,
     )
-    document.getElementById('test')?.appendChild(croppedCanvas)
+    document.getElementById('canvas')?.appendChild(croppedCanvas)
   }
 }
 // 防抖
