@@ -77,7 +77,7 @@ async function handleRequests() {
   const results = [] // 存储所有请求的结果
 
   for (let i = 0; i < numberOfRequests; i++) {
-    const requestPromise = simulateAsyncRequest(i).catch((err) => err)
+    const requestPromise = simulateAsyncRequest(i).catch((err: Error) => err)
 
     // 在请求达到并发限制后，使用 Promise.all 等待这批请求完成
     if (i !== 0 && i % concurrentLimit === 0) {
