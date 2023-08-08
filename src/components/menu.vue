@@ -1,5 +1,6 @@
 <template>
   <el-menu
+    :unique-opened="true"
     :default-active="route.path"
     class="el-menu-vertical-demo"
     :collapse="isCollapse"
