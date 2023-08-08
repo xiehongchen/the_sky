@@ -81,6 +81,15 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: '/CSS',
+        name: 'CSS案例',
+        component: () => import('@/views/CSS/index.vue'),
+        meta: {
+          title: 'CSS案例',
+          icon: 'Coin',
+        },
+      },
+      {
         path: '/H5',
         name: 'H5新特性',
         // component: () => import('@/views/repository/index.vue'),

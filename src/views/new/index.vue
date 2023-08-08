@@ -21,6 +21,7 @@
       <button @click="handleRequests">promise控制并发请求</button>
       <button @click="promiseAll">promise.all</button>
       <button @click="promiseReace">promise.race</button>
+      <div class="text" ref="text">111</div>
     </div>
     <input
       type="file"
@@ -69,7 +70,8 @@ function simulateAsyncRequest(id: number) {
     }, Math.random() * 1000) // 假设每个请求耗时在 0 到 1000 毫秒之间
   })
 }
-
+const text = ref<HTMLElement>()
+console.log(text)
 async function handleRequests() {
   const numberOfRequests = 100
   const concurrentLimit = 10 // 控制并发数量为 10
@@ -83,6 +85,9 @@ async function handleRequests() {
     if (i !== 0 && i % concurrentLimit === 0) {
       const batchRequests = results.slice(i - concurrentLimit, i)
       console.log(batchRequests)
+      if (text.value) {
+        text.value.innerText += batchRequests
+      }
       await Promise.all(batchRequests)
     }
 
@@ -273,6 +278,10 @@ const handleInput2 = (event: Event) => {
   display: flex;
   align-items: center;
   margin: 10px 0;
+  .text {
+    height: 20px;
+    width: 100%;
+  }
 
   .input {
     width: 400px;

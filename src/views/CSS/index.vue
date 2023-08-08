@@ -19,9 +19,7 @@
 </template>
 
 <script setup lang="ts">
-const currentContent = shallowRef<ReturnType<typeof defineComponent> | null>(
-  null,
-)
+const currentContent = shallowRef(null)
 const showContent = async (content: string) => {
   pageLoad.value = false
   const module = await import(`./components/${content}.vue`)
@@ -31,13 +29,13 @@ const pageLoad = ref(true)
 const list = ref([
   {
     id: 1,
-    title: '数组方法',
-    component: 'JS_A',
+    title: '九宫格',
+    component: 'CSS_A',
   },
   {
     id: 2,
-    title: '排序算法',
-    component: 'JS_B',
+    title: '流光边框',
+    component: 'CSS_B',
   },
 ])
 </script>
@@ -57,6 +55,7 @@ const list = ref([
       line-height: 50px;
       width: 100px;
       margin: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
     }
   }
 }
