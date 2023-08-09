@@ -2,6 +2,7 @@
   <div v-if="pageLoad" class="page">
     <div class="box">
       <el-button
+        :disabled="item.disabled"
         type="primary"
         v-for="item in list"
         :key="item.id"
@@ -19,25 +20,16 @@
 </template>
 
 <script setup lang="ts">
-const currentContent = shallowRef(null)
+import { list } from './config'
+const currentContent = shallowRef<ReturnType<typeof defineComponent> | null>(
+  null,
+)
 const showContent = async (content: string) => {
   pageLoad.value = false
   const module = await import(`./components/${content}.vue`)
   currentContent.value = module.default
 }
 const pageLoad = ref(true)
-const list = ref([
-  {
-    id: 1,
-    title: '九宫格',
-    component: 'CSS_A',
-  },
-  {
-    id: 2,
-    title: '流光边框',
-    component: 'CSS_B',
-  },
-])
 </script>
 
 <style lang="scss" scoped>

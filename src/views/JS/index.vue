@@ -2,6 +2,7 @@
   <div v-if="pageLoad" class="page">
     <div class="box">
       <el-button
+        :disabled="item.disabled"
         type="primary"
         v-for="item in list"
         :key="item.id"
@@ -13,12 +14,13 @@
     </div>
   </div>
   <div v-else>
-    <el-button @click="pageLoad = true" style="margin: 20px">返回</el-button>
+    <el-button @click="back" style="margin: 20px">返回</el-button>
     <component :is="currentContent" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { list } from './config.ts'
 const currentContent = shallowRef<ReturnType<typeof defineComponent> | null>(
   null,
 )
@@ -28,18 +30,10 @@ const showContent = async (content: string) => {
   currentContent.value = module.default
 }
 const pageLoad = ref(true)
-const list = ref([
-  {
-    id: 1,
-    title: '数组方法',
-    component: 'JS_A',
-  },
-  {
-    id: 2,
-    title: '排序算法',
-    component: 'JS_B',
-  },
-])
+const back = () => {
+  currentContent.value = null
+  pageLoad.value = true
+}
 </script>
 
 <style lang="scss" scoped>
