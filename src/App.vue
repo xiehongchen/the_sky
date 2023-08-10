@@ -4,4 +4,20 @@
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+}
+
+.button {
+  border: none;
+  cursor: pointer;
+}
+
+.default-transition {
+  transition: all 0.4s;
+}
+</style>

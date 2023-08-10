@@ -1,72 +1,78 @@
 <template>
-  <div class="main-box">
+  <main>
     <HomeTime />
-    <!-- <div class="time-box"></div> -->
-    <div class="right-box">
-      <HomeSearch />
-      <HomeWeather />
-      <HomeButton />
-    </div>
+    <HomeSearch />
+    <HomeWeather />
     <HomePicture />
     <HomeTask />
     <HomePlan />
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
 import HomeTime from './components/HomeTime.vue'
 import HomeSearch from './components/HomeSearch.vue'
 import HomeWeather from './components/HomeWeather.vue'
-import HomeButton from './components/HomeButton.vue'
 import HomePicture from './components/HomePicture.vue'
 import HomeTask from './components/HomeTask.vue'
 import HomePlan from './components/HomePlan.vue'
 </script>
 
 <style scoped>
-.main-box {
-  height: 100%;
-  width: 100%;
-  padding: 5px;
-  border: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 200px 1fr 1fr;
-  gap: 10px 10px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    'time-box time-box time-box right-box'
-    'picture-box picture-box picture-box picture-box'
-    'task-box task-box plan-box plan-box';
+@media screen and (min-width: 1500px) {
+  main {
+    display: grid;
+    padding: 20px 18px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr 1fr 400px;
+    grid-template-rows: 40px 130px 320px minmax(340px, 100%);
+    grid-gap: 20px 18px;
+    background-color: var(--main-bg);
+    transition: all 0.4s;
+  }
+  .time-box {
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 2;
+  }
+  .picture-box {
+    grid-column: 1 / span 3;
+  }
+  .finish {
+    grid-column: 1 / span 1;
+    grid-row: 4 / span 1;
+  }
+  .task-box {
+    grid-column: 2 / span 2;
+  }
 }
-.time-box {
+
+@media screen and (max-width: 1500px) {
+  main {
+    display: grid;
+    padding: 20px 18px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 190px 320px minmax(340px, 100%);
+    grid-gap: 20px 18px;
+    background-color: var(--main-bg);
+    transition: all 0.4s;
+  }
+  .time-box {
+    grid-column: 1 / span 2;
+  }
+  .picture-box {
+    grid-column: 1 / span 2;
+  }
+}
+main > section {
   box-sizing: border-box;
-  grid-area: time-box;
-  border-radius: 10px;
-  padding: 5px 10px;
-}
-.right-box {
-  grid-area: right-box;
-  background-color: gray;
-  border-radius: 10px;
-  padding: 5px 10px;
-}
-.picture-box {
-  grid-area: picture-box;
-  background-color: blue;
-  border-radius: 10px;
-  padding: 5px 10px;
-}
-.task-box {
-  grid-area: task-box;
-  background-color: aqua;
-  border-radius: 10px;
-  padding: 5px 10px;
-}
-.plan-box {
-  grid-area: plan-box;
-  background-color: pink;
-  border-radius: 10px;
-  padding: 5px 10px;
+  background-color: var(--main-child-bg);
+  border-radius: 30px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s;
 }
 </style>
