@@ -1,6 +1,6 @@
 <template>
   <div class="login-box">
-    <h2>登录</h2>
+    <h2>{{ isLogin ? '注册' : '登录' }}</h2>
     <form>
       <div class="user-box">
         <input type="text" v-model="name" required="true" />
@@ -36,6 +36,7 @@
 
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
+const router = useRouter()
 const name = ref('')
 const password = ref('')
 const login = () => {
@@ -49,6 +50,8 @@ const login = () => {
       type: 'warning',
     })
   }
+  ElMessage.success('登录成功')
+  router.push('/welcome')
 }
 const isLogin = ref(false)
 const register = () => {
@@ -56,7 +59,6 @@ const register = () => {
     isLogin.value = true
     return
   }
-  
 }
 </script>
 
