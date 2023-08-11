@@ -37,7 +37,7 @@ const routes: RouteRecordRaw[] = [
         name: 'home',
         component: () => import('@/views/home/index.vue'),
         meta: {
-          title: '首页',
+          title: '主页',
           icon: 'House',
         },
       },

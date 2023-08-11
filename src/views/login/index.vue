@@ -36,6 +36,7 @@
 
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
+import { SET_TOKEN } from '@/utils/token'
 const router = useRouter()
 const name = ref('')
 const password = ref('')
@@ -50,6 +51,7 @@ const login = () => {
       type: 'warning',
     })
   }
+  SET_TOKEN('123456')
   ElMessage.success('登录成功')
   router.push('/welcome')
 }

@@ -199,10 +199,14 @@ const exportJson = () => {
     }
     const data = tempData.map((obj) => {
       const newObj: Record<string, string> = {}
-      Object.keys(obj).forEach((key, index) => {
-        newObj[list[index]] = obj[key]
-      })
-      return newObj
+      if (list.length > 0) {
+        Object.keys(obj).forEach((key, index) => {
+          newObj[list[index]] = obj[key]
+        })
+        return newObj
+      } else {
+        return obj
+      }
     })
     console.log('data', data)
     const jsonStr = JSON.stringify(data, null, 2)
