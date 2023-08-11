@@ -30,4 +30,16 @@ export const list = ref<ListItem[]>([
     component: 'CSS_D',
     disabled: false,
   },
+  {
+    id: 5,
+    title: '转盘',
+    component: 'CSS_E',
+    disabled: false,
+  },
+  {
+    id: 6,
+    title: '日夜切换',
+    component: 'CSS_F',
+    disabled: false,
+  },
 ])

@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="box">
-      <div class="text">合并</div>
+      <div class="text">张开</div>
       <div class="img-container1">
         <div class="img-item1"></div>
         <div class="img-item1"></div>

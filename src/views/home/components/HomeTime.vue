@@ -87,7 +87,7 @@
 <script setup lang="ts">
 import throttle from 'lodash/throttle'
 import useDate from '@/utils/useDate'
-import { getAngle } from '@/utils/getAngle'
+import { getAngle } from '@/utils/useAngle'
 const weeks = [
   '星期日',
   '星期一',

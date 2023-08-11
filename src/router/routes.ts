@@ -81,6 +81,15 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: '/THREE',
+        name: 'three学习',
+        component: () => import('@/views/three/index.vue'),
+        meta: {
+          title: 'three学习',
+          icon: 'Coin',
+        },
+      },
+      {
         path: '/CSS',
         name: 'CSS案例',
         component: () => import('@/views/CSS/index.vue'),
