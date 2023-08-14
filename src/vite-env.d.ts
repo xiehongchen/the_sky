@@ -8,3 +8,5 @@ declare module '*.vue' {
 
 declare module 'lodash/throttle'
 declare module 'element-plus/dist/locale/zh-cn.mjs'
+declare module 'three'
+declare module 'three/examples/jsm/controls/OrbitControls'

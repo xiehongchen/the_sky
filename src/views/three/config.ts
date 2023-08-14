@@ -8,8 +8,8 @@ interface ListItem {
 export const list = ref<ListItem[]>([
   {
     id: 1,
-    title: '粒子效果',
+    title: '入门学习',
     component: 'THREE_A',
-    disabled: true,
+    disabled: false,
   },
 ])
