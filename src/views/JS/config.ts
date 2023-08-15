@@ -36,4 +36,10 @@ export const list = ref<ListItem[]>([
     component: 'JS_E',
     disabled: false,
   },
+  {
+    id: 6,
+    title: '大文件上传',
+    component: 'JS_F',
+    disabled: true,
+  },
 ])

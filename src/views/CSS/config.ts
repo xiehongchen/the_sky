@@ -32,7 +32,7 @@ export const list = ref<ListItem[]>([
   },
   {
     id: 5,
-    title: '转盘',
+    title: '转盘抽奖',
     component: 'CSS_E',
     disabled: false,
   },
@@ -40,6 +40,12 @@ export const list = ref<ListItem[]>([
     id: 6,
     title: '日夜切换',
     component: 'CSS_F',
+    disabled: false,
+  },
+  {
+    id: 7,
+    title: '九宫格抽奖',
+    component: 'CSS_G',
     disabled: false,
   },
 ])

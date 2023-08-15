@@ -90,6 +90,15 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: '/Visualization',
+        name: '数据可视化',
+        component: () => import('@/views/Visualization/index.vue'),
+        meta: {
+          title: '数据可视化',
+          icon: 'Coin',
+        },
+      },
+      {
         path: '/CSS',
         name: 'CSS案例',
         component: () => import('@/views/CSS/index.vue'),
