@@ -10,7 +10,7 @@ import './assets/iconfont/iconfont.css'
 // 暗黑模式
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-
+import './mock/index.ts'
 
 const app = createApp(App)
 

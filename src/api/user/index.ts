@@ -19,4 +19,4 @@ export const reqLogin = (data: loginFormData) =>
 export const reqUserInfo = () =>
   request.get<any, userInfoReponseData>(API.USERINFO_URL)
 //退出登录
-export const reqLogout = () => request.post<any, any>(API.LOGOUT_URL)  
+export const reqLogout = () => request.post<any, any>(API.LOGOUT_URL)

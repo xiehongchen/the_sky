@@ -4,7 +4,7 @@ interface ListItem {
   component: string
   disabled: boolean
 }
-
+//  ABCDEFGHIJKLMNOPQRSTUVWXYZ
 export const list = ref<ListItem[]>([
   {
     id: 1,
@@ -46,6 +46,12 @@ export const list = ref<ListItem[]>([
     id: 7,
     title: '九宫格抽奖',
     component: 'CSS_G',
+    disabled: false,
+  },
+  {
+    id: 8,
+    title: '加载效果',
+    component: 'CSS_H',
     disabled: false,
   },
 ])
