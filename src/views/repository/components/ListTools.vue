@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="item" v-for="item in list" :key="item.id">
-      <img class="img" :src="item.imgUrl" />
+      <img class="img" :src="item.imgUrl" @click="gotoURL(item.url)" />
       <el-link :href="item.url" target="_blank">{{ item.title }}</el-link>
     </div>
   </div>
@@ -16,6 +16,9 @@ interface list11 {
 }
 const props = defineProps({ list: Array as PropType<list11[]> })
 console.log(props)
+const gotoURL = (url: string) => {
+  window.open(url)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -25,7 +28,7 @@ console.log(props)
   flex-wrap: wrap;
   .item {
     margin: 5px 0;
-    width: 300px;
+    width: 320px;
     height: 50px;
     display: flex;
     align-items: center;
@@ -33,6 +36,7 @@ console.log(props)
     box-sizing: border-box;
     .img {
       height: 40px;
+      cursor: pointer;
     }
     :deep(.el-link__inner) {
       font-size: 18px;

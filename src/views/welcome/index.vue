@@ -22,6 +22,7 @@ onMounted(() => {
     title: '欢迎👏🏻',
     message: `${title}好，今天也要努力呀！`,
     type: 'success',
+    offset: 80,
   })
   console.log(hours)
 })

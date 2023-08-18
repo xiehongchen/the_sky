@@ -119,7 +119,7 @@
 
         <!-- 用户信息 -->
         <img
-          src="../assets/vue.svg"
+          src="../assets/images/rep/hui.png"
           style="
             width: 32px;
             height: 32px;

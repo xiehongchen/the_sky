@@ -38,12 +38,7 @@ request.interceptors.response.use(
   (response: AxiosResponse) => {
     //成功回调
     //简化数据
-    const { code, msg, data } = response.data
-    if (code === 0) {
-      return data
-    } else {
-      return Promise.reject(new Error(msg))
-    }
+    return response.data
   },
   (error: AxiosError) => {
     console.log(error)
