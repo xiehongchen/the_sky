@@ -18,7 +18,7 @@ export const use: list[] = [
     id: 7,
     title: 'chatgpt',
     url: 'https://chat.openai.com/',
-    imgUrl: 'https://chat.openai.com/favicon-32x32.png',
+    imgUrl: getAssetsImg('chatgpt'),
   },
   {
     id: 1,
@@ -251,6 +251,6 @@ export const tools: list[] = [
     id: 8,
     title: 'civitai',
     url: 'https://civitai.com/',
-    imgUrl: 'https://civitai.com/images/splash/apple-splash-2732-2048.jpg',
+    imgUrl: getAssetsImg('civitai'),
   },
 ]

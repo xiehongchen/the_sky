@@ -11,6 +11,7 @@ import './assets/iconfont/iconfont.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import './mock/index.ts'
+import { registerClickRequestDirective } from './directive/click-request-directive' // 导入自定义指令
 
 const app = createApp(App)
 
@@ -24,4 +25,5 @@ app.use(pinia)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
+registerClickRequestDirective(app)
 app.mount('#app')

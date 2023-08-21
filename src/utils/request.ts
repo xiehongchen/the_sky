@@ -36,9 +36,10 @@ request.interceptors.request.use(
 //第三步:响应拦截器
 request.interceptors.response.use(
   (response: AxiosResponse) => {
+    console.log('响应拦截器', response)
     //成功回调
     //简化数据
-    return response.data
+    return response
   },
   (error: AxiosError) => {
     console.log(error)
@@ -69,7 +70,7 @@ request.interceptors.response.use(
       type: 'error',
       message,
     })
-    return Promise.reject(error)
+    return Promise.reject(error.response)
   },
 )
 //对外暴露

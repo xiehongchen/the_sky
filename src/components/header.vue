@@ -144,6 +144,7 @@
 //获取用户相关的小仓库
 // import { useUserStore } from '@/store/user'
 import { useLayOutSettingStore } from '@/store/setting'
+import { REMOVE_TOKEN } from '@/utils/token'
 // 展开收起
 let layOutSettingStore = useLayOutSettingStore()
 const router = useRouter()
@@ -262,6 +263,7 @@ const changeDark = () => {
 
 // 退出登录
 const logout = async () => {
+  REMOVE_TOKEN()
   router.push('/login')
 }
 </script>

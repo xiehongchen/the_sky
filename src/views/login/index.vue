@@ -41,7 +41,7 @@ import request from '@/utils/request'
 const router = useRouter()
 const name = ref('')
 const password = ref('')
-const login = () => {
+const login = async () => {
   if (isLogin.value) {
     isLogin.value = false
     return
@@ -51,12 +51,15 @@ const login = () => {
       message: '账号密码不能为空',
       type: 'warning',
     })
+    return
   }
-  const res = request.get('/api/users')
-  console.log(res)
-  SET_TOKEN('123456')
-  ElMessage.success('登录成功')
-  router.push('/welcome')
+  await request.post('/api/login', { name, password }).then((res) => {
+    console.log('登录结果', res)
+    ElMessage.success('登录成功')
+    SET_TOKEN('123456')
+    localStorage.setItem('userInfo', JSON.stringify(res.data.data))
+    router.push('/welcome')
+  })
 }
 const isLogin = ref(false)
 const register = () => {

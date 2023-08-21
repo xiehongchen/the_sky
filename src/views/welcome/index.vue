@@ -1,5 +1,6 @@
 <template>
   <div>欢迎</div>
+  <button v-click-request="'/api/users'">点击发起请求</button>
 </template>
 
 <script setup lang="ts">
