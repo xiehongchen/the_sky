@@ -222,6 +222,12 @@ export const document: list[] = [
     url: 'https://threejs.org/',
     imgUrl: 'https://threejs.org/files/favicon.ico',
   },
+  {
+    id: 21,
+    title: 'Next.js',
+    url: 'https://nextjs.org/',
+    imgUrl: 'https://nextjs.org/favicon.ico',
+  },
 ]
 // 工具
 export const tools: list[] = [
