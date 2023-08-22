@@ -65,7 +65,7 @@ const routes: RouteRecordRaw[] = [
             component: () =>
               import('@/views/repository/warehouseDetail/index.vue'),
             meta: {
-              title: '仓库详情',
+              title: '文章仓库',
               icon: 'Suitcase',
             },
           },

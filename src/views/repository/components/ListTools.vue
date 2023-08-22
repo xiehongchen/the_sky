@@ -14,8 +14,7 @@ interface list11 {
   url: string
   imgUrl: string
 }
-const props = defineProps({ list: Array as PropType<list11[]> })
-console.log(props)
+defineProps({ list: Array as PropType<list11[]> })
 const gotoURL = (url: string) => {
   window.open(url)
 }

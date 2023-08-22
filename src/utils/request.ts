@@ -18,6 +18,7 @@ const request: AxiosInstance = axios.create({
 //第二步:request实例添加请求与响应拦截器
 request.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    config.url = '/api' + config.url
     //获取用户相关的小仓库:获取仓库内部token,登录成功以后携带给服务器
     // const userStore = useUserStore()
     // if (userStore.token) {

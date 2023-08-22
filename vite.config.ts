@@ -5,7 +5,10 @@ import components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  console.log('mode', mode)
+  console.log('process', process.cwd())
   const env = loadEnv(mode, process.cwd())
+  console.log('env', env)
   return {
     plugins: [
       vue(),
@@ -34,9 +37,16 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      // proxy: {
+      //   [env.VITE_APP_BASE_API]: {
+      //     target: env.VITE_SERVER,
+      //     changeOrigin: true, //开启代理
+      //     rewrite: (path) => path.replace(/^\/api/, ''),
+      //   },
+      // },
       proxy: {
-        [env.VITE_APP_BASE_API]: {
-          target: env.VITE_SERVER,
+        '/api': {
+          target: 'http://127.0.0.1:3000',
           changeOrigin: true, //开启代理
           rewrite: (path) => path.replace(/^\/api/, ''),
         },

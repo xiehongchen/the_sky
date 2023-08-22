@@ -5,8 +5,10 @@ interface list {
   imgUrl: string
 }
 function getAssetsImg(name: string) {
-  if (name) {
+  if (!name.includes('.')) {
     return 'src/assets/images/rep/' + name + '.png'
+  } else {
+    return 'src/assets/images/rep/' + name
   }
   return ''
 }
@@ -76,6 +78,24 @@ export const use: list[] = [
     title: '我的笔记',
     url: 'https://xiehongchen.github.io/',
     imgUrl: 'https://xiehongchen.github.io/img/fluid.png',
+  },
+  {
+    id: 11,
+    title: '腾讯云',
+    url: 'https://cloud.tencent.com/login',
+    imgUrl: 'https://cloud.tencent.com/favicon.ico?t=201902181234',
+  },
+  {
+    id: 12,
+    title: '宝塔面板',
+    url: 'http://159.75.164.22:8888/',
+    imgUrl: getAssetsImg('baota.ico'),
+  },
+  {
+    id: 13,
+    title: '个人博客',
+    url: 'http://www.xiehongchen.top:8090/console/dashboard',
+    imgUrl: getAssetsImg('hui'),
   },
 ]
 // 文档
