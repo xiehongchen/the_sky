@@ -333,7 +333,7 @@ section {
               padding: 5px 0;
 
               .day {
-                width: 30px;
+                width: 40px;
                 line-height: 30px;
                 display: inline-block;
                 border-radius: 50%;
