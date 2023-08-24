@@ -33,3 +33,32 @@ export const throttle = (callback: () => void, delay: number) => {
     }, delay)
   }
 }
+
+export const formTime = (time: string) => {
+  const isoDate = new Date(time)
+
+  // 格式化为完整日期时间格式
+  // const formattedDateTime = isoDate.toLocaleDateString('en-US', {
+  //   year: 'numeric',
+  //   month: 'long',
+  //   day: 'numeric',
+  //   hour: 'numeric',
+  //   minute: 'numeric',
+  //   second: 'numeric',
+  //   timeZoneName: 'short',
+  // })
+  // const formattedDateTime = time.replace('T', ' ').replace('.000Z', '')
+  const formattedDateTime = `${isoDate.getFullYear()}-${(isoDate.getMonth() + 1)
+    .toString()
+    .padStart(2, '0')}-${isoDate
+    .getDate()
+    .toString()
+    .padStart(2, '0')} ${isoDate
+    .getHours()
+    .toString()
+    .padStart(2, '0')}:${isoDate
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}:${isoDate.getSeconds().toString().padStart(2, '0')}`
+  return formattedDateTime
+}
