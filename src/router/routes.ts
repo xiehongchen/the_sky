@@ -42,6 +42,15 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: '/diary',
+        name: 'diary',
+        component: () => import('@/views/diary/index.vue'),
+        meta: {
+          title: '日记',
+          icon: 'House',
+        },
+      },
+      {
         path: '/repository',
         name: 'repository',
         // component: () => import('@/views/repository/index.vue'),
