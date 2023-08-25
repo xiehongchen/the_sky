@@ -36,7 +36,6 @@ request.interceptors.request.use(
 //第三步:响应拦截器
 request.interceptors.response.use(
   (response: AxiosResponse) => {
-    console.log('响应拦截器', response)
     //成功回调
     //简化数据
     return response
