@@ -28,6 +28,21 @@
       <el-form-item label="笔记" :label-width="formLabelWidth">
         <el-input v-model="form.note" autocomplete="off" />
       </el-form-item>
+      <el-form-item label="类型" :label-width="formLabelWidth">
+        <el-select
+          v-model="form.source"
+          class="m-2"
+          placeholder="选择类型"
+          size="large"
+        >
+          <el-option
+            v-for="item in tabsList"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -40,6 +55,7 @@
 
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
+import { tabsList } from './../warehouseDetail/config'
 const props = defineProps({
   dialogFormVisible: Boolean,
 })
@@ -52,6 +68,7 @@ const form = reactive({
   introduction: '',
   website: '',
   note: '',
+  source: '',
 })
 const close = () => {
   emits('close')
