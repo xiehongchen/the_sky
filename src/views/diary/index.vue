@@ -232,15 +232,19 @@ const visitDate = computed(() => {
   }
   return arr
 })
-onMounted(() => {
-  api.diary
-    .getAllDiary({
-      startTime: '2023-08-01',
-      endTime: '2023-09-01',
-    })
-    .then((res) => {
-      console.log(res)
-    })
+onMounted(async () => {
+  try {
+    await api.diary
+      .getAllDiary({
+        startTime: '2023-08-01',
+        endTime: '2023-09-01',
+      })
+      .then((res) => {
+        console.log(res)
+      })
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 const isShowDialog = ref(false)

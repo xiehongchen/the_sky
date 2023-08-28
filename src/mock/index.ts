@@ -19,6 +19,7 @@ const users = [
 ]
 
 Mock.mock('/api/login', 'post', (options) => {
+  console.log(options)
   const { name, password } = JSON.parse(options.body)
   console.log(name)
   console.log(password)

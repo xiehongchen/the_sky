@@ -37,20 +37,20 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      // proxy: {
-      //   [env.VITE_APP_BASE_API]: {
-      //     target: env.VITE_SERVER,
-      //     changeOrigin: true, //开启代理
-      //     rewrite: (path) => path.replace(/^\/api/, ''),
-      //   },
-      // },
       proxy: {
-        '/api': {
-          target: 'http://127.0.0.1:3000',
+        [env.VITE_APP_BASE_API]: {
+          target: env.VITE_SERVER,
           changeOrigin: true, //开启代理
           rewrite: (path) => path.replace(/^\/api/, ''),
         },
       },
+      // proxy: {
+      //   '/api': {
+      //     target: 'http://127.0.0.1:3000',
+      //     changeOrigin: true, //开启代理
+      //     rewrite: (path) => path.replace(/^\/api/, ''),
+      //   },
+      // },
     },
   }
 })

@@ -53,7 +53,7 @@ const login = async () => {
     })
     return
   }
-  await request.post('/api/login', { name, password }).then((res) => {
+  await request.post('/login', { name, password }).then((res) => {
     console.log('登录结果', res)
     ElMessage.success('登录成功')
     SET_TOKEN('123456')

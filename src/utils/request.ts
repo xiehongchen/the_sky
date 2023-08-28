@@ -74,17 +74,3 @@ request.interceptors.response.use(
 )
 //对外暴露
 export default request
-
-export const http = {
-  async get<T = any>(
-    url: string,
-    data?: object,
-    config?: InternalAxiosRequestConfig,
-  ): Promise<T> {
-    const response: AxiosResponse<T> = await request.get(url, {
-      params: data,
-      ...config,
-    })
-    return response.data
-  },
-}
