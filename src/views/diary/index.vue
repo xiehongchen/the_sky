@@ -155,6 +155,7 @@
 
 <script setup lang="ts">
 import useDate from '@/utils/useDate'
+import api from '@/api'
 const formDate = reactive({
   isWork: false,
   isExercise: false,
@@ -229,6 +230,17 @@ const visitDate = computed(() => {
   }
   return arr
 })
+onMounted(() => {
+  api.diary
+    .getAllDiary({
+      startTime: '2023-08-01',
+      endTime: '2023-09-01',
+    })
+    .then((res) => {
+      console.log(res)
+    })
+})
+
 const isShowDialog = ref(false)
 const isToday = ref(false)
 const showDialog = (index: number) => {
