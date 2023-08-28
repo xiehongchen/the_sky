@@ -42,9 +42,12 @@
             <div class="one-day">{{ item.day }}</div>
             <div class="title-box">
               <div class="status-box">
-                <div class="status" v-for="item in statusList" :key="item">
+                <!-- <div class="status" v-for="item in statusList" :key="item">
                   <component :is="item"></component>
-                </div>
+                </div> -->
+                <!-- <span v-if="item.isWork === 1">
+                  <el-icon><OfficeBuilding /></el-icon>
+                </span> -->
               </div>
               <el-tooltip content="能量" placement="top">
                 <el-progress type="circle" :width="50" :percentage="30" />
@@ -181,7 +184,6 @@ const backToday = () => {
   date.value = new Date(date.value.setMonth(today.getMonth()))
   date.value = new Date(date.value.setDate(today.getDate()))
 }
-const statusList = ref(['Place', 'Van'])
 const weeks = [
   '星期日',
   '星期一',
