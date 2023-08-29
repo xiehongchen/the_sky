@@ -17,7 +17,7 @@ const router = createRouter({
 
 // 前置守卫
 router.beforeEach((to, from, next) => {
-  console.log(to, from)
+  // console.log(to, from)
   const token = GET_TOKEN()
   if (to.name === 'login' && token) {
     // 如果用户已经登录，但又访问登录页面，直接重定向到其他页面

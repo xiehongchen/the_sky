@@ -42,22 +42,48 @@
             <div class="one-day">{{ item.day }}</div>
             <div class="title-box">
               <div class="status-box">
-                <!-- <div class="status" v-for="item in statusList" :key="item">
-                  <component :is="item"></component>
-                </div> -->
-                <!-- <span v-if="item.isWork === 1">
+                <el-tooltip
+                  content="工作"
+                  placement="top"
+                  v-if="item.isWork === 1"
+                >
                   <el-icon><OfficeBuilding /></el-icon>
-                </span> -->
+                </el-tooltip>
+                <el-tooltip
+                  content="锻炼"
+                  placement="top"
+                  v-if="item.isExercise === 1"
+                >
+                  <el-icon><Bicycle /></el-icon>
+                </el-tooltip>
+                <el-tooltip
+                  content="学习"
+                  placement="top"
+                  v-if="item.isLearn === 1"
+                >
+                  <el-icon><Notebook /></el-icon>
+                </el-tooltip>
+                <el-tooltip
+                  content="玩乐"
+                  placement="top"
+                  v-if="item.isPlay === 1"
+                >
+                  <el-icon><Monitor /></el-icon>
+                </el-tooltip>
               </div>
-              <el-tooltip content="能量" placement="top">
-                <el-progress type="circle" :width="50" :percentage="30" />
+              <el-tooltip content="能量" placement="top" v-if="item.energy">
+                <el-progress
+                  type="circle"
+                  :width="50"
+                  :percentage="item.energy"
+                />
               </el-tooltip>
-              <el-tooltip content="心情" placement="top">
+              <el-tooltip content="心情" placement="top" v-if="item.mood">
                 <el-progress
                   type="circle"
                   :width="50"
                   color="red"
-                  :percentage="25"
+                  :percentage="item.mood"
                   style="margin-left: 5px"
                 />
               </el-tooltip>
@@ -159,6 +185,7 @@
 <script setup lang="ts">
 import useDate from '@/utils/useDate'
 import api from '@/api'
+import { ElMessage } from 'element-plus'
 const formDate = reactive({
   isWork: false,
   isExercise: false,
@@ -169,7 +196,6 @@ const formDate = reactive({
   summarize: '',
 })
 const date = useDate().date
-// console.log('date', date)
 const formatDate = useDate().formatDate
 let getCurrentDate = computed(() => formatDate(date.value))
 const perMonth = () => {
@@ -213,13 +239,21 @@ const getVisitDate = computed(() => {
 })
 // console.log('getVisitDate', getVisitDate)
 // 获取当前月份的日期
+const data = ref([])
 const visitDate = computed(() => {
-  const arr = []
+  let arr = []
   for (let i = 0; i < getVisitDate.value.length; i++) {
     const year = getVisitDate.value[i].getFullYear()
     const month = getVisitDate.value[i].getMonth()
     const day = getVisitDate.value[i].getDate()
     arr.push({
+      isWork: 0,
+      isLearn: 0,
+      isExercise: 0,
+      isPlay: 0,
+      summarize: '',
+      energy: 0,
+      mood: 0,
       year,
       month,
       day,
@@ -230,27 +264,60 @@ const visitDate = computed(() => {
           : false,
     })
   }
+  arr = mergeArraysByTime(arr, data.value)
   return arr
 })
-onMounted(async () => {
+console.log(visitDate.value)
+onMounted(() => {
+  getDiary()
+})
+const getDiary = async () => {
   try {
     await api.diary
       .getAllDiary({
         startTime: '2023-08-01',
-        endTime: '2023-09-01',
+        endTime: '2023-09-29',
       })
       .then((res) => {
-        console.log(res)
+        data.value = res.data.data
       })
   } catch (error) {
     console.log(error)
   }
-})
+}
+function mergeArraysByTime(arrayA: any, arrayB: any) {
+  const mergedArray = arrayA.map((aItem: any) => {
+    const matchingBItem = arrayB.find(
+      (bItem: any) =>
+        parseInt(bItem.time.split('-')[0]) === aItem.year &&
+        convertToInteger(bItem.time.split('-')[1]) === aItem.month + 1 &&
+        convertToInteger(bItem.time.split('-')[2].split('T')[0]) + 1 ===
+          aItem.day,
+    )
+
+    if (matchingBItem) {
+      return { ...aItem, ...matchingBItem }
+    }
+
+    return aItem
+  })
+
+  return mergedArray
+}
+
+function convertToInteger(inputStr: any) {
+  if (inputStr.startsWith('0')) {
+    return parseInt(inputStr[1])
+  } else {
+    return parseInt(inputStr)
+  }
+}
 
 const isShowDialog = ref(false)
 const isToday = ref(false)
 const showDialog = (index: number) => {
   let day = getVisitDate.value[index]
+  const form = visitDate.value[index]
   date.value = new Date(date.value.setFullYear(day.getFullYear()))
   date.value = new Date(date.value.setMonth(day.getMonth()))
   date.value = new Date(date.value.setDate(day.getDate()))
@@ -264,10 +331,30 @@ const showDialog = (index: number) => {
   } else {
     isToday.value = false
   }
-  isShowDialog.value = true
+  formDate.isWork = form.isWork === 1
+  formDate.isExercise = form.isExercise === 1
+  formDate.isLearn = form.isLearn === 1
+  formDate.isPlay = form.isPlay === 1
+  formDate.energy = form.energy
+  formDate.mood = form.mood
+  formDate.summarize = form.summarize
+  if (!form.notInMonth) {
+    isShowDialog.value = true
+  }
 }
-const confirm = () => {
+const confirm = async () => {
   console.log(formDate)
+  try {
+    await api.diary.addDiary({ ...formDate }).then((res) => {
+      console.log(res)
+      ElMessage.success(res.data.message)
+      isShowDialog.value = false
+      getDiary()
+    })
+  } catch (err) {
+    isShowDialog.value = false
+    console.log(err)
+  }
 }
 </script>
 
@@ -341,6 +428,7 @@ const confirm = () => {
             height: 100%;
             .status-box {
               display: flex;
+              margin-bottom: 10px;
               .status {
                 font-size: 10px;
                 width: 30px;

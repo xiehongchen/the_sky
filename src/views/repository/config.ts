@@ -269,14 +269,46 @@ export const tools: list[] = [
   },
   {
     id: 7,
-    title: 'hugging face',
+    title: 'hugging face ai绘画模型',
     url: 'https://huggingface.co/',
     imgUrl: 'https://huggingface.co/front/assets/huggingface_logo-noborder.svg',
   },
   {
     id: 8,
-    title: 'civitai',
+    title: 'civitai ai绘画模型',
     url: 'https://civitai.com/',
     imgUrl: getAssetsImg('civitai'),
+  },
+  {
+    id: 9,
+    title: 'coolors 颜色',
+    url: 'https://coolors.co/',
+    imgUrl: 'https://coolors.co/assets/img/favicon.png',
+  },
+  {
+    id: 10,
+    title: 'ray 代码优化图片',
+    url: 'https://ray.so/',
+    imgUrl: 'https://ray.so/favicon.png',
+  },
+  {
+    id: 11,
+    title: 'dribbble UI资源',
+    url: 'https://dribbble.com/shots',
+    imgUrl:
+      'https://cdn.dribbble.com/assets/dribbble-ball-192-23ecbdf987832231e87c642bb25de821af1ba6734a626c8c259a20a0ca51a247.png',
+  },
+  {
+    id: 12,
+    title: 'behance UI资源',
+    url: 'https://www.behance.net/',
+    imgUrl:
+      'https://a5.behance.net/52efe92a45956a1cf2594cc52fcc2e227ab24722/img/site/favicon.ico?cb=264615658',
+  },
+  {
+    id: 13,
+    title: '正则神器',
+    url: 'https://regexgpt.app/',
+    imgUrl: 'https://regexgpt.app/logo.png',
   },
 ]
