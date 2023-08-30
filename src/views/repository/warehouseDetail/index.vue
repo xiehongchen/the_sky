@@ -4,7 +4,7 @@
       <el-form-item label="标题" style="margin-left: 10px">
         <el-input
           v-model="searchForm.title"
-          placeholder="请输入标题"
+          placeholder="请输入标题/网址"
           style="width: 200px"
         />
       </el-form-item>
@@ -27,8 +27,8 @@
         >
           <el-option
             v-for="item in tabsList"
-            :key="item.value"
-            :label="item.value"
+            :key="item.id"
+            :label="item.title"
             :value="item.value"
           />
         </el-select>

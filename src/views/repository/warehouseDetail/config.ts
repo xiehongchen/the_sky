@@ -1,5 +1,10 @@
 export const tabsList = [
   {
+    id: 0,
+    title: '全部',
+    value: '',
+  },
+  {
     id: 1,
     title: 'JS',
     value: 'js',
@@ -33,6 +38,11 @@ export const tabsList = [
     id: 7,
     title: '算法',
     value: 'algorithm',
+  },
+  {
+    id: 8,
+    title: '面经',
+    value: 'interview',
   },
 ]
 export const tableDataList = [
