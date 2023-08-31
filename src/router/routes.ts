@@ -42,79 +42,60 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: '/diary',
-        name: 'diary',
-        component: () => import('@/views/diary/index.vue'),
+        path: '/note',
+        name: 'note',
+        // component: () => import('@/views/note/index.vue'),
         meta: {
-          title: '日记',
+          title: '笔记',
           icon: 'House',
-        },
-      },
-      {
-        path: '/repository',
-        name: 'repository',
-        // component: () => import('@/views/repository/index.vue'),
-        meta: {
-          title: '仓库',
-          icon: 'Coin',
         },
         children: [
           {
-            path: '/repository',
-            name: 'warehouse',
-            component: () => import('@/views/repository/index.vue'),
+            path: '/note/JS',
+            name: 'JS全概',
+            component: () => import('@/views/note/JS/index.vue'),
             meta: {
-              title: '仓库类型',
+              title: 'JS全概',
               icon: 'Coin',
             },
           },
           {
-            path: '/repository/warehouseDetail',
-            name: 'warehouseDetail',
-            component: () =>
-              import('@/views/repository/warehouseDetail/index.vue'),
+            path: '/note/Vue',
+            name: 'Vue学习',
+            component: () => import('@/views/note/Vue/index.vue'),
             meta: {
-              title: '文章仓库',
-              icon: 'Suitcase',
+              title: 'Vue学习',
+              icon: 'Coin',
+            },
+          },
+          {
+            path: '/note/THREE',
+            name: 'three学习',
+            component: () => import('@/views/note/three/index.vue'),
+            meta: {
+              title: 'three学习',
+              icon: 'Coin',
+            },
+          },
+          {
+            path: '/note/Visualization',
+            name: '数据可视化',
+            component: () => import('@/views/note/Visualization/index.vue'),
+            meta: {
+              title: '数据可视化',
+              icon: 'Coin',
+            },
+          },
+          {
+            path: '/note/CSS',
+            name: 'CSS案例',
+            component: () => import('@/views/note/CSS/index.vue'),
+            meta: {
+              title: 'CSS案例',
+              icon: 'Coin',
             },
           },
         ],
-      },
-      {
-        path: '/JS',
-        name: 'JS全概',
-        component: () => import('@/views/JS/index.vue'),
-        meta: {
-          title: 'JS全概',
-          icon: 'Coin',
-        },
-      },
-      {
-        path: '/THREE',
-        name: 'three学习',
-        component: () => import('@/views/three/index.vue'),
-        meta: {
-          title: 'three学习',
-          icon: 'Coin',
-        },
-      },
-      {
-        path: '/Visualization',
-        name: '数据可视化',
-        component: () => import('@/views/Visualization/index.vue'),
-        meta: {
-          title: '数据可视化',
-          icon: 'Coin',
-        },
-      },
-      {
-        path: '/CSS',
-        name: 'CSS案例',
-        component: () => import('@/views/CSS/index.vue'),
-        meta: {
-          title: 'CSS案例',
-          icon: 'Coin',
-        },
       },
       {
         path: '/H5',
@@ -168,6 +149,45 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '音频',
               icon: 'Coin',
+            },
+          },
+        ],
+      },
+      {
+        path: '/diary',
+        name: 'diary',
+        component: () => import('@/views/diary/index.vue'),
+        meta: {
+          title: '日记',
+          icon: 'House',
+        },
+      },
+      {
+        path: '/repository',
+        name: 'repository',
+        // component: () => import('@/views/repository/index.vue'),
+        meta: {
+          title: '仓库',
+          icon: 'Coin',
+        },
+        children: [
+          {
+            path: '/repository',
+            name: 'warehouse',
+            component: () => import('@/views/repository/index.vue'),
+            meta: {
+              title: '仓库类型',
+              icon: 'Coin',
+            },
+          },
+          {
+            path: '/repository/warehouseDetail',
+            name: 'warehouseDetail',
+            component: () =>
+              import('@/views/repository/warehouseDetail/index.vue'),
+            meta: {
+              title: '文章仓库',
+              icon: 'Suitcase',
             },
           },
         ],

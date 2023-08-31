@@ -34,7 +34,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
-, "src/views/THREE"  ],
+, "src/views/note/three"  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

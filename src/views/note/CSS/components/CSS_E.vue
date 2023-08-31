@@ -171,8 +171,8 @@ const stopRun = () => {
   .btn {
     width: 160px;
     height: 160px;
-    background: url('../../../assets/images/btn_lottery.png') no-repeat center /
-      100% 100%;
+    background: url('../../../../assets/images/btn_lottery.png') no-repeat
+      center / 100% 100%;
     position: absolute;
     left: 0;
     right: 0;
@@ -184,8 +184,8 @@ const stopRun = () => {
       content: '';
       width: 41px;
       height: 39px;
-      background: url('../../../assets/images/icon_point.png') no-repeat center /
-        100% 100%;
+      background: url('../../../../assets/images/icon_point.png') no-repeat
+        center / 100% 100%;
       position: absolute;
       left: 0;
       right: 0;

@@ -61,7 +61,7 @@
     box-shadow: inset 0 0 0 1px #fff;
     transition: 0.5s;
     background-size: 300px 300px;
-    background-image: url('../../../assets/白天.png');
+    background-image: url('../../../../assets/白天.png');
     position: relative;
   }
   // 横向
@@ -109,7 +109,7 @@
   .img-item1 {
     transition: 0.5s;
     background-size: 300px 300px;
-    background-image: url('../../../assets/白天.png');
+    background-image: url('../../../../assets/白天.png');
     position: relative;
   }
   .img-item1:nth-child(3n + 1) {
