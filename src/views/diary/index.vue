@@ -390,7 +390,7 @@ const confirm = async () => {
         .years {
           width: 200px;
           height: 40px;
-          background-color: red;
+          background-color: var(--el-color-primary);
           border-radius: 20px;
           text-align: center;
           line-height: 40px;
@@ -404,7 +404,7 @@ const confirm = async () => {
         .week {
           text-align: center;
           line-height: 40px;
-          border: 1px solid;
+          // border: 1px solid;
         }
       }
       .day-box {
@@ -417,7 +417,7 @@ const confirm = async () => {
           align-items: center;
           padding: 5px 10px;
           font-size: 26px;
-          border: 1px solid #000;
+          // border: 1px solid #000;
           cursor: pointer;
           .one-day {
             width: 30px;
@@ -445,7 +445,7 @@ const confirm = async () => {
           color: #000;
         }
         .isToday {
-          background-color: yellow;
+          background-color: var(--el-color-primary);
         }
       }
     }

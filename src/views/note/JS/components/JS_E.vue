@@ -107,6 +107,7 @@ const handleFileChange = (event: Event) => {
       const jsonDataValue: string[][] = XLSX.utils.sheet_to_json(worksheet, {
         header: 1,
       })
+      console.log('jsonDataValue', jsonDataValue)
       if (jsonDataValue.length > 0) {
         headers.value = jsonDataValue[0]
         // console.log(headers.value)
@@ -117,11 +118,13 @@ const handleFileChange = (event: Event) => {
         // 可以多次导入文件
         // tableData.value = [...rows.value, ...tableData.value]
         tableData.value = [...rows.value]
-        // console.log(tableData.value)
+        console.log('jsonDataValue', jsonDataValue)
         jsonData = jsonDataValue
           .slice(1)
           .filter((row) => row.some((cell) => !!cell)) // 将数据存储在jsonData属性中
-        jsonData.shift()
+        console.log('jsonData', jsonData)
+        // jsonData.shift()
+        console.log('jsonData', jsonData)
       }
     }
     fileReader.readAsArrayBuffer(file)
@@ -161,6 +164,7 @@ const exportExcel = (jsonData: any) => {
   URL.revokeObjectURL(anchor.href)
 }
 const exportJson = () => {
+  console.log('jsonData', jsonData)
   if (jsonData.length > 0) {
     console.log('jsonData', jsonData)
     // 设置为键值对，数组对象
