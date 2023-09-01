@@ -18,7 +18,7 @@
             下个月
           </el-button>
           <el-icon @click="nextMonth"><ArrowRightBold /></el-icon>
-          <el-button type="primary" class="button" round @click="backToday">
+          <el-button type="primary" class="button" round @click="importDiary">
             导出日记
           </el-button>
         </div>
@@ -209,6 +209,10 @@ const backToday = () => {
   date.value = new Date(date.value.setFullYear(today.getFullYear()))
   date.value = new Date(date.value.setMonth(today.getMonth()))
   date.value = new Date(date.value.setDate(today.getDate()))
+}
+const router = useRouter()
+const importDiary = () => {
+  router.push('/diary/export')
 }
 const weeks = [
   '星期日',

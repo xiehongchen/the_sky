@@ -7,7 +7,7 @@
   >
     <template v-for="item in routes" :key="item.path">
       <!-- 没有子路由 -->
-      <template v-if="!item.children">
+      <template v-if="!item.children && item.meta?.isShow">
         <el-menu-item :index="item.path" @click="goRoute(item.path)">
           <el-icon>
             <component :is="item.meta?.icon"></component>
@@ -18,7 +18,7 @@
         </el-menu-item>
       </template>
       <!-- 有子路由 -->
-      <template v-else>
+      <template v-else-if="item.children && item.meta?.isShow">
         <el-sub-menu :index="item.path">
           <template #title>
             <el-icon>
@@ -55,11 +55,12 @@ watch(
 )
 const router = useRouter()
 const route = useRoute()
-
+console.log('router >>> ', router.options.routes)
 // 路由
 const routes =
   router.options.routes.find((item) => item.path === '/')?.children || []
 
+console.log('路由 >>> ', routes)
 // 跳转
 const goRoute = (path: string) => {
   router.push(path)

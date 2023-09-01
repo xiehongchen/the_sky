@@ -18,10 +18,6 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     redirect: { name: 'welcome' },
     component: layout,
-    meta: {
-      title: '',
-      icon: '',
-    },
     children: [
       {
         path: '/welcome',
@@ -30,6 +26,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '欢迎页',
           icon: 'House',
+          isShow: true,
         },
       },
       {
@@ -48,6 +45,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '笔记',
           icon: 'House',
+          isShow: true,
         },
         children: [
           {
@@ -57,6 +55,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: 'JS全概',
               icon: 'Coin',
+              isShow: true,
             },
           },
           {
@@ -66,6 +65,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: 'Vue学习',
               icon: 'Coin',
+              isShow: true,
             },
           },
           {
@@ -75,6 +75,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: 'three学习',
               icon: 'Coin',
+              isShow: true,
             },
           },
           {
@@ -84,6 +85,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '数据可视化',
               icon: 'Coin',
+              isShow: true,
             },
           },
           {
@@ -93,6 +95,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: 'CSS案例',
               icon: 'Coin',
+              isShow: true,
             },
           },
         ],
@@ -104,6 +107,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: 'H5新特性',
           icon: 'Coin',
+          isShow: true,
         },
         children: [
           {
@@ -113,6 +117,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '语音',
               icon: 'Coin',
+              isShow: true,
             },
           },
           {
@@ -122,6 +127,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '拖拽',
               icon: 'Coin',
+              isShow: true,
             },
           },
           {
@@ -131,6 +137,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: 'canvas',
               icon: 'Coin',
+              isShow: true,
             },
           },
           {
@@ -140,6 +147,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '视频',
               icon: 'Coin',
+              isShow: true,
             },
           },
           {
@@ -149,6 +157,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '音频',
               icon: 'Coin',
+              isShow: true,
             },
           },
         ],
@@ -160,6 +169,27 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '日记',
           icon: 'House',
+          isShow: true,
+        },
+      },
+      {
+        path: '/import',
+        name: 'import',
+        component: () => import('@/views/github/index.vue'),
+        meta: {
+          title: '导入图片',
+          icon: 'House',
+          isShow: true,
+        },
+      },
+      {
+        path: '/diary/export',
+        name: 'diaryExport',
+        component: () => import('@/views/diary/exportDiary.vue'),
+        meta: {
+          title: '导出日记',
+          icon: 'House',
+          isShow: false,
         },
       },
       {
@@ -169,6 +199,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '仓库',
           icon: 'Coin',
+          isShow: true,
         },
         children: [
           {
@@ -178,6 +209,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '仓库类型',
               icon: 'Coin',
+              isShow: true,
             },
           },
           {
@@ -188,6 +220,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '文章仓库',
               icon: 'Suitcase',
+              isShow: true,
             },
           },
         ],
@@ -199,6 +232,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '示例',
           icon: 'Operation',
+          isShow: true,
         },
       },
       {
@@ -208,6 +242,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '草稿',
           icon: 'Operation',
+          isShow: true,
         },
       },
     ],
