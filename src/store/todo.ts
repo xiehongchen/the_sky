@@ -5,7 +5,7 @@ interface Data {
   date: string
   time: string
   event: string
-}[]
+}
 
 export const useTodoStore = defineStore('todo', {
   state: () => ({

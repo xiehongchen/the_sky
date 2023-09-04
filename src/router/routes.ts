@@ -26,7 +26,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '欢迎页',
           icon: 'House',
-          isShow: true,
+          permissions: 'sky.welcome',
         },
       },
       {
@@ -36,6 +36,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '主页',
           icon: 'House',
+          permissions: 'sky.home',
         },
       },
       {
@@ -45,7 +46,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '笔记',
           icon: 'House',
-          isShow: true,
+          permissions: 'sky.note',
         },
         children: [
           {
@@ -55,7 +56,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: 'JS全概',
               icon: 'Coin',
-              isShow: true,
+              permissions: 'sky.note.js',
             },
           },
           {
@@ -65,7 +66,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: 'Vue学习',
               icon: 'Coin',
-              isShow: true,
+              permissions: 'sky.note.vue',
             },
           },
           {
@@ -75,7 +76,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: 'three学习',
               icon: 'Coin',
-              isShow: true,
+              permissions: 'sky.note.three',
             },
           },
           {
@@ -85,7 +86,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '数据可视化',
               icon: 'Coin',
-              isShow: true,
+              permissions: 'sky.note.visualization',
             },
           },
           {
@@ -95,7 +96,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: 'CSS案例',
               icon: 'Coin',
-              isShow: true,
+              permissions: 'sky.note.css',
             },
           },
         ],
@@ -107,7 +108,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: 'H5新特性',
           icon: 'Coin',
-          isShow: true,
+          permissions: 'sky.h5',
         },
         children: [
           {
@@ -117,7 +118,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '语音',
               icon: 'Coin',
-              isShow: true,
+              permissions: 'sky.h5.speech',
             },
           },
           {
@@ -127,7 +128,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '拖拽',
               icon: 'Coin',
-              isShow: true,
+              permissions: 'sky.h5.drag',
             },
           },
           {
@@ -137,7 +138,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: 'canvas',
               icon: 'Coin',
-              isShow: true,
+              permissions: 'sky.h5.canvas',
             },
           },
           {
@@ -147,7 +148,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '视频',
               icon: 'Coin',
-              isShow: true,
+              permissions: 'sky.h5.video',
             },
           },
           {
@@ -157,7 +158,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '音频',
               icon: 'Coin',
-              isShow: true,
+              permissions: 'sky.h5.audio',
             },
           },
         ],
@@ -169,17 +170,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '日记',
           icon: 'House',
-          isShow: true,
-        },
-      },
-      {
-        path: '/import',
-        name: 'import',
-        component: () => import('@/views/github/index.vue'),
-        meta: {
-          title: '导入图片',
-          icon: 'House',
-          isShow: true,
+          permissions: 'sky.diary',
         },
       },
       {
@@ -189,8 +180,50 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '导出日记',
           icon: 'House',
-          isShow: false,
+          permissions: 'sky.diary.export',
+          isHide: true,
         },
+      },
+      {
+        path: '/import',
+        name: 'import',
+        meta: {
+          title: '导入Github',
+          icon: 'House',
+          permissions: 'sky.import',
+        },
+        children: [
+          {
+            path: '/import/upload',
+            name: 'importUpload',
+            component: () => import('@/views/github/index.vue'),
+            meta: {
+              title: '导入图片',
+              icon: 'House',
+              permissions: 'sky.import.upload',
+            },
+          },
+          {
+            path: '/import/load',
+            name: 'importLoad',
+            component: () => import('@/views/github/loadFiles.vue'),
+            meta: {
+              title: '加载图片',
+              icon: 'House',
+              permissions: 'sky.import.load',
+            },
+          },
+          {
+            path: '/import/saveToken',
+            name: 'importSaveToken',
+            component: () => import('@/views/github/saveToken.vue'),
+            meta: {
+              title: '仓库地址',
+              icon: 'House',
+              permissions: 'sky.import.savetoken',
+            },
+          },
+        ],
       },
       {
         path: '/repository',
@@ -199,7 +232,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '仓库',
           icon: 'Coin',
-          isShow: true,
+          permissions: 'sky.repository',
         },
         children: [
           {
@@ -209,7 +242,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '仓库类型',
               icon: 'Coin',
-              isShow: true,
+              permissions: 'sky.repository.list',
             },
           },
           {
@@ -220,7 +253,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: '文章仓库',
               icon: 'Suitcase',
-              isShow: true,
+              permissions: 'sky.repository.detail',
             },
           },
         ],
@@ -232,7 +265,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '示例',
           icon: 'Operation',
-          isShow: true,
+          permissions: 'sky.example',
         },
       },
       {
@@ -242,7 +275,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '草稿',
           icon: 'Operation',
-          isShow: true,
+          permissions: 'sky.new',
         },
       },
     ],

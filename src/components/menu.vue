@@ -7,7 +7,14 @@
   >
     <template v-for="item in routes" :key="item.path">
       <!-- 没有子路由 -->
-      <template v-if="!item.children && item.meta?.isShow">
+      <template
+        v-if="
+          !item.children &&
+          (userInfo.permissions.includes(item.meta?.permissions) ||
+            userInfo.permissions.includes('sky.*')) &&
+          !item.meta?.isHide
+        "
+      >
         <el-menu-item :index="item.path" @click="goRoute(item.path)">
           <el-icon>
             <component :is="item.meta?.icon"></component>
@@ -18,7 +25,14 @@
         </el-menu-item>
       </template>
       <!-- 有子路由 -->
-      <template v-else-if="item.children && item.meta?.isShow">
+      <template
+        v-else-if="
+          item.children &&
+          (userInfo.permissions.includes(item.meta?.permissions) ||
+            userInfo.permissions.includes('sky.*')) &&
+          !item.meta?.isHide
+        "
+      >
         <el-sub-menu :index="item.path">
           <template #title>
             <el-icon>
@@ -61,6 +75,10 @@ const routes =
   router.options.routes.find((item) => item.path === '/')?.children || []
 
 console.log('路由 >>> ', routes)
+
+const userInfo = JSON.parse(localStorage.getItem('userInfo') || '')
+console.log(userInfo)
+
 // 跳转
 const goRoute = (path: string) => {
   router.push(path)

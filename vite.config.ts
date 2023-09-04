@@ -44,13 +44,6 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) => path.replace(/^\/api/, ''),
         },
       },
-      // proxy: {
-      //   '/api': {
-      //     target: 'http://127.0.0.1:3000',
-      //     changeOrigin: true, //开启代理
-      //     rewrite: (path) => path.replace(/^\/api/, ''),
-      //   },
-      // },
     },
   }
 })

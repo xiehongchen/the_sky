@@ -128,7 +128,9 @@
           "
         />
         <el-dropdown>
-          <span style="line-height: 30px; width: 60px">谢红尘</span>
+          <span style="line-height: 30px; width: 60px">
+            {{ user.userInfo.username }}
+          </span>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
@@ -145,6 +147,9 @@
 // import { useUserStore } from '@/store/user'
 import { useLayOutSettingStore } from '@/store/setting'
 import { REMOVE_TOKEN } from '@/utils/token'
+import { useUserStore } from '@/store/user'
+const user = useUserStore()
+
 // 展开收起
 let layOutSettingStore = useLayOutSettingStore()
 const router = useRouter()
@@ -258,12 +263,10 @@ const changeDark = () => {
   dark.value ? (html.className = 'dark') : (html.className = '')
 }
 
-// 用户信息
-// const userStore = useUserStore()
-
 // 退出登录
 const logout = async () => {
   REMOVE_TOKEN()
+  user.removeUserInfo()
   router.push('/login')
 }
 </script>

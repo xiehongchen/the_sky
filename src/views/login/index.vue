@@ -38,6 +38,8 @@
 import { ElMessage } from 'element-plus'
 import { SET_TOKEN } from '@/utils/token'
 import request from '@/utils/request'
+import { useUserStore } from '@/store/user'
+const user = useUserStore()
 const router = useRouter()
 const name = ref('')
 const password = ref('')
@@ -54,10 +56,9 @@ const login = async () => {
     return
   }
   await request.post('/login', { name, password }).then((res) => {
-    console.log('登录结果', res)
     ElMessage.success('登录成功')
-    SET_TOKEN('123456')
-    localStorage.setItem('userInfo', JSON.stringify(res.data.data))
+    SET_TOKEN(res.data.token)
+    user.saveUserInfo(res.data.data)
     router.push('/welcome')
   })
 }
