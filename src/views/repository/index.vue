@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { use, document, tools } from './config.ts'
 import ListTools from './components/ListTools.vue'
-const activeNames = ref(['1'])
+const activeNames = ref(['1', '2', '3'])
 // const handleChange = (val: string[]) => {
 //   console.log(val)
 // }

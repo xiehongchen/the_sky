@@ -22,7 +22,7 @@ const users = [
   },
   {
     name: 'admin',
-    password: 'admin',
+    password: '1admin1',
     username: '管理员',
     permissions: ['sky.*'],
   },

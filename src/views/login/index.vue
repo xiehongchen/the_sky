@@ -41,8 +41,8 @@ import request from '@/utils/request'
 import { useUserStore } from '@/store/user'
 const user = useUserStore()
 const router = useRouter()
-const name = ref('')
-const password = ref('')
+const name = ref('123')
+const password = ref('123')
 const login = async () => {
   if (isLogin.value) {
     isLogin.value = false

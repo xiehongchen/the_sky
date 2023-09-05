@@ -251,6 +251,12 @@ export const document: list[] = [
     imgUrl:
       'https://storage.360buyimg.com/pubfree-bucket/taro-docs/c07c6984de/img/logo-taro.png',
   },
+  {
+    id: 24,
+    title: 'AntV',
+    url: 'https://antv.antgroup.com/',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
 ]
 // 工具
 export const tools: list[] = [
