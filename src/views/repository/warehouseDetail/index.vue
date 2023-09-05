@@ -233,6 +233,8 @@ const onAdd = async () => {
         ElMessage.error(res.data.message)
         return
       }
+      url.value = ''
+      tab.value = ''
     })
 }
 const editArticle = (item: Item) => {

@@ -44,6 +44,11 @@ export const tabsList = [
     title: '面经',
     value: 'interview',
   },
+  {
+    id: 9,
+    title: '其他',
+    value: 'other',
+  },
 ]
 export const tableDataList = [
   {
