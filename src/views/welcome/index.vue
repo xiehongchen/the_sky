@@ -1,10 +1,17 @@
 <template>
   <div>欢迎</div>
   <button v-click-request="'/api/users'">点击发起请求</button>
+  <el-button @click="click">点击</el-button>
 </template>
 
 <script setup lang="ts">
 import { ElNotification } from 'element-plus'
+import api from '@/api'
+const click = () => {
+  api.todo.getAllTodo({ status: 1 }).then((res) => {
+    console.log(res.data)
+  })
+}
 onMounted(() => {
   const hours = new Date().getHours()
   let title = ''

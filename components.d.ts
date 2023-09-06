@@ -10,6 +10,7 @@ declare module 'vue' {
     BaseDatePicker: typeof import('./src/components/base-date-picker/baseDatePicker.vue')['default']
     BaseDateSelect: typeof import('./src/components/base-date-picker/baseDateSelect.vue')['default']
     BaseScroll: typeof import('./src/components/base-scroll/baseScroll.vue')['default']
+    CustomScrollbar: typeof import('./src/components/CustomScrollbar.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']

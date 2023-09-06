@@ -17,7 +17,7 @@ export const useTodoStore = defineStore('todo', {
           {
             id: '0',
             time: '09:00',
-            event: '写bug',
+            event: '写bug大多数大萨达地王大厦大萨达萨达瓦大萨达',
           },
           {
             id: '1',

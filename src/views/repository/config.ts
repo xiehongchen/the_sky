@@ -340,4 +340,10 @@ export const tools: list[] = [
     url: 'https://regexgpt.app/',
     imgUrl: 'https://regexgpt.app/logo.png',
   },
+  {
+    id: 14,
+    title: '配色表',
+    url: 'http://tools.jb51.net/static/webcolor/index.html',
+    imgUrl: getAssetsImg('hui'),
+  },
 ]

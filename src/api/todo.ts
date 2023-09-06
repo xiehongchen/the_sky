@@ -7,8 +7,9 @@ export const getAllIncompletedTodo = (params = {}) => {
   return request.get('/todo/incompleteList', params)
 }
 
-export const getAllTodo = (params = {}) => {
-  return request.get('/todo/list', params)
+// status:  0:待办，1：已完成，2：未完成，3：推迟，4：取消
+export const getAllTodo = (params = { status: 0 }) => {
+  return request.get(`/todo/list?status=${params.status}`)
 }
 
 export const addTodo = (params = {}) => {

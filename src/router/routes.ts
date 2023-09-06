@@ -185,6 +185,17 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: '/diary/task',
+        name: 'diaryTask',
+        component: () => import('@/views/diary/task.vue'),
+        meta: {
+          title: '待办时间',
+          icon: 'House',
+          permissions: 'sky.diary.task',
+          isHide: true,
+        },
+      },
+      {
         path: '/import',
         name: 'import',
         meta: {
