@@ -2,15 +2,14 @@
   <!-- 今日待办，其他，延期，已完成，已取消，未完成 -->
   <!-- 创建时间、预计完成时间、实际完成时间、取消时间、延期时间 -->
   <main>
-    <HomeTask />
-    <HomeTask />
-    <HomePlan />
+    <TodayTask />
+    <FinishTask />
   </main>
 </template>
 
 <script setup lang="ts">
-import HomeTask from './../home/components/HomeTask.vue'
-import HomePlan from './../home/components/HomePlan.vue'
+import FinishTask from './components/FinishTask.vue'
+import TodayTask from './components/TodayTask.vue'
 </script>
 
 <style lang="scss" scoped>

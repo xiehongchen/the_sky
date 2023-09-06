@@ -8,7 +8,7 @@
 import { ElNotification } from 'element-plus'
 import api from '@/api'
 const click = () => {
-  api.todo.getAllTodo({ status: 1 }).then((res) => {
+  api.task.getAllTask({ status: 1 }).then((res) => {
     console.log(res.data)
   })
 }
