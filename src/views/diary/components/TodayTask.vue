@@ -8,6 +8,14 @@
         v-model="newTodo"
         @keydown.enter="addTodo"
       />
+      <div>
+        <el-date-picker
+          style="margin-left: 10px"
+          v-model="finishTime"
+          type="datetime"
+          placeholder="选择预期完成时间"
+        />
+      </div>
       <button class="add-todo-button button" @click="addTodo">+</button>
     </div>
     <div class="show-todo-list-container">
@@ -26,11 +34,16 @@
                 />
                 <label :for="`checkbox${todo.id}}`"></label>
               </div>
-              <div class="todo-date">
-                <span class="date">{{ todo.date }}</span>
-                <span class="time">{{ todo.time }}</span>
+              <div class="todo-center">
+                <div class="todo-date">
+                  <span class="date">{{ todo.date }}</span>
+                  <span class="time">{{ todo.time }}</span>
+                  <span style="margin: 0 10px">至</span>
+                  <span class="date">{{ todo.date }}</span>
+                  <span class="time">{{ todo.time }}</span>
+                </div>
+                <p class="todo-content">{{ todo.event }}</p>
               </div>
-              <p class="todo-content">{{ todo.event }}</p>
               <button class="delete button" @click="deleteTodo(todo.id)">
                 <svg
                   t="1663664520209"
@@ -79,11 +92,11 @@ import BaseScroll from '@/components/base-scroll/baseScroll.vue'
 // 导入滚动条所需参数类型接口
 import { ScrollArguments } from '@/components/base-scroll/scrollArgumentsType'
 import { useTodoStore } from '@/store/todo'
-import useDate from '@/utils/useDate'
+// import useDate from '@/utils/useDate'
 import { ElMessage } from 'element-plus'
-import { nanoid } from 'nanoid'
+// import { nanoid } from 'nanoid'
 import api from '@/api'
-import { isToday, dateAndTime } from '@/utils/useTime'
+import { isToday } from '@/utils/useTime'
 
 const scrollArguments: ScrollArguments = reactive({
   scrollHeight: 100,
@@ -132,62 +145,71 @@ function getTodayTask() {
   api.task.getAllTask({ status: 0 }).then((res) => {
     console.log(res)
     const data = res.data.data
-    console.log(data)
+    // console.log(data)
+    console.log(isToday(data[2].create_time))
     data.forEach((item: any) => {
       if (isToday(item.create_time)) {
-        console.log(dateAndTime(item.create_time))
-        taskList.value.push()
+        // console.log(dateAndTime(item.create_time))
+        taskList.value.push(item)
       }
     })
+    console.log('taskList.value', taskList.value)
   })
 }
 
-const date = useDate().date
+// const date = useDate().date
 const useTodo = useTodoStore()
 const newTodo = ref('')
+const finishTime = ref('')
 // 视图变化时重新设置滚动参数
 
 const addTodo = async () => {
-  if (newTodo.value == '') {
+  if (newTodo.value === '') {
     ElMessage.error('请输入待办事件')
     return
+  } else if (finishTime.value === '') {
+    ElMessage.error('选择预期完成时间')
+    return
   }
-  await api.task.addTask({ event: newTodo.value }).then((res) => {
-    console.log(res)
-    if (res.data.answer) {
-      ElMessage.success('添加成功')
-    } else {
-      ElMessage.success('添加失败')
-    }
-  })
-  // 所有待办的时间戳
-  const { getTodoTimestamp } = useTodo
-  const todoLength = getTodoTimestamp.length
-  const { year, month, day, hours, minutes } = useDate().formatDate()
-  // 整理数据
-  const data = {
-    id: nanoid(),
-    date: `${year}-${month.toString().padStart(2, '0')}-${day
-      .toString()
-      .padStart(2, '0')}`,
-    time: `${hours}:${minutes}`,
-    event: newTodo.value,
-  }
-  newTodo.value = ''
-  // 时间小于第一个待办时间
-  if (+date.value < getTodoTimestamp[0] || todoLength === 0) {
-    useTodo.todo.unshift(data)
-  } else if (+date.value > getTodoTimestamp[todoLength - 1]) {
-    // 时间大于最后一个待办时间
-    useTodo.todo.push(data)
-  } else {
-    for (let i = 1; i < todoLength - 1; i++) {
-      if (+date.value < useTodo.getTodoTimestamp[i]) {
-        useTodo.todo.splice(i - 1, 0, data)
-        break
+  await api.task
+    .addTask({ event: newTodo.value, finishTime: finishTime.value })
+    .then((res) => {
+      console.log(res)
+      if (res.data.answer) {
+        newTodo.value = ''
+        ElMessage.success('添加成功')
+      } else {
+        ElMessage.error('添加失败')
       }
-    }
-  }
+    })
+  // // 所有待办的时间戳
+  // const { getTodoTimestamp } = useTodo
+  // const todoLength = getTodoTimestamp.length
+  // const { year, month, day, hours, minutes } = useDate().formatDate()
+  // // 整理数据
+  // const data = {
+  //   id: nanoid(),
+  //   date: `${year}-${month.toString().padStart(2, '0')}-${day
+  //     .toString()
+  //     .padStart(2, '0')}`,
+  //   time: `${hours}:${minutes}`,
+  //   event: newTodo.value,
+  // }
+  // newTodo.value = ''
+  // // 时间小于第一个待办时间
+  // if (+date.value < getTodoTimestamp[0] || todoLength === 0) {
+  //   useTodo.todo.unshift(data)
+  // } else if (+date.value > getTodoTimestamp[todoLength - 1]) {
+  //   // 时间大于最后一个待办时间
+  //   useTodo.todo.push(data)
+  // } else {
+  //   for (let i = 1; i < todoLength - 1; i++) {
+  //     if (+date.value < useTodo.getTodoTimestamp[i]) {
+  //       useTodo.todo.splice(i - 1, 0, data)
+  //       break
+  //     }
+  //   }
+  // }
 }
 
 // ==========删除待办，完成待办==========
@@ -293,7 +315,7 @@ function finishChecked() {
           align-items: center;
           padding: 0 10px;
           width: 100%;
-          height: 40px;
+          height: 45px;
           font-weight: bold;
           border-radius: 20px;
           color: var(--todo-child-word);
@@ -331,14 +353,18 @@ function finishChecked() {
               background-color: var(--todo-child-checkbox-checked);
             }
           }
-          .todo-date {
-            margin-right: 20px;
-            .date {
-              margin-right: 10px;
+          .todo-center {
+            flex: 1;
+            .todo-date {
+              margin-right: 20px;
+              .date {
+                margin-right: 10px;
+              }
             }
-          }
-          .todo-content {
-            flex: 1 1 0;
+            .todo-content {
+              margin-top: 5px;
+              flex: 1 1 0;
+            }
           }
           .delete {
             background: none;
