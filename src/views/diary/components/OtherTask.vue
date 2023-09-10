@@ -82,12 +82,9 @@ const props = defineProps({
 })
 const taskList = computed(() => props.taskList)
 const emits = defineEmits([
-  'addTodo',
   'deleteTodo',
   'finishTodo',
-  'delayTodo',
   'deleteChecked',
-  'delayChecked',
   'finishChecked',
 ])
 

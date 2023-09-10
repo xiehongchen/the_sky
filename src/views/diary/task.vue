@@ -12,7 +12,14 @@
       @delay-checked="delayChecked"
       @finish-checked="finishChecked"
     />
-    <OtherTask :taskList="otherTaskList" />
+    <OtherTask
+      :taskList="otherTaskList"
+      @add-todo="addTodo"
+      @delete-todo="deleteTodo"
+      @finish-todo="finishTodo"
+      @delete-checked="deleteChecked"
+      @finish-checked="finishChecked"
+    />
     <FinishTask />
   </main>
 </template>
@@ -41,24 +48,30 @@ interface taskType {
 const taskList = ref<taskType[]>([])
 const otherTaskList = ref<taskType[]>([])
 
+function formDate(item: any, status?: number) {
+  if (item.status === 0 || item.status === 2) {
+    return isToday(item.expect_time, status)
+  } else {
+    return isToday(item.delay_time, status)
+  }
+}
+
 const getTodayTask = async () => {
   taskList.value = []
-  await api.task.getAllTask({ status: 0 }).then((res) => {
-    const data = res.data.data
-    data.forEach((item: any) => {
-      if (isToday(item.expect_time)) {
-        taskList.value.push(item)
-      }
-    })
-  })
+  otherTaskList.value = []
   await api.task.getAllTask({ status: [0, 2, 3] }).then((res) => {
     const data = res.data.data
     data.forEach((item: any) => {
-      if (isToday(item.expect_time)) {
+      if (formDate(item)) {
+        taskList.value.push(item)
+      }
+      if (formDate(item, 2)) {
         otherTaskList.value.push(item)
       }
     })
   })
+  console.log('taskList.value', taskList.value)
+  console.log('otherTaskList.value', otherTaskList.value)
 }
 // 增加
 const addTodo = async (value: any) => {

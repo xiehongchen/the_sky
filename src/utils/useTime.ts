@@ -12,7 +12,7 @@ export const isToday = (time: Date | string, status?: number) => {
     }
     return false
   } else if (status === 2) {
-    if (today < finish) {
+    if (today !== finish) {
       return true
     }
     return false
