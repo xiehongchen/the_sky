@@ -8,43 +8,35 @@
         v-model="newTodo"
         @keydown.enter="addTodo"
       />
-      <div>
-        <el-date-picker
-          style="margin-left: 10px"
-          v-model="finishTime"
-          type="datetime"
-          placeholder="选择预期完成时间"
-        />
-      </div>
+      <TimeSelect @get-time="getFinishTime" class="add-todo-time" />
       <button class="add-todo-button button" @click="addTodo">+</button>
     </div>
     <div class="show-todo-list-container">
       <ul class="all-todo-list-container" ref="allTodo">
         <transition-group name="todoList">
-          <li class="todo-item" v-for="todo in useTodo.todo" :key="todo.id">
+          <li class="todo-item" v-for="task in taskList" :key="task.id">
             <div class="todo-container">
               <div class="todo-checkbox">
                 <input
-                  :id="`checkbox${todo.id}}`"
+                  :id="`checkbox${task.id}}`"
                   type="checkbox"
-                  :value="todo.id"
+                  :value="task.id"
                   v-model="checked"
                   class="todo-checkbox-origin"
                   v-show="false"
                 />
-                <label :for="`checkbox${todo.id}}`"></label>
+                <label :for="`checkbox${task.id}}`"></label>
               </div>
               <div class="todo-center">
                 <div class="todo-date">
-                  <span class="date">{{ todo.date }}</span>
-                  <span class="time">{{ todo.time }}</span>
+                  <span class="date">{{ formDate(task.create_time) }}</span>
+                  <span class="time">{{ formTime(task.create_time) }}</span>
                   <span style="margin: 0 10px">至</span>
-                  <span class="date">{{ todo.date }}</span>
-                  <span class="time">{{ todo.time }}</span>
+                  <span class="date">{{ formDate(task.expect_time) }}</span>
                 </div>
-                <p class="todo-content">{{ todo.event }}</p>
+                <p class="todo-content">{{ task.event }}</p>
               </div>
-              <button class="delete button" @click="deleteTodo(todo.id)">
+              <button class="delete button" @click="deleteTodo(task.id)">
                 <svg
                   t="1663664520209"
                   class="icon"
@@ -63,8 +55,11 @@
                 </svg>
               </button>
             </div>
-            <button class="finish button" @click="finishTodo(todo.id)">
+            <button class="finish button" @click="finishTodo(task.id)">
               完成
+            </button>
+            <button class="expect button" @click="delayTodo(task.id)">
+              延期
             </button>
           </li>
         </transition-group>
@@ -77,17 +72,22 @@
       />
     </div>
     <div class="bottom-button">
+      <button class="delete-checked button" @click="deleteChecked">全选</button>
+      <button class="finish-checked button" @click="finishChecked">
+        完成选中项
+      </button>
       <button class="delete-checked button" @click="deleteChecked">
         删除选中项
       </button>
-      <button class="finish-checked button" @click="finishChecked">
-        完成选中项
+      <button class="finish-checked button" @click="delayChecked">
+        延期选中项
       </button>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import TimeSelect from './TimeSelect.vue'
 import BaseScroll from '@/components/base-scroll/baseScroll.vue'
 // 导入滚动条所需参数类型接口
 import { ScrollArguments } from '@/components/base-scroll/scrollArgumentsType'
@@ -96,7 +96,7 @@ import { useTodoStore } from '@/store/todo'
 import { ElMessage } from 'element-plus'
 // import { nanoid } from 'nanoid'
 import api from '@/api'
-import { isToday } from '@/utils/useTime'
+import { isToday, formDate, formTime } from '@/utils/useTime'
 
 const scrollArguments: ScrollArguments = reactive({
   scrollHeight: 100,
@@ -136,20 +136,25 @@ watch(useTodoStore().todo, () => {
 // ===============新增待办事件=================
 interface taskType {
   id: string
-  time: string
+  create_time: Date
+  cancel_time?: Date
+  delay_time?: Date
+  expect_time: Date
+  finish_time?: Date
   date: string
   event: string
 }
 const taskList = ref<taskType[]>([])
 function getTodayTask() {
+  taskList.value = []
   api.task.getAllTask({ status: 0 }).then((res) => {
-    console.log(res)
+    console.log(res.data)
     const data = res.data.data
     // console.log(data)
-    console.log(isToday(data[2].create_time))
+    // console.log(isToday(data[2].create_time))
     data.forEach((item: any) => {
-      if (isToday(item.create_time)) {
-        // console.log(dateAndTime(item.create_time))
+      if (isToday(item.expect_time)) {
+        // console.log(item)
         taskList.value.push(item)
       }
     })
@@ -158,95 +163,115 @@ function getTodayTask() {
 }
 
 // const date = useDate().date
-const useTodo = useTodoStore()
 const newTodo = ref('')
-const finishTime = ref('')
+const expectTtime = ref('')
 // 视图变化时重新设置滚动参数
-
+const getFinishTime = (time: string) => {
+  // console.log('time', time)
+  if (time) {
+    expectTtime.value = time
+  }
+}
 const addTodo = async () => {
   if (newTodo.value === '') {
     ElMessage.error('请输入待办事件')
     return
-  } else if (finishTime.value === '') {
+  } else if (expectTtime.value === '') {
     ElMessage.error('选择预期完成时间')
     return
   }
   await api.task
-    .addTask({ event: newTodo.value, finishTime: finishTime.value })
+    .addTask({ event: newTodo.value, expectTtime: expectTtime.value })
     .then((res) => {
-      console.log(res)
       if (res.data.answer) {
         newTodo.value = ''
         ElMessage.success('添加成功')
+        getTodayTask()
       } else {
         ElMessage.error('添加失败')
       }
     })
-  // // 所有待办的时间戳
-  // const { getTodoTimestamp } = useTodo
-  // const todoLength = getTodoTimestamp.length
-  // const { year, month, day, hours, minutes } = useDate().formatDate()
-  // // 整理数据
-  // const data = {
-  //   id: nanoid(),
-  //   date: `${year}-${month.toString().padStart(2, '0')}-${day
-  //     .toString()
-  //     .padStart(2, '0')}`,
-  //   time: `${hours}:${minutes}`,
-  //   event: newTodo.value,
-  // }
-  // newTodo.value = ''
-  // // 时间小于第一个待办时间
-  // if (+date.value < getTodoTimestamp[0] || todoLength === 0) {
-  //   useTodo.todo.unshift(data)
-  // } else if (+date.value > getTodoTimestamp[todoLength - 1]) {
-  //   // 时间大于最后一个待办时间
-  //   useTodo.todo.push(data)
-  // } else {
-  //   for (let i = 1; i < todoLength - 1; i++) {
-  //     if (+date.value < useTodo.getTodoTimestamp[i]) {
-  //       useTodo.todo.splice(i - 1, 0, data)
-  //       break
-  //     }
-  //   }
-  // }
 }
 
 // ==========删除待办，完成待办==========
 // 删除一个
-function deleteTodo(id: string) {
-  useTodo.deleteTodo(id)
-  ElMessage({
-    type: 'success',
-    message: '删除成功',
+const deleteTodo = async (id: string) => {
+  await api.task.deleteTask({ id: [id] }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('删除成功')
+      getTodayTask()
+    } else {
+      ElMessage.error('删除失败')
+    }
   })
 }
 // 完成一个
-function finishTodo(id: string) {
-  const todo = useTodo.deleteTodo(id)
-  if (todo) {
-    const timestamp = new Date(todo[0].date + ' ' + todo[0].time).getTime()
-    const dateStamp = new Date(todo[0].date).getTime()
-    useTodo.addFinishTodo(dateStamp, timestamp, todo[0])
-  }
+const finishTodo = async (id: string) => {
+  await api.task.finishTask({ id: [id] }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('完成成功')
+      getTodayTask()
+    } else {
+      ElMessage.error('完成失败')
+    }
+  })
+}
+
+const delayTodo = async (id: string) => {
+  await api.task.delayTask({ id: [id] }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('延期成功')
+      getTodayTask()
+    } else {
+      ElMessage.error('延期失败')
+    }
+  })
 }
 
 const checked = ref([])
 // 删除所有选中
-function deleteChecked() {
-  for (let i = 0; i < checked.value.length; i++) {
-    useTodo.deleteTodo(checked.value[i])
+const deleteChecked = async () => {
+  if (checked.value.length === 0) {
+    ElMessage.error('选择任务')
+    return
   }
-  ElMessage({
-    type: 'success',
-    message: '删除成功',
+  await api.task.deleteTask({ id: [...checked.value] }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('删除成功')
+      getTodayTask()
+    } else {
+      ElMessage.error('删除失败')
+    }
   })
 }
 // 完成所有选中
-function finishChecked() {
-  for (let i = 0; i < checked.value.length; i++) {
-    finishTodo(checked.value[i])
+const finishChecked = async () => {
+  if (checked.value.length === 0) {
+    ElMessage.error('选择任务')
+    return
   }
+  await api.task.finishTask({ id: [...checked.value] }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('完成成功')
+      getTodayTask()
+    } else {
+      ElMessage.error('完成失败')
+    }
+  })
+}
+const delayChecked = async () => {
+  if (checked.value.length === 0) {
+    ElMessage.error('选择任务')
+    return
+  }
+  await api.task.delayTask({ id: [...checked.value] }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('延期成功')
+      getTodayTask()
+    } else {
+      ElMessage.error('延期失败')
+    }
+  })
 }
 </script>
 
@@ -266,7 +291,7 @@ function finishChecked() {
     height: 50px;
     margin: 10px 0;
     .add-todo-input {
-      width: 100%;
+      flex: 1;
       height: 30px;
       padding: 0 20px;
       font-size: 16px;
@@ -275,6 +300,10 @@ function finishChecked() {
       border-radius: 15px;
       border: solid 2px var(--todo-add-border);
       background-color: var(--todo-add-bg);
+    }
+    .add-todo-time {
+      flex: 1;
+      margin-left: 10px;
     }
     .add-todo-button {
       display: flex;
@@ -372,7 +401,16 @@ function finishChecked() {
         }
         .finish {
           flex: 0 0 55px;
-          margin-left: 30px;
+          margin-left: 10px;
+          padding: 10px 0;
+          border: solid 2px var(--todo-button-border);
+          border-radius: 10px;
+          color: var(--todo-button-word);
+          background-color: var(--todo-button-bg);
+        }
+        .expect {
+          flex: 0 0 55px;
+          margin-left: 5px;
           padding: 10px 0;
           border: solid 2px var(--todo-button-border);
           border-radius: 10px;
@@ -412,9 +450,11 @@ function finishChecked() {
       color: var(--todo-button-word);
     }
     .delete-checked {
+      flex: 1;
       background-color: var(--todo-delete-button-bg);
     }
     .finish-checked {
+      flex: 1;
       background-color: var(--todo-button-bg);
     }
   }

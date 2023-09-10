@@ -3,12 +3,14 @@
   <!-- 创建时间、预计完成时间、实际完成时间、取消时间、延期时间 -->
   <main>
     <TodayTask />
+    <OtherTask />
     <FinishTask />
   </main>
 </template>
 
 <script setup lang="ts">
 import FinishTask from './components/FinishTask.vue'
+import OtherTask from './components/OtherTask.vue'
 import TodayTask from './components/TodayTask.vue'
 </script>
 
