@@ -72,7 +72,7 @@
       />
     </div>
     <div class="bottom-button">
-      <button class="delete-checked button" @click="deleteChecked">全选</button>
+      <button class="delete-checked button" @click="selectAll">全选</button>
       <button class="finish-checked button" @click="finishChecked">
         完成选中项
       </button>
@@ -228,7 +228,17 @@ const delayTodo = async (id: string) => {
   })
 }
 
-const checked = ref([])
+const checked = ref<string[]>([])
+const select = ref(false)
+const selectAll = () => {
+  if (!select.value) {
+    checked.value = taskList.value.map((item) => item.id)
+    select.value = true
+  } else {
+    checked.value = []
+    select.value = false
+  }
+}
 // 删除所有选中
 const deleteChecked = async () => {
   if (checked.value.length === 0) {
