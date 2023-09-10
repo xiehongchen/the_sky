@@ -1,9 +1,17 @@
 export const isToday = (time: Date | string, status?: number) => {
+  if (!time) {
+    return false
+  }
   const today = new Date().toLocaleDateString()
   const finish = new Date(time).toLocaleDateString()
-  console.log('today', today)
-  console.log('finish', finish)
+  // console.log('today', today)
+  // console.log('finish', finish)
   if (status === 1) {
+    if (today < finish) {
+      return true
+    }
+    return false
+  } else if (status === 2) {
     if (today < finish) {
       return true
     }
@@ -16,7 +24,10 @@ export const isToday = (time: Date | string, status?: number) => {
   }
 }
 
-export const formDate = (time: Date) => {
+export const formDate = (time?: Date) => {
+  if (!time) {
+    return ''
+  }
   const tmp = new Date(time).toLocaleDateString().replaceAll('/', '-')
   return tmp
 }

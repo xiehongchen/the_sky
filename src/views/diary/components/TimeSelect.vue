@@ -156,6 +156,7 @@ const selectDate: (day: number | null) => void = (day) => {
 const todayPicker = () => {
   selectedDate.value = new Date().toLocaleDateString().replaceAll('/', '-')
   showDatePicker.value = false
+  emits('getTime', selectedDate.value)
 }
 onMounted(() => {
   selectDate(new Date().getDate())

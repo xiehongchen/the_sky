@@ -22,7 +22,12 @@
                   <span class="date">{{ formDate(task.create_time) }}</span>
                   <span class="time">{{ formTime(task.create_time) }}</span>
                   <span style="margin: 0 10px">至</span>
-                  <span class="date">{{ formDate(task.finish_time) }}</span>
+                  <span class="date">
+                    <span v-if="task.status === 0 || task.status === 2">
+                      {{ formDate(task.expect_time) }}
+                    </span>
+                    <span v-else>{{ formDate(task.delay_time) }}</span>
+                  </span>
                 </div>
                 <p class="todo-content">{{ task.event }}</p>
               </div>
@@ -123,19 +128,20 @@ interface taskType {
   delay_time?: Date
   expect_time?: Date
   finish_time: Date
-  date: string
+  status: number
   event: string
 }
 const taskList = ref<taskType[]>([])
 function getTodayTask() {
-  api.task.getAllTask({ status: 0 }).then((res) => {
+  taskList.value = []
+  api.task.getAllTask({ status: [0, 2, 3] }).then((res) => {
     console.log(res.data)
     const data = res.data.data
     // console.log(data)
     // console.log(isToday(data[2].create_time))
     data.forEach((item: any) => {
-      if (isToday(item.finish_time)) {
-        console.log(item)
+      if (isToday(item.expect_time, 1) || isToday(item.delay_time, 1)) {
+        // console.log(item)
         taskList.value.push(item)
       }
     })

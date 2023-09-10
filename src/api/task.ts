@@ -15,8 +15,8 @@ export const getAllIncompletedTask = (params = {}) => {
  * 3：推迟  delay_time
  * 4：取消  cancel_time
  */
-export const getAllTask = (params = { status: 0 }) => {
-  return request.get(`/task/list?status=${params.status}`)
+export const getAllTask = (params = {}) => {
+  return request.post('/task/list', params)
 }
 
 export const addTask = (params = {}) => {

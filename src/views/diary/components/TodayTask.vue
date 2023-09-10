@@ -92,11 +92,53 @@ import BaseScroll from '@/components/base-scroll/baseScroll.vue'
 // 导入滚动条所需参数类型接口
 import { ScrollArguments } from '@/components/base-scroll/scrollArgumentsType'
 import { useTodoStore } from '@/store/todo'
-// import useDate from '@/utils/useDate'
-import { ElMessage } from 'element-plus'
-// import { nanoid } from 'nanoid'
-import api from '@/api'
-import { isToday, formDate, formTime } from '@/utils/useTime'
+import { formDate, formTime } from '@/utils/useTime'
+const props = defineProps({
+  taskList: {
+    type: Array as PropType<taskType[]>,
+  },
+})
+const taskList = computed(() => props.taskList)
+const emits = defineEmits([
+  'addTodo',
+  'deleteTodo',
+  'finishTodo',
+  'delayTodo',
+  'deleteChecked',
+  'delayChecked',
+  'finishChecked',
+])
+const newTodo = ref('')
+const setDate = ref('')
+const checked = ref<string[]>([])
+
+const addTodo = () => {
+  const todo = newTodo.value
+  const date = setDate.value
+  emits('addTodo', { todo, date })
+  newTodo.value = ''
+}
+const deleteTodo = async (id: string) => {
+  emits('deleteTodo', id)
+}
+const finishTodo = async (id: string) => {
+  emits('finishTodo', id)
+}
+const delayTodo = async (id: string) => {
+  const date = setDate.value
+  emits('delayTodo', { id, date })
+}
+const deleteChecked = () => {
+  emits('deleteChecked', checked.value)
+}
+const delayChecked = () => {
+  const date = setDate.value
+  const check = checked.value
+  emits('delayChecked', { date, check })
+}
+const finishChecked = () => {
+  emits('finishChecked', checked.value)
+}
 
 const scrollArguments: ScrollArguments = reactive({
   scrollHeight: 100,
@@ -112,7 +154,6 @@ function setScrollHeight() {
   scrollArguments.showHeight = offsetHeight
 }
 onMounted(() => {
-  getTodayTask()
   nextTick(() => {
     setScrollHeight()
     // 添加滚动事件，获取滚动高度
@@ -139,157 +180,28 @@ interface taskType {
   create_time: Date
   cancel_time?: Date
   delay_time?: Date
-  expect_time: Date
-  finish_time?: Date
-  date: string
+  expect_time?: Date
+  finish_time: Date
+  status: number
   event: string
 }
-const taskList = ref<taskType[]>([])
-function getTodayTask() {
-  taskList.value = []
-  api.task.getAllTask({ status: 0 }).then((res) => {
-    console.log(res.data)
-    const data = res.data.data
-    // console.log(data)
-    // console.log(isToday(data[2].create_time))
-    data.forEach((item: any) => {
-      if (isToday(item.expect_time)) {
-        // console.log(item)
-        taskList.value.push(item)
-      }
-    })
-    console.log('taskList.value', taskList.value)
-  })
-}
 
-// const date = useDate().date
-const newTodo = ref('')
-const setDate = ref('')
-// 视图变化时重新设置滚动参数
 const getFinishTime = (time: string) => {
   // console.log('time', time)
   if (time) {
     setDate.value = time
   }
 }
-const addTodo = async () => {
-  if (newTodo.value === '') {
-    ElMessage.error('请输入待办事件')
-    return
-  } else if (setDate.value === '') {
-    ElMessage.error('选择预期完成时间')
-    return
-  }
-  await api.task
-    .addTask({ event: newTodo.value, expectTtime: setDate.value })
-    .then((res) => {
-      if (res.data.answer) {
-        newTodo.value = ''
-        ElMessage.success('添加成功')
-        getTodayTask()
-      } else {
-        ElMessage.error('添加失败')
-      }
-    })
-}
 
-// ==========删除待办，完成待办==========
-// 删除一个
-const deleteTodo = async (id: string) => {
-  await api.task.deleteTask({ id: [id] }).then((res) => {
-    if (res.data.answer) {
-      ElMessage.success('删除成功')
-      getTodayTask()
-    } else {
-      ElMessage.error('删除失败')
-    }
-  })
-}
-// 完成一个
-const finishTodo = async (id: string) => {
-  await api.task.finishTask({ id: [id] }).then((res) => {
-    if (res.data.answer) {
-      ElMessage.success('完成成功')
-      getTodayTask()
-    } else {
-      ElMessage.error('完成失败')
-    }
-  })
-}
-
-const delayTodo = async (id: string) => {
-  // console.log(setDate.value)
-  if (!isToday(setDate.value, 1)) {
-    ElMessage.error('选择正确时间')
-    return
-  }
-  // console.log(id)
-  await api.task
-    .delayTask({ id: [id], delayTime: setDate.value })
-    .then((res) => {
-      if (res.data.answer) {
-        ElMessage.success('延期成功')
-        getTodayTask()
-      } else {
-        ElMessage.error('延期失败')
-      }
-    })
-}
-
-const checked = ref<string[]>([])
 const select = ref(false)
 const selectAll = () => {
-  if (!select.value) {
+  if (!select.value && taskList.value) {
     checked.value = taskList.value.map((item) => item.id)
     select.value = true
   } else {
     checked.value = []
     select.value = false
   }
-}
-// 删除所有选中
-const deleteChecked = async () => {
-  if (checked.value.length === 0) {
-    ElMessage.error('选择任务')
-    return
-  }
-  await api.task.deleteTask({ id: [...checked.value] }).then((res) => {
-    if (res.data.answer) {
-      ElMessage.success('删除成功')
-      getTodayTask()
-    } else {
-      ElMessage.error('删除失败')
-    }
-  })
-}
-// 完成所有选中
-const finishChecked = async () => {
-  if (checked.value.length === 0) {
-    ElMessage.error('选择任务')
-    return
-  }
-  await api.task.finishTask({ id: [...checked.value] }).then((res) => {
-    if (res.data.answer) {
-      ElMessage.success('完成成功')
-      getTodayTask()
-    } else {
-      ElMessage.error('完成失败')
-    }
-  })
-}
-const delayChecked = async () => {
-  if (checked.value.length === 0) {
-    ElMessage.error('选择任务')
-    return
-  }
-  await api.task.delayTask({ id: [...checked.value] }).then((res) => {
-    if (res.data.answer) {
-      ElMessage.success('延期成功')
-      getTodayTask()
-    } else {
-      ElMessage.error('延期失败')
-    }
-  })
 }
 </script>
 
