@@ -48,6 +48,7 @@
         </tr>
       </table>
       <button class="button close" @click="closeDatePicker">关闭</button>
+      <button class="button close" @click="todayPicker">今日</button>
     </div>
   </div>
 </template>
@@ -152,6 +153,10 @@ const selectDate: (day: number | null) => void = (day) => {
     }
   }
 }
+const todayPicker = () => {
+  selectedDate.value = new Date().toLocaleDateString().replaceAll('/', '-')
+  showDatePicker.value = false
+}
 onMounted(() => {
   selectDate(new Date().getDate())
 })
@@ -198,6 +203,7 @@ onMounted(() => {
       border: solid 2px var(--todo-add-bg);
       background-color: var(--todo-add-border);
       color: #fff;
+      margin: 0 5px;
     }
   }
 }

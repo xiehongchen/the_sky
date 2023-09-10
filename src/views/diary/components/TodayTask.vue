@@ -164,24 +164,24 @@ function getTodayTask() {
 
 // const date = useDate().date
 const newTodo = ref('')
-const expectTtime = ref('')
+const setDate = ref('')
 // 视图变化时重新设置滚动参数
 const getFinishTime = (time: string) => {
   // console.log('time', time)
   if (time) {
-    expectTtime.value = time
+    setDate.value = time
   }
 }
 const addTodo = async () => {
   if (newTodo.value === '') {
     ElMessage.error('请输入待办事件')
     return
-  } else if (expectTtime.value === '') {
+  } else if (setDate.value === '') {
     ElMessage.error('选择预期完成时间')
     return
   }
   await api.task
-    .addTask({ event: newTodo.value, expectTtime: expectTtime.value })
+    .addTask({ event: newTodo.value, expectTtime: setDate.value })
     .then((res) => {
       if (res.data.answer) {
         newTodo.value = ''
@@ -218,14 +218,22 @@ const finishTodo = async (id: string) => {
 }
 
 const delayTodo = async (id: string) => {
-  await api.task.delayTask({ id: [id] }).then((res) => {
-    if (res.data.answer) {
-      ElMessage.success('延期成功')
-      getTodayTask()
-    } else {
-      ElMessage.error('延期失败')
-    }
-  })
+  // console.log(setDate.value)
+  if (!isToday(setDate.value, 1)) {
+    ElMessage.error('选择正确时间')
+    return
+  }
+  // console.log(id)
+  await api.task
+    .delayTask({ id: [id], delayTime: setDate.value })
+    .then((res) => {
+      if (res.data.answer) {
+        ElMessage.success('延期成功')
+        getTodayTask()
+      } else {
+        ElMessage.error('延期失败')
+      }
+    })
 }
 
 const checked = ref<string[]>([])
