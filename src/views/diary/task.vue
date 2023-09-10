@@ -12,7 +12,7 @@
       @delay-checked="delayChecked"
       @finish-checked="finishChecked"
     />
-    <OtherTask />
+    <OtherTask :taskList="otherTaskList" />
     <FinishTask />
   </main>
 </template>
@@ -39,21 +39,25 @@ interface taskType {
   event: string
 }
 const taskList = ref<taskType[]>([])
+const otherTaskList = ref<taskType[]>([])
 
-function getTodayTask() {
+const getTodayTask = async () => {
   taskList.value = []
-  api.task.getAllTask({ status: 0 }).then((res) => {
-    console.log(res.data)
+  await api.task.getAllTask({ status: 0 }).then((res) => {
     const data = res.data.data
-    // console.log(data)
-    // console.log(isToday(data[2].create_time))
     data.forEach((item: any) => {
       if (isToday(item.expect_time)) {
-        // console.log(item)
         taskList.value.push(item)
       }
     })
-    console.log('taskList.value', taskList.value)
+  })
+  await api.task.getAllTask({ status: [0, 2, 3] }).then((res) => {
+    const data = res.data.data
+    data.forEach((item: any) => {
+      if (isToday(item.expect_time)) {
+        otherTaskList.value.push(item)
+      }
+    })
   })
 }
 // 增加

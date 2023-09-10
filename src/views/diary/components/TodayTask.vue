@@ -91,7 +91,6 @@ import TimeSelect from './TimeSelect.vue'
 import BaseScroll from '@/components/base-scroll/baseScroll.vue'
 // 导入滚动条所需参数类型接口
 import { ScrollArguments } from '@/components/base-scroll/scrollArgumentsType'
-import { useTodoStore } from '@/store/todo'
 import { formDate, formTime } from '@/utils/useTime'
 const props = defineProps({
   taskList: {
@@ -168,7 +167,7 @@ function slide(scrollTop: number) {
   scrollArguments.scrollTop = scrollTop
   allTodo.value.scrollTop = scrollTop
 }
-watch(useTodoStore().todo, () => {
+watch(taskList, () => {
   nextTick(() => {
     setScrollHeight()
   })

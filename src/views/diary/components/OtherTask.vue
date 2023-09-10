@@ -22,12 +22,7 @@
                   <span class="date">{{ formDate(task.create_time) }}</span>
                   <span class="time">{{ formTime(task.create_time) }}</span>
                   <span style="margin: 0 10px">至</span>
-                  <span class="date">
-                    <span v-if="task.status === 0 || task.status === 2">
-                      {{ formDate(task.expect_time) }}
-                    </span>
-                    <span v-else>{{ formDate(task.delay_time) }}</span>
-                  </span>
+                  <span class="date">{{ formDate(task.expect_time) }}</span>
                 </div>
                 <p class="todo-content">{{ task.event }}</p>
               </div>
@@ -64,11 +59,12 @@
       />
     </div>
     <div class="bottom-button">
-      <button class="delete-checked button" @click="deleteChecked">
-        删除选中项
-      </button>
+      <button class="delete-checked button" @click="selectAll">全选</button>
       <button class="finish-checked button" @click="finishChecked">
         完成选中项
+      </button>
+      <button class="delete-checked button" @click="deleteChecked">
+        删除选中项
       </button>
     </div>
   </section>
@@ -78,12 +74,36 @@
 import BaseScroll from '@/components/base-scroll/baseScroll.vue'
 // 导入滚动条所需参数类型接口
 import { ScrollArguments } from '@/components/base-scroll/scrollArgumentsType'
-import { useTodoStore } from '@/store/todo'
-// import useDate from '@/utils/useDate'
-import { ElMessage } from 'element-plus'
-// import { nanoid } from 'nanoid'
-import api from '@/api'
-import { isToday, formDate, formTime } from '@/utils/useTime'
+import { formDate, formTime } from '@/utils/useTime'
+const props = defineProps({
+  taskList: {
+    type: Array as PropType<taskType[]>,
+  },
+})
+const taskList = computed(() => props.taskList)
+const emits = defineEmits([
+  'addTodo',
+  'deleteTodo',
+  'finishTodo',
+  'delayTodo',
+  'deleteChecked',
+  'delayChecked',
+  'finishChecked',
+])
+
+const checked = ref<string[]>([])
+const deleteTodo = async (id: string) => {
+  emits('deleteTodo', id)
+}
+const finishTodo = async (id: string) => {
+  emits('finishTodo', id)
+}
+const deleteChecked = () => {
+  emits('deleteChecked', checked.value)
+}
+const finishChecked = () => {
+  emits('finishChecked', checked.value)
+}
 
 const scrollArguments: ScrollArguments = reactive({
   scrollHeight: 100,
@@ -99,7 +119,6 @@ function setScrollHeight() {
   scrollArguments.showHeight = offsetHeight
 }
 onMounted(() => {
-  getTodayTask()
   nextTick(() => {
     setScrollHeight()
     // 添加滚动事件，获取滚动高度
@@ -114,7 +133,7 @@ function slide(scrollTop: number) {
   scrollArguments.scrollTop = scrollTop
   allTodo.value.scrollTop = scrollTop
 }
-watch(useTodoStore().todo, () => {
+watch(taskList, () => {
   nextTick(() => {
     setScrollHeight()
   })
@@ -131,61 +150,15 @@ interface taskType {
   status: number
   event: string
 }
-const taskList = ref<taskType[]>([])
-function getTodayTask() {
-  taskList.value = []
-  api.task.getAllTask({ status: [0, 2, 3] }).then((res) => {
-    console.log(res.data)
-    const data = res.data.data
-    // console.log(data)
-    // console.log(isToday(data[2].create_time))
-    data.forEach((item: any) => {
-      if (isToday(item.expect_time, 1) || isToday(item.delay_time, 1)) {
-        // console.log(item)
-        taskList.value.push(item)
-      }
-    })
-    console.log('taskList.value', taskList.value)
-  })
-}
 
-// const date = useDate().date
-const useTodo = useTodoStore()
-
-// ==========删除待办，完成待办==========
-// 删除一个
-function deleteTodo(id: string) {
-  useTodo.deleteTodo(id)
-  ElMessage({
-    type: 'success',
-    message: '删除成功',
-  })
-}
-// 完成一个
-function finishTodo(id: string) {
-  const todo = useTodo.deleteTodo(id)
-  if (todo) {
-    const timestamp = new Date(todo[0].date + ' ' + todo[0].time).getTime()
-    const dateStamp = new Date(todo[0].date).getTime()
-    useTodo.addFinishTodo(dateStamp, timestamp, todo[0])
-  }
-}
-
-const checked = ref([])
-// 删除所有选中
-function deleteChecked() {
-  for (let i = 0; i < checked.value.length; i++) {
-    useTodo.deleteTodo(checked.value[i])
-  }
-  ElMessage({
-    type: 'success',
-    message: '删除成功',
-  })
-}
-// 完成所有选中
-function finishChecked() {
-  for (let i = 0; i < checked.value.length; i++) {
-    finishTodo(checked.value[i])
+const select = ref(false)
+const selectAll = () => {
+  if (!select.value && taskList.value) {
+    checked.value = taskList.value.map((item) => item.id)
+    select.value = true
+  } else {
+    checked.value = []
+    select.value = false
   }
 }
 </script>
@@ -281,7 +254,16 @@ function finishChecked() {
         }
         .finish {
           flex: 0 0 55px;
-          margin-left: 30px;
+          margin-left: 10px;
+          padding: 10px 0;
+          border: solid 2px var(--todo-button-border);
+          border-radius: 10px;
+          color: var(--todo-button-word);
+          background-color: var(--todo-button-bg);
+        }
+        .expect {
+          flex: 0 0 55px;
+          margin-left: 5px;
           padding: 10px 0;
           border: solid 2px var(--todo-button-border);
           border-radius: 10px;
@@ -321,9 +303,11 @@ function finishChecked() {
       color: var(--todo-button-word);
     }
     .delete-checked {
+      flex: 1;
       background-color: var(--todo-delete-button-bg);
     }
     .finish-checked {
+      flex: 1;
       background-color: var(--todo-button-bg);
     }
   }
