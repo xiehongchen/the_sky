@@ -10,15 +10,15 @@
             :key="day.id"
           >
             <div class="date-box">
-              <span class="start-date">{{ day.event }}</span>
+              <span class="start-date">{{ day.date }}</span>
               <!-- <span class="line"></span> -->
             </div>
             <ul class="event-list">
               <TransitionGroup name="finishList">
-                <!-- <li v-for="event in day.child" :key="event.id">
+                <li v-for="event in day.children" :key="event.id">
                   <span class="time">{{ event.time }}</span>
                   <p class="event">{{ event.event }}</p>
-                </li> -->
+                </li>
               </TransitionGroup>
             </ul>
           </div>
@@ -102,7 +102,14 @@ const taskList = computed(() => {
     }
   })
   console.log('arr', arr)
-  return data
+  const newArr = arr.sort((a, b) => {
+    const dateA = new Date(a.date).getTime()
+    const dateB = new Date(b.date).getTime()
+
+    // 升序排序
+    return dateB - dateA
+  })
+  return newArr
 })
 /**************获取滚动条组件所需参数**************/
 // 获取event容器dom
