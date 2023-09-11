@@ -6,19 +6,19 @@
         <TransitionGroup name="finishList">
           <div
             class="day-event-container"
-            v-for="day in useTodo.finishTodo"
+            v-for="day in taskList"
             :key="day.id"
           >
             <div class="date-box">
-              <span class="date">{{ day.date }}</span>
-              <span class="line"></span>
+              <span class="start-date">{{ day.event }}</span>
+              <!-- <span class="line"></span> -->
             </div>
             <ul class="event-list">
               <TransitionGroup name="finishList">
-                <li v-for="event in day.child" :key="event.id">
+                <!-- <li v-for="event in day.child" :key="event.id">
                   <span class="time">{{ event.time }}</span>
                   <p class="event">{{ event.event }}</p>
-                </li>
+                </li> -->
               </TransitionGroup>
             </ul>
           </div>
@@ -35,17 +35,15 @@
 </template>
 
 <script setup lang="ts">
-import { useTodoStore } from '@/store/todo'
 import BaseScroll from '@/components/base-scroll/baseScroll.vue'
-
 interface taskType {
   id: string
-  date: string
-  child: tsakChildType[]
-}
-interface tsakChildType {
-  id: string
-  time: string
+  create_time: Date
+  cancel_time?: Date
+  delay_time?: Date
+  expect_time?: Date
+  finish_time: Date
+  status: number
   event: string
 }
 
@@ -55,6 +53,21 @@ const props = defineProps({
   },
 })
 const taskList = computed(() => props.taskList)
+// function getTree(data: taskType[]) {
+//   const arr: any = []
+//   data.forEach((item: taskType) => {
+//     if (!arr.find(item.create_time.toLocaleDateString())) {
+//       const temp = {
+//         date: item.create_time.toLocaleDateString(),
+//         child: item,
+//       }
+//       arr.push(temp)
+//     } else {
+//       console.log('arr', arr)
+//     }
+//   })
+//   return arr
+// }
 
 /**************获取滚动条组件所需参数**************/
 // 获取event容器dom
@@ -89,7 +102,7 @@ onMounted(() => {
   })
 })
 
-watch(useTodo.finishTodo, () => {
+watch(taskList, () => {
   nextTick(() => {
     setScrollHeight()
   })

@@ -69,12 +69,12 @@ watch(
 )
 const router = useRouter()
 const route = useRoute()
-console.log('router >>> ', router.options.routes)
+// console.log('router >>> ', router.options.routes)
 // 路由
 const routes =
   router.options.routes.find((item) => item.path === '/')?.children || []
 
-console.log('路由 >>> ', routes)
+// console.log('路由 >>> ', routes)
 
 const userInfo = JSON.parse(localStorage.getItem('userInfo') || '')
 console.log(userInfo)

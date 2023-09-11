@@ -20,7 +20,7 @@
       @delete-checked="deleteChecked"
       @finish-checked="finishChecked"
     />
-    <FinishTask />
+    <FinishTask :taskList="finishTaskList" />
   </main>
 </template>
 
@@ -45,8 +45,10 @@ interface taskType {
   status: number
   event: string
 }
+
 const taskList = ref<taskType[]>([])
 const otherTaskList = ref<taskType[]>([])
+const finishTaskList = ref<taskType[]>([])
 
 function formDate(item: any, status?: number) {
   if (item.status === 0 || item.status === 2) {
@@ -59,19 +61,30 @@ function formDate(item: any, status?: number) {
 const getTodayTask = async () => {
   taskList.value = []
   otherTaskList.value = []
-  await api.task.getAllTask({ status: [0, 2, 3] }).then((res) => {
+  finishTaskList.value = []
+  // 今日
+  await api.task.getAllTask({ status: [0] }).then((res) => {
     const data = res.data.data
     data.forEach((item: any) => {
       if (formDate(item)) {
         taskList.value.push(item)
       }
+    })
+  })
+  // 其他待办
+  await api.task.getAllTask({ status: [0, 2, 3] }).then((res) => {
+    const data = res.data.data
+    data.forEach((item: any) => {
       if (formDate(item, 2)) {
         otherTaskList.value.push(item)
       }
     })
   })
+  await api.task.getAllTask({ status: [1] }).then((res) => {
+    finishTaskList.value = res.data.data
+  })
   console.log('taskList.value', taskList.value)
-  console.log('otherTaskList.value', otherTaskList.value)
+  console.log('finishTaskList.value', finishTaskList.value)
 }
 // 增加
 const addTodo = async (value: any) => {
