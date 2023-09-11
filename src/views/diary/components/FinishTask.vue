@@ -37,7 +37,24 @@
 <script setup lang="ts">
 import { useTodoStore } from '@/store/todo'
 import BaseScroll from '@/components/base-scroll/baseScroll.vue'
-let useTodo = useTodoStore()
+
+interface taskType {
+  id: string
+  date: string
+  child: tsakChildType[]
+}
+interface tsakChildType {
+  id: string
+  time: string
+  event: string
+}
+
+const props = defineProps({
+  taskList: {
+    type: Array as PropType<taskType[]>,
+  },
+})
+const taskList = computed(() => props.taskList)
 
 /**************获取滚动条组件所需参数**************/
 // 获取event容器dom
