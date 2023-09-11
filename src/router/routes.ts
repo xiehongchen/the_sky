@@ -40,6 +40,39 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: '/repository',
+        name: 'repository',
+        // component: () => import('@/views/repository/index.vue'),
+        meta: {
+          title: '仓库',
+          icon: 'Coin',
+          permissions: 'sky.repository',
+        },
+        children: [
+          {
+            path: '/repository',
+            name: 'warehouse',
+            component: () => import('@/views/repository/index.vue'),
+            meta: {
+              title: '仓库类型',
+              icon: 'Coin',
+              permissions: 'sky.repository.list',
+            },
+          },
+          {
+            path: '/repository/warehouseDetail',
+            name: 'warehouseDetail',
+            component: () =>
+              import('@/views/repository/warehouseDetail/index.vue'),
+            meta: {
+              title: '文章仓库',
+              icon: 'Suitcase',
+              permissions: 'sky.repository.detail',
+            },
+          },
+        ],
+      },
+      {
         path: '/note',
         name: 'note',
         // component: () => import('@/views/note/index.vue'),
@@ -232,39 +265,6 @@ const routes: RouteRecordRaw[] = [
               title: '仓库地址',
               icon: 'House',
               permissions: 'sky.import.savetoken',
-            },
-          },
-        ],
-      },
-      {
-        path: '/repository',
-        name: 'repository',
-        // component: () => import('@/views/repository/index.vue'),
-        meta: {
-          title: '仓库',
-          icon: 'Coin',
-          permissions: 'sky.repository',
-        },
-        children: [
-          {
-            path: '/repository',
-            name: 'warehouse',
-            component: () => import('@/views/repository/index.vue'),
-            meta: {
-              title: '仓库类型',
-              icon: 'Coin',
-              permissions: 'sky.repository.list',
-            },
-          },
-          {
-            path: '/repository/warehouseDetail',
-            name: 'warehouseDetail',
-            component: () =>
-              import('@/views/repository/warehouseDetail/index.vue'),
-            meta: {
-              title: '文章仓库',
-              icon: 'Suitcase',
-              permissions: 'sky.repository.detail',
             },
           },
         ],

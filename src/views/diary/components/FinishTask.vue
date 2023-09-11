@@ -52,23 +52,58 @@ const props = defineProps({
     type: Array as PropType<taskType[]>,
   },
 })
-const taskList = computed(() => props.taskList)
-// function getTree(data: taskType[]) {
-//   const arr: any = []
-//   data.forEach((item: taskType) => {
-//     if (!arr.find(item.create_time.toLocaleDateString())) {
-//       const temp = {
-//         date: item.create_time.toLocaleDateString(),
-//         child: item,
-//       }
-//       arr.push(temp)
-//     } else {
-//       console.log('arr', arr)
-//     }
-//   })
-//   return arr
-// }
+interface finishChildTaskType {
+  id: string
+  date: string
+  time: string
+  event: string
+}
+interface finishTaskType {
+  id: number
+  date: string
+  children: finishChildTaskType[]
+}
+const taskList = computed(() => {
+  const data = props.taskList
+  const arr: finishTaskType[] = []
 
+  data?.forEach((item) => {
+    const date = new Date(item.create_time)
+      .toLocaleDateString()
+      .replaceAll('/', '-')
+    const time = new Date(item.create_time).toLocaleTimeString()
+    console.log(date)
+    console.log(time)
+    const isHas = arr.some((i) => i.date.includes(date))
+    if (isHas) {
+      const a = {
+        id: item.id,
+        date: date,
+        time: time,
+        event: item.event,
+      }
+      console.log(a)
+    } else {
+      let i = 0
+      const b = {
+        id: i,
+        date: date,
+        children: [
+          {
+            id: item.id,
+            date: date,
+            time: time,
+            event: item.event,
+          },
+        ],
+      }
+      arr.push(b)
+      i++
+    }
+  })
+  console.log('arr', arr)
+  return data
+})
 /**************获取滚动条组件所需参数**************/
 // 获取event容器dom
 const eventContainer = ref()
