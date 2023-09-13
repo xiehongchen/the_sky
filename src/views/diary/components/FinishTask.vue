@@ -72,8 +72,8 @@ const taskList = computed(() => {
       .toLocaleDateString()
       .replaceAll('/', '-')
     const time = new Date(item.create_time).toLocaleTimeString()
-    console.log(date)
-    console.log(time)
+    // console.log(date)
+    // console.log(time)
     const isHas = arr.some((i) => i.date.includes(date))
     if (isHas) {
       const a = {
@@ -82,7 +82,12 @@ const taskList = computed(() => {
         time: time,
         event: item.event,
       }
-      console.log(a)
+      const matchedObject = arr.find((obj) => obj.date === a.date)
+
+      // 如果找到匹配的对象，将目标对象添加到其children数组中
+      if (matchedObject) {
+        matchedObject.children.push(a)
+      }
     } else {
       let i = 0
       const b = {
@@ -101,7 +106,7 @@ const taskList = computed(() => {
       i++
     }
   })
-  console.log('arr', arr)
+  // console.log('arr', arr)
   const newArr = arr.sort((a, b) => {
     const dateA = new Date(a.date).getTime()
     const dateB = new Date(b.date).getTime()

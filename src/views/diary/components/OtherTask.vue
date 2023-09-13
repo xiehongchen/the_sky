@@ -5,7 +5,7 @@
       <ul class="all-todo-list-container" ref="allTodo">
         <transition-group name="todoList">
           <li class="todo-item" v-for="task in taskList" :key="task.id">
-            <div class="todo-container">
+            <div class="todo-container" :style="background(task.status)">
               <div class="todo-checkbox">
                 <input
                   :id="`checkbox${task.id}}`"
@@ -87,6 +87,16 @@ const emits = defineEmits([
   'deleteChecked',
   'finishChecked',
 ])
+
+const background = (val: number) => {
+  if (val === 0) {
+    return ''
+  } else if (val === 2) {
+    return 'background-color: red'
+  } else {
+    return 'background-color: green'
+  }
+}
 
 const checked = ref<string[]>([])
 const deleteTodo = async (id: string) => {
