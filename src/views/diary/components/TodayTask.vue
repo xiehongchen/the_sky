@@ -55,11 +55,11 @@
                 </svg>
               </button>
             </div>
-            <button class="finish button" @click="finishTodo(task.id)">
-              完成
-            </button>
             <button class="expect button" @click="delayTodo(task.id)">
               延期
+            </button>
+            <button class="finish button" @click="finishTodo(task.id)">
+              完成
             </button>
           </li>
         </transition-group>

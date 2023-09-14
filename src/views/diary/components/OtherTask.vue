@@ -89,13 +89,10 @@ const emits = defineEmits([
 ])
 
 const background = (val: number) => {
-  if (val === 0) {
-    return ''
-  } else if (val === 2) {
-    return 'background-color: red'
-  } else {
-    return 'background-color: green'
-  }
+  return {
+    '2': 'background-color: var(--todo-delete-button-bg);',
+    '3': 'background-color: var(--todo-button-bg);',
+  }[val]
 }
 
 const checked = ref<string[]>([])

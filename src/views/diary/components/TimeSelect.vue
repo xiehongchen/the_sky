@@ -156,6 +156,8 @@ const selectDate: (day: number | null) => void = (day) => {
 const todayPicker = () => {
   selectedDate.value = new Date().toLocaleDateString().replaceAll('/', '-')
   showDatePicker.value = false
+  selectedYear.value = new Date().getFullYear()
+  selectedMonth.value = new Date().getMonth()
   emits('getTime', selectedDate.value)
 }
 onMounted(() => {
@@ -199,6 +201,11 @@ onMounted(() => {
       td {
         cursor: pointer;
       }
+      // td:hover {
+      //   border-radius: 50%;
+      //   box-shadow: inset 0 0 0 2px;
+      //   background-color: red;
+      // }
     }
     .close {
       border: solid 2px var(--todo-add-bg);
