@@ -459,6 +459,7 @@ const confirm = async () => {
           color: #000;
         }
         .isToday {
+          border-radius: 10px;
           background-color: var(--el-color-primary);
         }
       }
