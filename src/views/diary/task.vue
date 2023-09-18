@@ -21,6 +21,9 @@
       @finish-checked="finishChecked"
     />
     <FinishTask :taskList="finishTaskList" />
+    <EveryDayTask :taskList="taskList" />
+    <FutureTask />
+    <DayFinishTask />
   </main>
 </template>
 
@@ -28,6 +31,9 @@
 import FinishTask from './components/FinishTask.vue'
 import OtherTask from './components/OtherTask.vue'
 import TodayTask from './components/TodayTask.vue'
+import EveryDayTask from './components/EveryDayTask.vue'
+import FutureTask from './components/FutureTask.vue'
+import DayFinishTask from './components/DayFinishTask.vue'
 import api from '@/api'
 import { isToday } from '@/utils/useTime'
 import { ElMessage } from 'element-plus'

@@ -23,15 +23,50 @@
     </template>
     <!-- 左侧内容，第二行 -->
     <template #title>
-      <span @click="router.back()">返回</span>
+      <div style="width: 30px" @click="router.back()">返回</div>
     </template>
     <template #content>
       <!-- <span>{{ router.currentRoute.value.meta.title }}</span> -->
-      <span>我的技术总站</span>
+      <div class="tab-box">
+        <div>我的技术总站</div>
+        <div class="tabs">
+          <el-tabs
+            v-model="active"
+            type="card"
+            class="tab-list"
+            :closable="false"
+            @tab-click="clickTab"
+          >
+            <el-tab-pane
+              v-for="item in editableTabs"
+              :key="item.name"
+              :label="item.title"
+              :name="item.name"
+            >
+              <template #label>
+                <span>{{ item.title }}</span>
+                <el-icon
+                  style="font-size: 16px; margin-left: 5px"
+                  @click.stop="removeTab(item.name)"
+                >
+                  <Close />
+                </el-icon>
+              </template>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </div>
     </template>
     <!-- 右侧操作，第二行 -->
     <template #extra>
       <div class="right-extra">
+        <!-- 关闭标签 -->
+        <el-button
+          type="primary"
+          icon="CloseBold"
+          circle
+          @click="closeTab"
+        ></el-button>
         <!-- 搜索 -->
         <el-button
           ref="test"
@@ -144,12 +179,55 @@
 
 <script setup lang="ts">
 //获取用户相关的小仓库
-// import { useUserStore } from '@/store/user'
 import { useLayOutSettingStore } from '@/store/setting'
+import { useTab } from '@/store/tab'
 import { REMOVE_TOKEN } from '@/utils/token'
 import { useUserStore } from '@/store/user'
 const user = useUserStore()
+const tab = useTab()
 
+console.log(tab)
+// 标签页
+const active = ref('')
+onMounted(() => {
+  active.value = tab.activeTab
+})
+const editableTabs = ref(tab.tabList)
+watch(tab, () => {
+  editableTabs.value = tab.tabList
+  active.value = tab.activeTab
+})
+
+const removeTab = (targetName: string) => {
+  tab.removeTab(targetName)
+  editableTabs.value = tab.tabList
+  active.value = tab.activeTab
+  const resultItem = editableTabs.value.find(
+    (item: any) => item.name === active.value,
+  )
+  if (resultItem) {
+    router.push({
+      path: resultItem.content,
+      query: {
+        ...resultItem.query,
+      },
+    })
+  }
+}
+
+const clickTab = (targetName: any) => {
+  const resultItem = editableTabs.value.find(
+    (item: any) => item.name === targetName.props.name,
+  )
+  if (resultItem) {
+    router.push({
+      path: resultItem.content,
+      query: {
+        ...resultItem.query,
+      },
+    })
+  }
+}
 // 展开收起
 let layOutSettingStore = useLayOutSettingStore()
 const router = useRouter()
@@ -157,6 +235,15 @@ const route = useRoute()
 
 const changeIcon = () => {
   layOutSettingStore.fold = !layOutSettingStore.fold
+}
+const closeTab = () => {
+  const item = JSON.parse(localStorage.getItem('tabList') || '')
+  console.log('item', item)
+  if (item) {
+    for (let i = 0; i < item.tabList.length; i++) {
+      removeTab(item.tabList[i].name)
+    }
+  }
 }
 
 // 搜索
@@ -272,6 +359,15 @@ const logout = async () => {
 </script>
 
 <style scoped lang="scss">
+.tab-box {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  .tabs {
+    margin-left: 20px;
+    height: 100%;
+  }
+}
 .el-page-header {
   height: 100%;
 
@@ -299,6 +395,9 @@ const logout = async () => {
   :deep(.el-page-header__header) {
     height: 30px;
     line-height: 30px;
+    .el-page-header__content {
+      width: 100%;
+    }
 
     .el-page-header__extra {
       display: flex;
@@ -345,4 +444,3 @@ const logout = async () => {
   }
 }
 </style>
-@/store/userStore

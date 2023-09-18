@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 import { GET_TOKEN } from '@/utils/token'
 import { ElMessage } from 'element-plus'
+import { useTab } from '@/store/tab'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -19,6 +20,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // console.log(to, from)
   const token = GET_TOKEN()
+  const tab = useTab()
+  if (!['/login', '/401'].includes(to.fullPath)) {
+    tab.addTab(to)
+  }
   if (to.name === 'login' && token) {
     // 如果用户已经登录，但又访问登录页面，直接重定向到其他页面
     next({ name: 'welcome' })

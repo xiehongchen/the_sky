@@ -1,6 +1,6 @@
 <template>
   <section class="finish">
-    <h3 class="title">已完成事件</h3>
+    <h3 class="title">已完成待办事件</h3>
     <div class="show-event-container">
       <div class="all-event-container" ref="eventContainer">
         <TransitionGroup name="finishList">
