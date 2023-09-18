@@ -5,6 +5,7 @@ interface tabListType {
   name: string
   content: string
   query?: object
+  lock: boolean
 }
 
 export const useTab = defineStore('tab', () => {
@@ -37,6 +38,7 @@ export const useTab = defineStore('tab', () => {
       title: item.meta.title,
       name: item.name,
       content: item.path,
+      lock: false,
       query: {
         ...item.query,
       },
@@ -44,8 +46,8 @@ export const useTab = defineStore('tab', () => {
     if (state.tabList.length === 0) {
       state.tabList.push(tmp)
     } else {
-      if (state.tabList.length === 12) {
-        removeTab(state.tabList[11].name)
+      if (state.tabList.length === 8) {
+        removeTab(state.tabList[7].name)
       }
       const isNameExists = state.tabList.some((item) => item.name === tmp.name)
       if (!isNameExists) {
@@ -62,12 +64,29 @@ export const useTab = defineStore('tab', () => {
         title: '欢迎页',
         name: 'welcome',
         content: '/welcome',
+        lock: false,
       }
       state.tabList.push(tmp)
       state.activeTab = 'welcome'
     } else {
       state.activeTab = state.tabList[state.tabList.length - 1].name
     }
+    saveStateToLocalStorage()
+  }
+  function lock(name: string) {
+    state.tabList.map((item) => {
+      if (item.name === name) {
+        item.lock = true
+      }
+    })
+    saveStateToLocalStorage()
+  }
+  function unLock(name: string) {
+    state.tabList.map((item) => {
+      if (item.name === name) {
+        item.lock = false
+      }
+    })
     saveStateToLocalStorage()
   }
 
@@ -80,5 +99,7 @@ export const useTab = defineStore('tab', () => {
     saveStateToLocalStorage,
     addTab,
     removeTab,
+    lock,
+    unLock,
   }
 })

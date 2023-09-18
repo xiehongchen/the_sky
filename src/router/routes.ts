@@ -222,7 +222,7 @@ const routes: RouteRecordRaw[] = [
         name: 'diaryTask',
         component: () => import('@/views/diary/task.vue'),
         meta: {
-          title: '待办事件',
+          title: '任务列表',
           icon: 'House',
           permissions: 'sky.diary.task',
           isHide: true,

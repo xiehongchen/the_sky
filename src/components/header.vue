@@ -46,6 +46,20 @@
               <template #label>
                 <span>{{ item.title }}</span>
                 <el-icon
+                  v-if="item.lock"
+                  style="font-size: 16px; margin-left: 15px"
+                  @click.stop="unLock(item.name)"
+                >
+                  <Lock />
+                </el-icon>
+                <el-icon
+                  v-else
+                  style="font-size: 16px; margin-left: 15px"
+                  @click.stop="lock(item.name)"
+                >
+                  <Unlock />
+                </el-icon>
+                <el-icon
                   style="font-size: 16px; margin-left: 5px"
                   @click.stop="removeTab(item.name)"
                 >
@@ -198,6 +212,14 @@ watch(tab, () => {
   active.value = tab.activeTab
 })
 
+const lock = (targetName: string) => {
+  tab.lock(targetName)
+}
+
+const unLock = (targetName: string) => {
+  tab.unLock(targetName)
+}
+
 const removeTab = (targetName: string) => {
   tab.removeTab(targetName)
   editableTabs.value = tab.tabList
@@ -241,7 +263,9 @@ const closeTab = () => {
   console.log('item', item)
   if (item) {
     for (let i = 0; i < item.tabList.length; i++) {
-      removeTab(item.tabList[i].name)
+      if (!item.tabList[i].lock) {
+        removeTab(item.tabList[i].name)
+      }
     }
   }
 }
