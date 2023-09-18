@@ -60,4 +60,10 @@ export const list = ref<ListItem[]>([
     component: 'CSS_I',
     disabled: true,
   },
+  {
+    id: 10,
+    title: '碰撞检测变色',
+    component: 'CSS_J',
+    disabled: false,
+  },
 ])

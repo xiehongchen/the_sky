@@ -35,6 +35,12 @@ onMounted(() => {
   height: 100%;
   position: relative;
   .a {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(#f00, #f00),
+      url(https://s1.ax1x.com/2023/08/15/pPQm9oT.jpg);
+    background-blend-mode: lighten;
+    background-size: contain;
     animation: horizontal 2.6s infinite linear alternate,
       vertical 2s infinite linear alternate, colorX 26s infinite steps(10),
       colorY 14s infinite steps(7);
@@ -46,7 +52,7 @@ onMounted(() => {
       transform: translateX(0);
     }
     to {
-      transform: translateX(calc(100vw - 100%));
+      transform: translateX(calc(100vw - 300px));
     }
   }
   @keyframes vertical {
@@ -54,7 +60,7 @@ onMounted(() => {
       transform: translateY(0);
     }
     to {
-      transform: translateY(calc(100vh - 100%));
+      transform: translateY(calc(100vh - 160px));
     }
   }
   @keyframes colorX {
