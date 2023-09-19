@@ -1,6 +1,6 @@
 <template>
   <section class="task-box">
-    <h3 class="title">今日待办事件列表</h3>
+    <h3 class="title">计划事件列表</h3>
     <div class="add-todo">
       <input
         type="text"
@@ -30,7 +30,6 @@
               <div class="todo-center">
                 <div class="todo-date">
                   <span class="date">{{ formDate(task.create_time) }}</span>
-                  <span class="time">{{ formTime(task.create_time) }}</span>
                   <span style="margin: 0 10px">至</span>
                   <span class="date">{{ formDate(task.expect_time) }}</span>
                 </div>
@@ -91,7 +90,7 @@ import TimeSelect from './TimeSelect.vue'
 import BaseScroll from '@/components/base-scroll/baseScroll.vue'
 // 导入滚动条所需参数类型接口
 import { ScrollArguments } from '@/components/base-scroll/scrollArgumentsType'
-import { formDate, formTime } from '@/utils/useTime'
+import { formDate } from '@/utils/useTime'
 const props = defineProps({
   taskList: {
     type: Array as PropType<taskType[]>,

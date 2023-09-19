@@ -1,6 +1,6 @@
 <template>
   <section class="finish">
-    <h3 class="title">已完成事件</h3>
+    <h3 class="title">已完成任务</h3>
     <div class="show-event-container">
       <div class="all-event-container" ref="eventContainer">
         <TransitionGroup name="finishList">
@@ -16,7 +16,6 @@
             <ul class="event-list">
               <TransitionGroup name="finishList">
                 <li v-for="event in day.children" :key="event.id">
-                  <span class="time">{{ event.time }}</span>
                   <p class="event">{{ event.event }}</p>
                 </li>
               </TransitionGroup>

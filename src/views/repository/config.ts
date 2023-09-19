@@ -118,6 +118,24 @@ export const document: list[] = [
     imgUrl: 'https://v2.cn.vuejs.org/images/logo.svg',
   },
   {
+    id: 26,
+    title: 'Nuxt.js',
+    url: 'https://www.nuxtjs.cn/',
+    imgUrl: 'https://www.nuxtjs.cn/icon.png',
+  },
+  {
+    id: 11,
+    title: 'Vue Router',
+    url: 'https://router.vuejs.org/zh/guide/',
+    imgUrl: 'https://router.vuejs.org/logo.svg',
+  },
+  {
+    id: 13,
+    title: 'Vuex',
+    url: 'https://vuex.vuejs.org/zh/',
+    imgUrl: 'https://vuex.vuejs.org/logo.png',
+  },
+  {
     id: 22,
     title: 'React 英文',
     url: 'https://react.dev/learn',
@@ -128,6 +146,12 @@ export const document: list[] = [
     title: 'React 中文',
     url: 'https://zh-hans.react.dev/learn',
     imgUrl: 'http://www.w3.org/2000/svg',
+  },
+  {
+    id: 21,
+    title: 'Next.js',
+    url: 'https://nextjs.org/',
+    imgUrl: 'https://nextjs.org/favicon.ico',
   },
   {
     id: 3,
@@ -178,22 +202,10 @@ export const document: list[] = [
     imgUrl: 'https://fastly.jsdelivr.net/npm/@vant/assets/logo.png',
   },
   {
-    id: 11,
-    title: 'Vue Router',
-    url: 'https://router.vuejs.org/zh/guide/',
-    imgUrl: 'https://router.vuejs.org/logo.svg',
-  },
-  {
     id: 12,
     title: 'Vite',
     url: 'https://cn.vitejs.dev/guide/',
     imgUrl: 'https://cn.vitejs.dev/logo.svg',
-  },
-  {
-    id: 13,
-    title: 'Vuex',
-    url: 'https://vuex.vuejs.org/zh/',
-    imgUrl: 'https://vuex.vuejs.org/logo.png',
   },
   {
     id: 14,
@@ -239,12 +251,6 @@ export const document: list[] = [
     imgUrl: 'https://threejs.org/files/favicon.ico',
   },
   {
-    id: 21,
-    title: 'Next.js',
-    url: 'https://nextjs.org/',
-    imgUrl: 'https://nextjs.org/favicon.ico',
-  },
-  {
     id: 22,
     title: 'taro',
     url: 'https://taro-docs.jd.com/docs/',
@@ -256,6 +262,90 @@ export const document: list[] = [
     title: 'AntV',
     url: 'https://antv.antgroup.com/',
     imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 27,
+    title: 'AntV G2 可视化图形',
+    url: 'https://g2.antv.antgroup.com/zh',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 33,
+    title: 'AntV G2Plot 图表库',
+    url: 'https://g2plot.antv.antgroup.com/zh',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 28,
+    title: 'AntV S2 可视分析表格',
+    url: 'https://s2.antv.vision/zh',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 29,
+    title: 'AntV G6 可视化引擎和图分析工具',
+    url: 'https://g6.antv.antgroup.com/zh',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 34,
+    title: 'AntV Graphin 基于G6封装的React组件库',
+    url: 'https://graphin.antv.vision/',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 30,
+    title: 'AntV X6 图编辑引擎',
+    url: 'https://x6.antv.vision/zh/',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 35,
+    title: 'AntV XFlow 基于X6的面向React技术栈的图编辑应用',
+    url: 'https://xflow.antv.vision/zh-CN/',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 31,
+    title: 'AntV L7 地理空间数据可视化框架',
+    url: 'https://l7.antv.antgroup.com/zh',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 32,
+    title: 'AntV L7Plot 地理空间数据可视化地理图表库',
+    url: 'https://l7plot.antv.vision/zh',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 36,
+    title: 'AntV F2 移动端可视化引擎',
+    url: 'https://f2.antv.antgroup.com/zh',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 37,
+    title: 'AntV F6 移动端图可视化引擎',
+    url: 'https://f6.antv.vision/zh',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 38,
+    title: 'AntV F2Native 移动端可视化方案',
+    url: 'https://f2native.antv.vision/zh',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  },
+  {
+    id: 39,
+    title: 'Ant Design',
+    url: 'https://ant-design.antgroup.com/components/overview-cn/',
+    imgUrl: 'https://gw.alipayobjects.com/zos/antfincdn/UmVnt3t4T0/antd.png',
+  },
+  {
+    id: 25,
+    title: 'Nest.js',
+    url: 'https://x6.antv.antgroup.com/',
+    imgUrl: 'https://nestjs.bootcss.com/img/favicon.ico',
   },
 ]
 // 工具
