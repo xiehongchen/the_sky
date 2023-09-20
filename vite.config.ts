@@ -5,10 +5,7 @@ import components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  console.log('mode', mode)
-  console.log('process', process.cwd())
   const env = loadEnv(mode, process.cwd())
-  console.log('env', env)
   return {
     plugins: [
       vue(),
