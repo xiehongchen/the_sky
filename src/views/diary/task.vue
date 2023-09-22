@@ -29,7 +29,14 @@
       @delete-checked="deleteCheckedTask"
       @finish-checked="finishCheckedTask"
     />
-    <FutureTask />
+    <FutureTask
+      :taskList="futerTaskList"
+      @add-todo="addTask"
+      @delete-todo="deleteTask"
+      @finish-todo="finishTask"
+      @delete-checked="deleteCheckedTask"
+      @finish-checked="finishCheckedTask"
+    />
     <DayFinishTask />
   </main>
 </template>
@@ -119,7 +126,11 @@ const getEveryDayTask = async () => {
     const data = res.data.data
     console.log('res', res)
     data.forEach((item: any) => {
-      everyDayTaskList.value.push(item)
+      if (!item.time) {
+        everyDayTaskList.value.push(item)
+      } else {
+        futerTaskList.value.push(item)
+      }
     })
   })
   console.log('everyDayTaskList.value', everyDayTaskList.value)
@@ -246,7 +257,14 @@ const addTask = async (value: any) => {
     ElMessage.error('请输入每日任务')
     return
   }
-  await api.task.addEveryDayTask({ event: value.task }).then((res) => {
+  const params = {
+    event: value.task,
+    date: value.date || '',
+  }
+  if (!value.date) {
+    delete params.date
+  }
+  await api.task.addEveryDayTask({ ...params }).then((res) => {
     if (res.data.answer) {
       ElMessage.success('添加成功')
       getEveryDayTask()

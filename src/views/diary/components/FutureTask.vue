@@ -29,9 +29,7 @@
               </div>
               <div class="todo-center">
                 <div class="todo-date">
-                  <span class="date">{{ formDate(task.create_time) }}</span>
-                  <span style="margin: 0 10px">至</span>
-                  <span class="date">{{ formDate(task.expect_time) }}</span>
+                  <span class="date">{{ formDate(task.time) }}</span>
                 </div>
                 <p class="todo-content">{{ task.event }}</p>
               </div>
@@ -54,9 +52,6 @@
                 </svg>
               </button>
             </div>
-            <button class="expect button" @click="delayTodo(task.id)">
-              延期
-            </button>
             <button class="finish button" @click="finishTodo(task.id)">
               完成
             </button>
@@ -111,9 +106,9 @@ const setDate = ref('')
 const checked = ref<string[]>([])
 
 const addTodo = () => {
-  const todo = newTodo.value
+  const task = newTodo.value
   const date = setDate.value
-  emits('addTodo', { todo, date })
+  emits('addTodo', { task, date })
   newTodo.value = ''
 }
 const deleteTodo = async (id: string) => {
@@ -121,10 +116,6 @@ const deleteTodo = async (id: string) => {
 }
 const finishTodo = async (id: string) => {
   emits('finishTodo', id)
-}
-const delayTodo = async (id: string) => {
-  const date = setDate.value
-  emits('delayTodo', { id, date })
 }
 const deleteChecked = () => {
   emits('deleteChecked', checked.value)
@@ -175,13 +166,8 @@ watch(taskList, () => {
 // ===============新增待办事件=================
 interface taskType {
   id: string
-  create_time: Date
-  cancel_time?: Date
-  delay_time?: Date
-  expect_time?: Date
-  finish_time: Date
-  status: number
   event: string
+  time?: Date
 }
 
 const getFinishTime = (time: string) => {
