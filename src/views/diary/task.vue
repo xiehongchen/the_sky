@@ -21,7 +21,14 @@
       @finish-checked="finishChecked"
     />
     <FinishTask :taskList="finishTaskList" />
-    <EveryDayTask :taskList="taskList" />
+    <EveryDayTask
+      :taskList="everyDayTaskList"
+      @add-todo="addTask"
+      @delete-todo="deleteTask"
+      @finish-todo="finishTask"
+      @delete-checked="deleteCheckedTask"
+      @finish-checked="finishCheckedTask"
+    />
     <FutureTask />
     <DayFinishTask />
   </main>
@@ -40,6 +47,7 @@ import { ElMessage } from 'element-plus'
 
 onMounted(() => {
   getTodayTask()
+  getEveryDayTask()
 })
 interface taskType {
   id: string
@@ -51,10 +59,18 @@ interface taskType {
   status: number
   event: string
 }
+interface everyTaskType {
+  id: string
+  event: string
+  time?: Date
+}
 
 const taskList = ref<taskType[]>([])
 const otherTaskList = ref<taskType[]>([])
 const finishTaskList = ref<taskType[]>([])
+const everyDayTaskList = ref<everyTaskType[]>([])
+const futerTaskList = ref<everyTaskType[]>([])
+const finishDayTaskList = ref<everyTaskType[]>([])
 
 function formDate(item: any, status?: number) {
   if (item.status === 0 || item.status === 2) {
@@ -63,7 +79,7 @@ function formDate(item: any, status?: number) {
     return isToday(item.delay_time, status)
   }
 }
-
+// 今日待办
 const getTodayTask = async () => {
   taskList.value = []
   otherTaskList.value = []
@@ -86,11 +102,27 @@ const getTodayTask = async () => {
       }
     })
   })
+  // 已完成
   await api.task.getAllTask({ status: [1] }).then((res) => {
     finishTaskList.value = res.data.data
   })
-  console.log('taskList.value', taskList.value)
-  console.log('finishTaskList.value', finishTaskList.value)
+  // console.log('taskList.value', taskList.value)
+  // console.log('finishTaskList.value', finishTaskList.value)
+}
+// 每日计划
+const getEveryDayTask = async () => {
+  everyDayTaskList.value = []
+  futerTaskList.value = []
+  finishDayTaskList.value = []
+  // 今日
+  await api.task.getEveryDayTask().then((res) => {
+    const data = res.data.data
+    console.log('res', res)
+    data.forEach((item: any) => {
+      everyDayTaskList.value.push(item)
+    })
+  })
+  console.log('everyDayTaskList.value', everyDayTaskList.value)
 }
 // 增加
 const addTodo = async (value: any) => {
@@ -151,6 +183,7 @@ const finishTodo = async (id: string) => {
     }
   })
 }
+// 完成选中的
 const finishChecked = async (value: any) => {
   if (value.length === 0) {
     ElMessage.error('选择任务')
@@ -184,6 +217,7 @@ const delayTodo = async (value: any) => {
       }
     })
 }
+// 延期选中的
 const delayChecked = async (value: any) => {
   console.log('value', value)
   if (value.check.length === 0) {
@@ -204,6 +238,75 @@ const delayChecked = async (value: any) => {
         ElMessage.error('延期失败')
       }
     })
+}
+// 增加每日任务
+const addTask = async (value: any) => {
+  console.log('value', value)
+  if (value.task === '') {
+    ElMessage.error('请输入每日任务')
+    return
+  }
+  await api.task.addEveryDayTask({ event: value.task }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('添加成功')
+      getEveryDayTask()
+    } else {
+      ElMessage.error('添加失败')
+    }
+  })
+}
+// 删除
+const deleteTask = async (id: string) => {
+  await api.task.deleteEveryDayTask({ id: [id] }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('删除成功')
+      getEveryDayTask()
+    } else {
+      ElMessage.error('删除失败')
+    }
+  })
+}
+// 删除选中的
+const deleteCheckedTask = async (value: any) => {
+  console.log(value)
+  if (value.length === 0) {
+    ElMessage.error('选择任务')
+    return
+  }
+  await api.task.deleteEveryDayTask({ id: [...value] }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('删除成功')
+      getEveryDayTask()
+    } else {
+      ElMessage.error('删除失败')
+    }
+  })
+}
+// 完成
+const finishTask = async (id: string) => {
+  await api.task.finishEveryDayTask({ id: [id] }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('完成成功')
+      getEveryDayTask()
+    } else {
+      ElMessage.error('完成失败')
+    }
+  })
+}
+// 完成选中的
+const finishCheckedTask = async (value: any) => {
+  if (value.length === 0) {
+    ElMessage.error('选择任务')
+    return
+  }
+  await api.task.finishEveryDayTask({ id: [...value] }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('完成成功')
+      getEveryDayTask()
+    } else {
+      ElMessage.error('完成失败')
+    }
+  })
 }
 </script>
 

@@ -34,3 +34,19 @@ export const deleteTask = (params = {}) => {
 export const delayTask = (params = {}) => {
   return request.post('/task/delay', params)
 }
+
+export const getEveryDayTask = (params = {}) => {
+  return request.post('/task/everyDayTask', params)
+}
+
+export const addEveryDayTask = (params = {}) => {
+  return request.post('/task/addEveryDayTask', params)
+}
+
+export const deleteEveryDayTask = (params = {}) => {
+  return request.post('/task/deleteEveryDayTask', params)
+}
+
+export const finishEveryDayTask = (params = {}) => {
+  return request.post('/task/finishTask', params)
+}

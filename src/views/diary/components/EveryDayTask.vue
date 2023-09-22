@@ -5,7 +5,7 @@
       <input
         type="text"
         class="add-todo-input"
-        v-model="newTodo"
+        v-model="newTask"
         @keydown.enter="addTodo"
       />
       <button class="add-todo-button button" @click="addTodo">+</button>
@@ -48,9 +48,6 @@
                 </svg>
               </button>
             </div>
-            <button class="expect button" @click="delayTodo(task.id)">
-              延期
-            </button>
             <button class="finish button" @click="finishTodo(task.id)">
               完成
             </button>
@@ -95,25 +92,19 @@ const emits = defineEmits([
   'delayChecked',
   'finishChecked',
 ])
-const newTodo = ref('')
-const setDate = ref('')
+const newTask = ref('')
 const checked = ref<string[]>([])
 
 const addTodo = () => {
-  const todo = newTodo.value
-  const date = setDate.value
-  emits('addTodo', { todo, date })
-  newTodo.value = ''
+  const task = newTask.value
+  emits('addTodo', { task })
+  newTask.value = ''
 }
 const deleteTodo = async (id: string) => {
   emits('deleteTodo', id)
 }
 const finishTodo = async (id: string) => {
   emits('finishTodo', id)
-}
-const delayTodo = async (id: string) => {
-  const date = setDate.value
-  emits('delayTodo', { id, date })
 }
 const deleteChecked = () => {
   emits('deleteChecked', checked.value)
@@ -159,13 +150,8 @@ watch(taskList, () => {
 // ===============新增待办事件=================
 interface taskType {
   id: string
-  create_time: Date
-  cancel_time?: Date
-  delay_time?: Date
-  expect_time?: Date
-  finish_time: Date
-  status: number
   event: string
+  time?: Date
 }
 
 const select = ref(false)
