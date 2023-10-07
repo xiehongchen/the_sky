@@ -27,3 +27,9 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 registerClickRequestDirective(app)
 app.mount('#app')
+
+// 全局捕获promise错误
+window.addEventListener('unhandledrejection', function (event) {
+  event.preventDefault()
+  console.log('event', event)
+})
