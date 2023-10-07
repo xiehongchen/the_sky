@@ -175,6 +175,39 @@
             :disabled="!isToday"
           />
         </el-form-item>
+        <el-form-item label="锻炼时间" v-if="formDate.isExercise">
+          <el-slider
+            v-model="formDate.exerciseTime"
+            style="width: 400px; margin-left: 10px"
+            :disabled="!isToday"
+            show-stops
+            :marks="marks"
+            :min="0"
+            :max="120"
+          />
+        </el-form-item>
+        <el-form-item label="学习时间" v-if="formDate.isLearn">
+          <el-slider
+            v-model="formDate.learnTime"
+            style="width: 400px; margin-left: 10px"
+            :disabled="!isToday"
+            show-stops
+            :marks="marks"
+            :min="0"
+            :max="120"
+          />
+        </el-form-item>
+        <el-form-item label="玩乐时间" v-if="formDate.isPlay">
+          <el-slider
+            v-model="formDate.playTime"
+            style="width: 400px; margin-left: 10px"
+            :disabled="!isToday"
+            show-stops
+            :marks="marks"
+            :min="0"
+            :max="120"
+          />
+        </el-form-item>
         <el-form-item label="总结">
           <el-input
             v-model="formDate.summarize"
@@ -204,6 +237,9 @@ const formDate = reactive({
   isExercise: false,
   isLearn: false,
   isPlay: false,
+  exerciseTime: 0,
+  learnTime: 0,
+  playTime: 0,
   energy: 0,
   mood: 0,
   summarize: '',
@@ -213,15 +249,18 @@ const formatDate = useDate().formatDate
 let getCurrentDate = computed(() => formatDate(date.value))
 const perMonth = () => {
   date.value = new Date(date.value.setMonth(date.value.getMonth() - 1))
+  getDiary()
 }
 const nextMonth = () => {
   date.value = new Date(date.value.setMonth(date.value.getMonth() + 1))
+  getDiary()
 }
 const backToday = () => {
   const today = new Date()
   date.value = new Date(date.value.setFullYear(today.getFullYear()))
   date.value = new Date(date.value.setMonth(today.getMonth()))
   date.value = new Date(date.value.setDate(today.getDate()))
+  getDiary()
 }
 const router = useRouter()
 const weeks = [
@@ -236,11 +275,9 @@ const weeks = [
 // 获取当前月份42个
 const getVisitDate = computed(() => {
   const arr: Date[] = []
-  // 获取当前月份第一天
   const year = date.value.getFullYear()
   const month = date.value.getMonth()
   const firstDay = new Date(year, month, 1)
-  // console.log('firstDay', firstDay)
   const firstDayWeek = firstDay.getDay()
   const arrFirstDay = new Date(
     firstDay.getTime() - firstDayWeek * 24 * 60 * 60 * 1000,
@@ -286,11 +323,20 @@ onMounted(() => {
   getDiary()
 })
 const getDiary = async () => {
+  const firstDayOfMonth = formatDate(
+    new Date(date.value.getFullYear(), date.value.getMonth(), 1),
+    'y-m-d',
+  )
+  const nextMonth1 =
+    date.value.getMonth() === 11 ? 0 : date.value.getMonth() + 1
+  const nextMonthFirstDay = new Date(date.value.getFullYear(), nextMonth1, 1)
+  // 获取当前月份的最后一天
+  const lastDayOfMonth = formatDate(new Date(nextMonthFirstDay - 1), 'y-m-d')
   try {
     await api.diary
       .getAllDiary({
-        startTime: '2023-08-01',
-        endTime: '2023-09-29',
+        startTime: firstDayOfMonth,
+        endTime: lastDayOfMonth,
       })
       .then((res) => {
         data.value = res.data.data
@@ -329,6 +375,12 @@ function convertToInteger(inputStr: any) {
 
 const isShowDialog = ref(false)
 const isToday = ref(false)
+const marks = reactive({
+  30: '30分钟',
+  60: '1小时',
+  90: '1小时半',
+  120: '2小时',
+})
 const showDialog = (index: number) => {
   let day = getVisitDate.value[index]
   const form = visitDate.value[index]

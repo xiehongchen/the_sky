@@ -69,7 +69,6 @@ let lineOption = {
 .page {
   height: 100%;
   .box {
-    height: 100%;
     padding: 10px 30px;
     .button-header {
       display: flex;
