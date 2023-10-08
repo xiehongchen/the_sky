@@ -24,7 +24,7 @@ function simulateAsyncRequest(id: number) {
 const text = ref<HTMLElement>()
 console.log(text)
 async function handleRequests() {
-  const numberOfRequests = 100
+  const numberOfRequests = 30
   const concurrentLimit = 10 // 控制并发数量为 10
 
   const results = [] // 存储所有请求的结果
@@ -35,7 +35,7 @@ async function handleRequests() {
     // 在请求达到并发限制后，使用 Promise.all 等待这批请求完成
     if (i !== 0 && i % concurrentLimit === 0) {
       const batchRequests = results.slice(i - concurrentLimit, i)
-      console.log(batchRequests)
+      console.log('batchRequests', batchRequests)
       if (text.value) {
         text.value.innerText += batchRequests
       }
