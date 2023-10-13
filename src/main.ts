@@ -31,5 +31,4 @@ app.mount('#app')
 // 全局捕获promise错误
 window.addEventListener('unhandledrejection', function (event) {
   event.preventDefault()
-  console.log('event', event)
 })

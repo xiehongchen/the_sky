@@ -292,6 +292,10 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: '/:catchAll(.*)',
+    redirect: '/404',
+  },
+  {
     // 404
     path: '/404',
     name: '404',
