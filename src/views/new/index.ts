@@ -28,7 +28,7 @@ export function throttle<T extends (...args: any[]) => void>(
 
       previous = now
       func.apply(this, args)
-    } else if (!timeout && options.trailing !== false) {
+    } else if (!timeout && options.trailing) {
       timeout = setTimeout(() => {
         previous = options.leading === false ? 0 : Date.now()
         timeout = null
