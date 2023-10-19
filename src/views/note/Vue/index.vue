@@ -50,6 +50,7 @@ const back = () => {
       height: 50px;
       line-height: 50px;
       margin: 10px;
+      min-width: 100px;
     }
   }
 }

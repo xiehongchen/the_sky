@@ -200,7 +200,6 @@ import { useUserStore } from '@/store/user'
 const user = useUserStore()
 const tab = useTab()
 
-console.log(tab)
 // 标签页
 const active = ref('')
 onMounted(() => {
@@ -260,7 +259,7 @@ const changeIcon = () => {
 }
 const closeTab = () => {
   const item = JSON.parse(localStorage.getItem('tabList') || '')
-  console.log('item', item)
+  // console.log('item', item)
   if (item) {
     for (let i = 0; i < item.tabList.length; i++) {
       if (!item.tabList[i].lock) {

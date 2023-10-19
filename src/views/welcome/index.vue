@@ -41,6 +41,7 @@ const titleList = ref([
   'H5部分是关于H5的一些新特性写的',
   '日记就是记录生活，以及计划和目标',
   '导入Github是白嫖Github图库的',
+  '个人博客：https://xiehongchen.github.io',
 ])
 // --------------
 function add(x: number) {
