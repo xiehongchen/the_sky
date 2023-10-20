@@ -7,7 +7,7 @@
     <div class="logo">
       <div class="line"></div>
       <div class="form">
-        <img src="../../../../public/vite.svg" />
+        <!-- <img src="../../../../public/vite.svg" /> -->
       </div>
     </div>
     <div class="schedule">

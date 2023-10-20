@@ -329,9 +329,9 @@ const getDiary = async () => {
   )
   const nextMonth1 =
     date.value.getMonth() === 11 ? 0 : date.value.getMonth() + 1
-  const nextMonthFirstDay = new Date(date.value.getFullYear(), nextMonth1, 1)
+  const nextMonthFirstDay = new Date(date.value.getFullYear(), nextMonth1, 0)
   // 获取当前月份的最后一天
-  const lastDayOfMonth = formatDate(new Date(nextMonthFirstDay - 1), 'y-m-d')
+  const lastDayOfMonth = formatDate(new Date(nextMonthFirstDay), 'y-m-d')
   try {
     await api.diary
       .getAllDiary({
