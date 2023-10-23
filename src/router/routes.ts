@@ -167,7 +167,8 @@ const routes: RouteRecordRaw[] = [
           {
             path: '/H5/canvas',
             name: 'canvas',
-            component: () => import('@/views/H5/Canvas.vue'),
+            // component: () => import('@/views/H5/Canvas.vue'),
+            component: () => import('@/views/H5/Canvas/index.vue'),
             meta: {
               title: 'canvas',
               icon: 'Coin',
