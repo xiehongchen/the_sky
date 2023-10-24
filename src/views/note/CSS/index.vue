@@ -39,8 +39,6 @@ const pageLoad = ref(true)
   height: 100%;
   .box {
     height: 100%;
-    display: flex;
-    flex-wrap: wrap;
     .item {
       text-align: center;
       height: 50px;

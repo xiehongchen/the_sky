@@ -66,4 +66,40 @@ export const list = ref<ListItem[]>([
     component: 'CSS_J',
     disabled: false,
   },
+  {
+    id: 11,
+    title: '圆形均分显示图片形状-K',
+    component: 'CSS_K',
+    disabled: false,
+  },
+  {
+    id: 12,
+    title: '六边形蜂巢图片形状-L',
+    component: 'CSS_L',
+    disabled: false,
+  },
+  {
+    id: 13,
+    title: '全局六边形蜂巢图片形状-M',
+    component: 'CSS_M',
+    disabled: true,
+  },
+  {
+    id: 14,
+    title: '全局六边形蜂巢图片形状-N',
+    component: 'CSS_N',
+    disabled: false,
+  },
+  {
+    id: 15,
+    title: '移动融合分出-O',
+    component: 'CSS_O',
+    disabled: false,
+  },
+  {
+    id: 16,
+    title: 'filter变亮变暗-P',
+    component: 'CSS_P',
+    disabled: false,
+  },
 ])
