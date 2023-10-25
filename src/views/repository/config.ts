@@ -436,4 +436,46 @@ export const tools: list[] = [
     url: 'http://tools.jb51.net/static/webcolor/index.html',
     imgUrl: getAssetsImg('hui'),
   },
+  {
+    id: 15,
+    title: '渐变色',
+    url: 'http://tools.jb51.net/static/webcolor/index.html',
+    imgUrl: getAssetsImg('hui'),
+  },
+  {
+    id: 16,
+    title: '阴影生成',
+    url: 'https://lingdaima.com/shadow/',
+    imgUrl: getAssetsImg('hui'),
+  },
+  {
+    id: 17,
+    title: '代码生成工具',
+    url: 'https://lingdaima.com/',
+    imgUrl: getAssetsImg('hui'),
+  },
+  {
+    id: 18,
+    title: 'UI配色',
+    url: 'https://www.uidesigndaily.com/',
+    imgUrl: 'https://www.uidesigndaily.com/public/img/favicon-32x32.png',
+  },
+  {
+    id: 19,
+    title: '开发工具',
+    url: 'https://smalldev.tools/',
+    imgUrl: 'https://smalldev.tools/favicon.png',
+  },
+  {
+    id: 20,
+    title: 'CSS玻璃风格',
+    url: 'https://glassgenerator.netlify.app/',
+    imgUrl: '',
+  },
+  {
+    id: 20,
+    title: '在线动画、阴影和颜色',
+    url: 'https://keyframes.app/',
+    imgUrl: 'https://keyframes.app/img/icons/favicon-32x32.png',
+  },
 ]

@@ -18,13 +18,6 @@ defineProps({ list: Array as PropType<list11[]> })
 const gotoURL = (url: string) => {
   window.open(url)
 }
-// const handleImageError = (event: Event) => {
-//   console.log('event', event)
-//   const imgElement = event.target as HTMLImageElement
-//   if (imgElement) {
-//     imgElement.src = './../../../src/assets/hui.png'
-//   }
-// }
 </script>
 
 <style lang="scss" scoped>
@@ -54,6 +47,7 @@ const gotoURL = (url: string) => {
   }
   .item:hover {
     box-shadow: inset 0 0 0 1px #0431e5;
+    background-color: #b6b7bc;
   }
 }
 </style>
