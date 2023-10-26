@@ -18,6 +18,12 @@
 import { use, document, tools } from './config.ts'
 import ListTools from './components/ListTools.vue'
 const activeNames = ref(['1', '2', '3'])
+
+import { getCurrentInstance } from 'vue'
+const { proxy, appContext } = getCurrentInstance()!
+console.log('当前组件实例', proxy)
+const global = appContext.config.globalProperties
+console.log('全局实例', global)
 </script>
 <style lang="scss" scoped>
 .collapse {

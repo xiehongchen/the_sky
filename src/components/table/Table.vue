@@ -7,6 +7,7 @@
         :label="item.label"
         :prop="item.prop"
         :width="item.width"
+        :fixed="item.fixed"
       >
         <template v-if="item.slot" v-slot="scope">
           <slot :name="item.prop" :row="scope.row"></slot>
@@ -22,6 +23,7 @@ interface Column {
   prop: string
   slot?: boolean
   width?: number
+  fixed?: string
 }
 interface propTableProps {
   loading: boolean
