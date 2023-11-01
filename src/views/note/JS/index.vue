@@ -51,6 +51,7 @@ const back = () => {
       line-height: 50px;
       min-width: 100px;
       margin: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
     }
   }
 }

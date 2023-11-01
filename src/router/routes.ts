@@ -83,6 +83,16 @@ const routes: RouteRecordRaw[] = [
         },
         children: [
           {
+            path: '/note/CSS',
+            name: 'CSS案例',
+            component: () => import('@/views/note/CSS/index.vue'),
+            meta: {
+              title: 'CSS案例',
+              icon: 'Coin',
+              permissions: 'sky.note.css',
+            },
+          },
+          {
             path: '/note/JS',
             name: 'JS全概',
             component: () => import('@/views/note/JS/index.vue'),
@@ -120,16 +130,6 @@ const routes: RouteRecordRaw[] = [
               title: '数据可视化',
               icon: 'Coin',
               permissions: 'sky.note.visualization',
-            },
-          },
-          {
-            path: '/note/CSS',
-            name: 'CSS案例',
-            component: () => import('@/views/note/CSS/index.vue'),
-            meta: {
-              title: 'CSS案例',
-              icon: 'Coin',
-              permissions: 'sky.note.css',
             },
           },
         ],

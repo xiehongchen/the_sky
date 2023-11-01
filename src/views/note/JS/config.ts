@@ -42,4 +42,10 @@ export const list = ref<ListItem[]>([
     component: 'JS_F',
     disabled: true,
   },
+  {
+    id: 7,
+    title: '树形数据-G',
+    component: 'JS_G',
+    disabled: false,
+  },
 ])
