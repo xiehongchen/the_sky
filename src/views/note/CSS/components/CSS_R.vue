@@ -169,43 +169,45 @@ function imgContainerClick(e: any) {
     return
   }
   index.value = imgRef.value.indexOf(e.target)
+  setStyle(index.value)
 }
 function btnClick(type: string) {
   index.value = type === 'next' ? index.value + 1 : index.value - 1
   if (index.value < 0) return (index.value = 0)
   if (index.value > l - 1) return (index.value = l - 1)
-}
-const needNumber = ref(0)
-watch(index, (newV) => {
-  console.log('newV', newV)
-  if (newV < 5) {
-    console.log('123')
-    needNumber.value = 4 - newV - needNumber.value
-    console.log(needNumber.value)
-    sortImg(needNumber.value, 'end')
-  }
-  if (newV > l - 5) {
-    console.log('123')
-    needNumber.value = newV + 5 - l - needNumber.value
-    console.log(needNumber.value)
-    sortImg(needNumber.value, 'head')
-  }
   setStyle(index.value)
-})
-function sortImg(n: number, position: string) {
-  if (position === 'head') {
-    for (let i = 0; i < n; i++) {
-      const img = imgs.shift()!
-      imgs.push(img)
-    }
-  } else {
-    for (let i = 0; i < n; i++) {
-      const img = imgs.pop()!
-      imgs.unshift(img)
-      console.log('imgs', imgs)
-    }
-  }
 }
+// const needNumber = ref(0)
+// watch(index, (newV) => {
+//   console.log('newV', newV)
+//   if (newV < 5) {
+//     console.log('123')
+//     needNumber.value = 4 - newV - needNumber.value
+//     console.log(needNumber.value)
+//     sortImg(needNumber.value, 'end')
+//   }
+//   if (newV > l - 5) {
+//     console.log('123')
+//     needNumber.value = newV + 5 - l - needNumber.value
+//     console.log(needNumber.value)
+//     sortImg(needNumber.value, 'head')
+//   }
+//   setStyle(index.value)
+// })
+// function sortImg(n: number, position: string) {
+//   if (position === 'head') {
+//     for (let i = 0; i < n; i++) {
+//       const img = imgs.shift()!
+//       imgs.push(img)
+//     }
+//   } else {
+//     for (let i = 0; i < n; i++) {
+//       const img = imgs.pop()!
+//       imgs.unshift(img)
+//       console.log('imgs', imgs)
+//     }
+//   }
+// }
 </script>
 
 <style lang="scss" scoped>
