@@ -48,4 +48,10 @@ export const list = ref<ListItem[]>([
     component: 'JS_G',
     disabled: false,
   },
+  {
+    id: 8,
+    title: '屏幕录制-H',
+    component: 'JS_H',
+    disabled: false,
+  },
 ])

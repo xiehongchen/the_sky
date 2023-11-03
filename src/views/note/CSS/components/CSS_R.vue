@@ -155,7 +155,7 @@ function setStyle(imgIndex: number) {
     if (abs === 1) {
       translateX += sign * 30
     }
-    const rotateY = abs === 0 ? 0 : sign * ROTATE.value // -1
+    const rotateY = abs === 0 ? 0 : sign * ROTATE.value
     const scale = Math.pow(SCALE.value, abs)
     const opacity = Math.pow(OPACITY.value, abs)
     const zIndex = l - abs

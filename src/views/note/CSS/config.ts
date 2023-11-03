@@ -114,4 +114,16 @@ export const list = ref<ListItem[]>([
     component: 'CSS_R',
     disabled: false,
   },
+  {
+    id: 19,
+    title: '3D圆环旋转动画-S',
+    component: 'CSS_S',
+    disabled: false,
+  },
+  {
+    id: 20,
+    title: '3D旋转动画-T',
+    component: 'CSS_T',
+    disabled: true,
+  },
 ])

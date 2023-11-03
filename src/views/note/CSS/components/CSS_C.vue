@@ -1,7 +1,11 @@
 <template>
   <div class="box">
     <div class="box1">
-      <div class="eyeSocket eyeSocketSleeping" ref="bigEye">
+      <div
+        class="eyeSocket eyeSocketSleeping"
+        ref="bigEye"
+        @click="clickHandle"
+      >
         <div ref="eyeball"></div>
       </div>
       <div class="filter">
@@ -45,10 +49,7 @@ import * as echarts from 'echarts'
 const bigEye = ref<HTMLElement>()
 const eyeball = ref<HTMLElement>()
 let eyeFilter = ref<HTMLElement>()
-let eyeballChart: any
-if (eyeball.value) {
-  eyeballChart = echarts.init(eyeball.value)
-}
+let eyeballChart
 
 let leftRotSize = 0
 let ballSize = 0
@@ -58,7 +59,9 @@ let sleepTimer: any
 let isSleep = true // 是否处于休眠状态
 // 画眼球
 function getEyeballChart() {
-  eyeballChart.setOption({
+  if (!eyeball.value) return
+  eyeballChart = echarts.init(eyeball.value)
+  eyeballChart!.setOption({
     series: [
       {
         type: 'gauge',
@@ -147,11 +150,10 @@ function clickToWeakup() {
   }, 10)
 }
 
-bigEye.value?.addEventListener('click', () => {
-  console.log('123')
+const clickHandle = () => {
   if (!isSleep) return
   clickToWeakup()
-})
+}
 bigEye.value?.addEventListener('webkitAnimationEnd', () => {
   new Promise((res) => {
     clearInterval(rotTimer)
