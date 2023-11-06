@@ -1,324 +1,317 @@
 <template>
-  <div class="detail-box">
-    <div class="demo-progress">
-      <el-progress type="dashboard" :percentage="percentage" :color="colors" />
-      <el-progress type="dashboard" :percentage="percentage2" :color="colors" />
-      <div>
-        <el-button-group>
-          <el-button :icon="Minus" @click="decrease" />
-          <el-button :icon="Plus" @click="increase" />
-        </el-button-group>
-      </div>
-    </div>
-    <el-transfer v-model="value" :data="data" />
-    <div class="slider-demo-block">
-      <el-slider v-model="value0" range show-stops :max="10" />
-    </div>
-    <el-timeline>
-      <el-timeline-item timestamp="2018/4/12" placement="top">
-        <el-card>
-          <h4>Update Github template</h4>
-          <p>Tom committed 2018/4/12 20:46</p>
-        </el-card>
-      </el-timeline-item>
-      <el-timeline-item timestamp="2018/4/3" placement="top">
-        <el-card>
-          <h4>Update Github template</h4>
-          <p>Tom committed 2018/4/3 20:46</p>
-        </el-card>
-      </el-timeline-item>
-      <el-timeline-item timestamp="2018/4/2" placement="top">
-        <el-card>
-          <h4>Update Github template</h4>
-          <p>Tom committed 2018/4/2 20:46</p>
-        </el-card>
-      </el-timeline-item>
-    </el-timeline>
-    <el-steps :active="1">
-      <el-step title="Step 1" description="Some description" />
-      <el-step title="Step 2" description="Some description" />
-      <el-step title="Step 3" description="Some description" />
-    </el-steps>
-    <el-steps :space="200" :active="1" simple>
-      <el-step title="Step 1" :icon="Edit" />
-      <el-step title="Step 2" :icon="UploadFilled" />
-      <el-step title="Step 3" :icon="Picture" />
-    </el-steps>
-
-    <el-steps
-      :active="1"
-      finish-status="success"
-      simple
-      style="margin-top: 20px"
-    >
-      <el-step title="Step 1" />
-      <el-step title="Step 2" />
-      <el-step title="Step 3" />
-    </el-steps>
-  </div>
-  <main class="main">
-    <div class="box">
-      <el-input
-        v-model="input"
-        placeholder="请输入文字"
-        @change="getUserInput"
+  <div class="repository-box">
+    <el-form :model="searchForm" inline class="form-box">
+      <el-form-item label="标题" style="margin-left: 10px">
+        <el-input
+          v-model="searchForm.title"
+          placeholder="请输入标题/网址"
+          style="width: 200px"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="searchTitle">搜索</el-button>
+      </el-form-item>
+      <el-form-item label="文章url" style="margin-left: 10px">
+        <el-input
+          v-model="url"
+          placeholder="请输入文章url"
+          style="width: 400px"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-select
+          v-model="tab"
+          class="m-2"
+          placeholder="选择类型"
+          size="large"
+        >
+          <el-option
+            v-for="item in tabsList"
+            :key="item.id"
+            :label="item.title"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onAdd">增加文章</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="showAddArticleDialog">
+          自定义增加文章
+        </el-button>
+      </el-form-item>
+    </el-form>
+    <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+      <el-tab-pane
+        v-for="item in tabsList"
+        :label="item.title"
+        :name="item.title"
+        :key="item.id"
+      >
+        <el-table :data="tableData" stripe border>
+          <el-table-column prop="title" label="标题"></el-table-column>
+          <el-table-column
+            prop="author"
+            label="作者"
+            width="120"
+          ></el-table-column>
+          <el-table-column prop="createTime" label="创建时间" width="160">
+            <template #default="scope">
+              {{ formTime(scope.row.createTime) }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="website" label="源址" width="320">
+            <template #default="scope">
+              <el-link :href="scope.row.website" target="_blank">
+                {{ scope.row.website }}
+              </el-link>
+            </template>
+          </el-table-column>
+          <el-table-column prop="introduction" label="简介" width="260">
+            <template #default="scope">
+              <el-input
+                v-model="scope.row.introduction"
+                v-if="scope.row.isEdit"
+              ></el-input>
+              <span v-else>{{ scope.row.introduction }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="note" label="笔记">
+            <template #default="scope">
+              <el-input
+                v-model="scope.row.note"
+                v-if="scope.row.isEdit"
+              ></el-input>
+              <el-link :href="scope.row.note" target="_blank" v-else>
+                {{ scope.row.note }}
+              </el-link>
+            </template>
+          </el-table-column>
+          <el-table-column prop="status" label="状态" width="70">
+            <template #default="scope">
+              <el-tag class="ml-2" type="success" v-if="scope.row.status === 2">
+                总结
+              </el-tag>
+              <el-tag class="ml-2" type="warning" v-if="scope.row.status === 1">
+                保存
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template #default="scope">
+              <div class="operate">
+                <span class="item" @click="editArticle(scope.row)">编辑</span>
+                <span
+                  class="item"
+                  @click="complete(scope.row)"
+                  v-if="scope.row.isEdit"
+                >
+                  完成
+                </span>
+                <span class="item" @click="deleteArticle(scope.row)">删除</span>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-pagination
+        v-model:current-page="pagination.currentPage"
+        v-model:page-size="pagination.pageSize"
+        :page-sizes="[10, 20, 30, 50]"
+        :small="false"
+        :disabled="false"
+        :background="true"
+        layout="prev, pager, next, jumper,->, sizes, total"
+        :total="pagination.total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        style="margin: 10px 0"
       />
-      <div>
-        <span>语速选择</span>
-        <el-slider
-          v-model="value1"
-          :min="0.1"
-          :max="10"
-          :step="0.1"
-          show-stops
-          @change="speakSpeedChoose"
-        />
-      </div>
-      <div>
-        <span>音量选择</span>
-        <el-slider
-          v-model="value2"
-          :min="0"
-          :max="1"
-          :step="0.1"
-          @change="voiceChoose"
-        />
-      </div>
-      <div>
-        <el-button type="success" round @click="playVoice">播放语音</el-button>
-        <el-button type="success" round @click="stopVoice">暂停语音</el-button>
-      </div>
-    </div>
-  </main>
-  <div>
-    <div
-      class="drag-item"
-      v-for="item in list"
-      :key="item.id"
-      :draggable="true"
-      @dragstart="dragStart(item, $event)"
-      @dragover="dragOver($event)"
-      @drop="drop(item, $event)"
-      @dragend="dragEnd()"
-    >
-      {{ item.name }}
-    </div>
-    <el-calendar>
-      <template #date-cell="{ data }">
-        <p :class="data.isSelected ? 'is-selected' : ''">
-          {{ data.day.split('-').slice(1).join('-') }}
-          {{ data.isSelected ? '✔️' : '' }}
-        </p>
-      </template>
-    </el-calendar>
+    </el-tabs>
   </div>
+  <AddArticleDialog
+    v-model="showDialog"
+    @close="closeDialog"
+    @confirm="confirmDialog"
+  />
 </template>
 
-<script lang="ts" setup>
-import { Minus, Plus } from '@element-plus/icons-vue'
-import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
-const value0 = ref([4, 8])
-interface Option {
-  key: number
-  label: string
-  disabled: boolean
-}
-const generateData = () => {
-  const data: Option[] = []
-  for (let i = 1; i <= 15; i++) {
-    data.push({
-      key: i,
-      label: `Option ${i}`,
-      disabled: i % 4 === 0,
-    })
-  }
-  return data
-}
+<script setup lang="ts">
+import { tabsList } from './config.ts'
+import api from '@/api'
+import { formTime } from '@/utils/useUtils'
+import { ElMessage } from 'element-plus'
+import AddArticleDialog from './../components/AddArticleDialog.vue'
 
-const data = ref<Option[]>(generateData())
-const value = ref([])
-
-const percentage = ref(10)
-const percentage2 = ref(0)
-
-const colors = [
-  { color: '#f56c6c', percentage: 20 },
-  { color: '#e6a23c', percentage: 40 },
-  { color: '#5cb87a', percentage: 60 },
-  { color: '#1989fa', percentage: 80 },
-  { color: '#6f7ad3', percentage: 100 },
-]
-
-const increase = () => {
-  percentage.value += 10
-  if (percentage.value > 100) {
-    percentage.value = 100
-  }
-}
-const decrease = () => {
-  percentage.value -= 10
-  if (percentage.value < 0) {
-    percentage.value = 0
-  }
-}
 onMounted(() => {
-  setInterval(() => {
-    percentage2.value = (percentage2.value % 100) + 10
-  }, 500)
+  getData()
 })
-// 输入框的值
-const input = ref('')
-// 语速选择 0.1-10
-const value1 = ref(1)
-// 音量选择 0-1
-const value2 = ref(0.5)
-// 声音的状态 true就是播放，false就是暂停
-const voiedStatus = ref(false)
 
-// 得到用户输入的值并赋值
-const getUserInput = (val:any) => {
-  input.value = val
-}
-// 语速选择
-const speakSpeedChoose = (val:any) => {
-  value1.value = val
-}
-// 音量选择
-const voiceChoose = (val:any) => {
-  value2.value = val
-}
-// 播放方法
-const play = (status:any) => {
-  // 判空
-  if (!input.value) return
-  // 创建实例，并传入输入的文字
-  let readTxt = new SpeechSynthesisUtterance(input.value)
-  readTxt.volume = value2.value // 音量
-  readTxt.rate = value1.value // 语速
-  speechSynthesis.speak(readTxt) // 调用说的方法
-  if (status) {
-    speechSynthesis.resume() // 恢复播放
-  } else if (status === false) {
-    speechSynthesis.pause() // 暂停播放
-  }
-  // 语言结束的回调
-  readTxt.addEventListener('end', function () {
-    window.speechSynthesis.cancel() // 删除队列中全部的语音
+// 搜索
+const searchForm = reactive<any>({
+  title: '',
+  page: 1,
+  size: 10,
+})
+const searchTitle = async () => {
+  searchForm.page = pagination.currentPage
+  searchForm.size = pagination.pageSize
+  await api.repository.selectTitleAticle({ ...searchForm }).then((res) => {
+    tableData.value = res.data.data
+    pagination.total = res.data.total
+    tableData.value.forEach((item) => {
+      item.isEdit = false
+    })
   })
 }
-// 点击播放
-const playVoice = () => {
-  voiedStatus.value = true
-  play(true)
+// tabs
+const activeName = ref<string>('JS')
+const searchParams = ref<any>({
+  tab: 'js',
+  page: 1,
+  size: 10,
+})
+const handleClick = (tab: any) => {
+  searchParams.value.tab = tabsList.find(
+    (item) => item.title === tab.paneName,
+  )?.value
+  getData()
 }
-// 点击暂停
-const stopVoice = () => {
-  voiedStatus.value = false
-  play(false)
+// 表格
+interface Item {
+  id: number
+  title: string
+  author: string
+  createTime: Date
+  introduction: string
+  website: string
+  status: number
+  note: string
+  isEdit: boolean
 }
+const tableData = ref<Item[]>([])
 
-const list = ref([
-  { id: 1, name: 'Apple' },
-  { id: 2, name: 'Banana' },
-  { id: 3, name: 'Orange' },
-  { id: 4, name: 'Grape' },
-  { id: 5, name: 'Mango' },
-])
-//创建dragItem变量，用于保存正在拖拽的元素
-let dragItem = ref(null)
-
-//在拖拽开始时，通过dragStart函数将当前拖拽的元素保存到dragItem变量中，
-// 并将拖拽的数据以字符串形式存储在数据传输对象中。
-function dragStart(item:any, event:any) {
-  dragItem.value = item
-  //设置拖拽操作的效果为移动,
-  //这里也可以说一下拖拽的几个效果
-  // 'none': 不允许拖拽操作。
-  // 'copy': 拖拽操作会复制被拖拽的数据。
-  // 'move': 拖拽操作会移动被拖拽的数据。
-  // 'link': 拖拽操作会创建一个指向被拖拽数据的链接。
-  // 在设置 effectAllowed 属性后，可以在 dragstart 和 dragover 事件中使用 dropEffect 属性来指定拖拽操作的效果。
-  event.dataTransfer.effectAllowed = 'move'
-  //并将拖拽的数据以字符串形式存储在数据传输对象中。
-  // 其中，item是一个JavaScript对象，通过JSON.stringify()方法将其转换为字符串。
-  event.dataTransfer.setData('text/plain', JSON.stringify(item))
+async function getData() {
+  await api.repository.getAllArticle(searchParams.value).then((res) => {
+    tableData.value = res.data.data
+    pagination.total = res.data.total
+    tableData.value.forEach((item) => {
+      item.isEdit = false
+    })
+  })
 }
-
-//在拖拽过程中，使用dragOver函数监听dragover事件，
-// 并调用event.preventDefault()方法，以允许元素被拖拽到新的位置。
-function dragOver(event: any) {
-  event.preventDefault()
-  event.dataTransfer.dropEffect = 'move'
+const pagination = reactive({
+  currentPage: 1,
+  pageSize: 10,
+  total: 10,
+})
+const handleSizeChange = () => {
+  searchParams.value.size = pagination.pageSize
+  getData()
 }
-
-//在拖拽完成时，使用drop函数将拖拽的元素替换到目标位置，并更新list数组。
-function drop(item: any, event: any) {
-  event.preventDefault()
-  /**
-   * 从数据传输对象中获取之前通过 setData() 方法存储的数据，
-   * 通过 JSON.parse() 方法将其转换为对象。
-   * 用于获取在拖拽操作中传递的数据。
-   */
-  const data = JSON.parse(event.dataTransfer.getData('text/plain'))
-  console.log('data', data)
-  console.log('item', item)
-  //通过 findIndex() 方法查找 list 数组中第一个满足条件的元素的索引，这里的条件是该元素的 id 属性等于 item 对象的 id 属性。
-  //被替换的元素
-  const index1 = list.value.findIndex((i) => i.id === item.id)
-  //通过 findIndex() 方法查找 data 对象在 list 数组中的索引
-  const index2 = list.value.findIndex((i) => i.id === data.id)
-  list.value[index1] = data
-  list.value[index2] = item
+const handleCurrentChange = () => {
+  searchParams.value.page = pagination.currentPage
+  // console.log(pagination)
+  // console.log(searchParams)
+  getData()
 }
-//在拖拽结束时，通过dragEnd函数将dragItem变量重置为null。
-function dragEnd() {
-  dragItem.value = null
+const url = ref('')
+const tab = ref('')
+const onAdd = async () => {
+  if (!url.value || !tab.value) {
+    ElMessage.error('请输入')
+    return
+  }
+  await api.repository
+    .addArticleByUrl({ website: url.value, tab: tab.value })
+    .then((res) => {
+      if (res.data.answer) {
+        ElMessage.success('添加文章成功！')
+        getData()
+      } else {
+        ElMessage.error(res.data.message)
+        return
+      }
+      url.value = ''
+      tab.value = ''
+    })
 }
+const editArticle = (item: Item) => {
+  item.isEdit = true
+}
+const complete = async (item: Item) => {
+  item.isEdit = false
+  const { website, introduction, note } = item
+  await api.repository
+    .editArticle({ website, introduction, note })
+    .then((res) => {
+      if (res.data.answer) {
+        ElMessage.success('更新成功！')
+        getData()
+      } else {
+        ElMessage.error('更新失败')
+      }
+    })
+}
+const deleteArticle = async (item: Item) => {
+  const { website } = item
+  await api.repository.deleteAticle({ website }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('删除成功！')
+      getData()
+    } else {
+      ElMessage.error('删除失败')
+    }
+  })
+}
+const confirmDialog = async (item: any) => {
+  console.log(item)
+  showDialog.value = false
+  await api.repository.addArticle({ ...item }).then((res) => {
+    if (res.data.answer) {
+      ElMessage.success('增加成功！')
+      getData()
+    } else {
+      ElMessage.error(res.data.message)
+    }
+  })
+}
+const closeDialog = () => {
+  showDialog.value = false
+  console.log('父组件关闭')
+}
+const showAddArticleDialog = () => {
+  if (!showDialog.value) showDialog.value = true
+  else showDialog.value = false
+  console.log(showDialog.value)
+}
+const showDialog = ref(false)
 </script>
-<style scoped>
-.demo-progress .el-progress--line {
-  margin-bottom: 15px;
-  width: 350px;
-}
-.demo-progress .el-progress--circle {
-  margin-right: 15px;
-}
-.slider-demo-block {
-  display: flex;
-  align-items: center;
-}
-.slider-demo-block .el-slider {
-  margin-top: 0;
-  margin-left: 12px;
-}
-* {
-  padding: 0;
-  margin: 0;
-}
 
-html,
-body,
-.mian {
-  width: 100%;
+<style scoped lang="scss">
+.repository-box {
   height: 100%;
-}
+  width: 100%;
+  border-top: 0;
 
-.box {
-  width: 600px;
-  height: 160px;
-  margin: 100px auto;
-  padding: 20px;
-  border-radius: 10px;
-  background-color: #a0cfff;
-}
-.drag-item {
-  margin: 10px;
-  padding: 10px;
-  background-color: #f0f0f0;
-  cursor: move;
-  color: red;
-}
-.is-selected {
-  color: #1989fa;
+  .form-box {
+    margin-top: 10px;
+    border-top: 0;
+  }
+  .operate {
+    display: flex;
+    flex-direction: row;
+    .item {
+      margin: 0 10px;
+      font-size: 16px;
+      color: #2dd6d7;
+      cursor: pointer;
+    }
+  }
+  .tags {
+    font-size: 18px;
+    margin-right: 5px;
+  }
 }
 </style>

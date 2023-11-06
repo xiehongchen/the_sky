@@ -18,7 +18,7 @@ export default defineStore('weather', {
   actions: {
     async getWeather(cityid: number) {
       const result = (await api.home.reqGetWeather(cityid)) as Weather
-      console.log('城市天气', result)
+      // console.log('城市天气', result)
       const { city, wea, wea_img, tem, humidity } = result
       this.$patch(({ data }) => {
         data.city = city

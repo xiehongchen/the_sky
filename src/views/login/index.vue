@@ -1,6 +1,6 @@
 <template>
   <div class="login-box">
-    <h2>登录</h2>
+    <h2>{{ isLogin ? '注册' : '登录' }}</h2>
     <form>
       <div class="user-box">
         <input type="text" v-model="name" required="true" />
@@ -36,9 +36,14 @@
 
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
-const name = ref('')
-const password = ref('')
-const login = () => {
+import { SET_TOKEN } from '@/utils/token'
+import request from '@/utils/request'
+import { useUserStore } from '@/store/user'
+const user = useUserStore()
+const router = useRouter()
+const name = ref('123')
+const password = ref('123')
+const login = async () => {
   if (isLogin.value) {
     isLogin.value = false
     return
@@ -48,7 +53,14 @@ const login = () => {
       message: '账号密码不能为空',
       type: 'warning',
     })
+    return
   }
+  await request.post('/login', { name, password }).then((res) => {
+    ElMessage.success('登录成功')
+    SET_TOKEN(res.data.token)
+    user.saveUserInfo(res.data.data)
+    router.push('/welcome')
+  })
 }
 const isLogin = ref(false)
 const register = () => {
@@ -56,7 +68,6 @@ const register = () => {
     isLogin.value = true
     return
   }
-  
 }
 </script>
 

@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import useWeatherStore from '@/store/weather'
 const useWeather = useWeatherStore()
-console.log(useWeather.data)
+// console.log(useWeather.data)
 const wea_img = computed(() => useWeather.data.wea_img || 'qing')
 const weaImg = () => 'src/assets/weather/' + wea_img.value + '.png'
 const time = new Date().getHours()

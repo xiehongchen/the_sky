@@ -87,7 +87,7 @@
 <script setup lang="ts">
 import throttle from 'lodash/throttle'
 import useDate from '@/utils/useDate'
-import { getAngle } from '@/utils/getAngle'
+import { getAngle } from '@/utils/useAngle'
 const weeks = [
   '星期日',
   '星期一',
@@ -112,16 +112,20 @@ const getVisitDate = computed(() => {
   let arr: Date[] = []
   const { year, month } = formatDate(date.value)
   let firstDay = new Date(year, month - 1, 1)
+  console.log('firstDay', firstDay)
   let firstWeek = firstDay.getDay()
+  console.log('firstWeek', firstWeek)
   const firstVisitDay = new Date(
     firstDay.getTime() - firstWeek * 24 * 60 * 60 * 1000,
   )
+  console.log('firstVisitDay', firstVisitDay)
   for (let i = 0; i < 42; i++) {
     let day = new Date(firstVisitDay.getTime() + i * 24 * 60 * 60 * 1000)
     arr.push(day)
   }
   return arr
 })
+console.log('getVisitDate', getVisitDate)
 const visitDate = computed(() => {
   let arr = []
   for (let i = 0; i < getVisitDate.value.length; i++) {
@@ -141,6 +145,7 @@ const visitDate = computed(() => {
   }
   return arr
 })
+console.log('visitDate', visitDate)
 const foldVisitDate = computed(() => {
   for (let i = 0; i < 6; i++) {
     let arr = visitDate.value.slice(i * 7, i * 7 + 7)
@@ -151,11 +156,16 @@ const foldVisitDate = computed(() => {
     }
   }
 })
+console.log('foldVisitDate', foldVisitDate)
 const selectDate = (index: number) => {
   let day = getVisitDate.value[index]
+  console.log('day', day)
   date.value = new Date(date.value.setFullYear(day.getFullYear()))
+  console.log('date.value', date.value)
   date.value = new Date(date.value.setMonth(day.getMonth()))
+  console.log('date.value', date.value)
   date.value = new Date(date.value.setDate(day.getDate()))
+  console.log('date.value', date.value)
 }
 const centerPoint = ref()
 const hourPointer = ref()
@@ -333,7 +343,7 @@ section {
               padding: 5px 0;
 
               .day {
-                width: 30px;
+                width: 40px;
                 line-height: 30px;
                 display: inline-block;
                 border-radius: 50%;
