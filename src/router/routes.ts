@@ -195,6 +195,16 @@ const routes: RouteRecordRaw[] = [
               permissions: 'sky.h5.audio',
             },
           },
+          {
+            path: '/H5/websocket',
+            name: 'websocket',
+            component: () => import('@/views/H5/webSocket/index.vue'),
+            meta: {
+              title: 'websocket',
+              icon: 'Coin',
+              permissions: 'sky.h5.websocket',
+            },
+          },
         ],
       },
       {
