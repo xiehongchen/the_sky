@@ -54,4 +54,10 @@ export const list = ref<ListItem[]>([
     component: 'JS_H',
     disabled: false,
   },
+  {
+    id: 9,
+    title: 'JS长任务-I',
+    component: 'JS_I',
+    disabled: false,
+  },
 ])

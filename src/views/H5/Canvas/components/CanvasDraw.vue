@@ -44,11 +44,23 @@ let context: any
 const value = ref(1)
 const color = ref('#000')
 onMounted(() => {
+  //挂载时需要获取，不然context没有数据，改变粗细、颜色会报错
   if (myCanvas.value) {
     context = myCanvas.value.getContext('2d')
   }
+  window.addEventListener('mousemove', mousemove)
 })
 
+function mousemove(e: any) {
+  if (
+    e.clientX < 225 ||
+    e.clientX > 1225 ||
+    e.clientY < 70 ||
+    e.clientY > 670
+  ) {
+    stopDrawing()
+  }
+}
 function startDrawing(e: any) {
   drawing.value = true
   let canvas = myCanvas.value
