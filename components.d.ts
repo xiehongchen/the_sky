@@ -57,6 +57,7 @@ declare module 'vue' {
     Table: typeof import('./src/components/table/Table.vue')['default']
   }
   export interface ComponentCustomProperties {
+    vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }
