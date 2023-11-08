@@ -9,6 +9,10 @@ Mock.mock('/api/users', 'get', {
       name: '@cname',
       age: '@integer(20, 40)',
       address: '@city',
+      message: '@city',
+      date: '@date("yyyy/MM/dd")',
+      time: '@time("HH:mm:ss")',
+      pic: `@dataImage('40x40')`,
     },
   ],
 })

@@ -2,12 +2,32 @@
   <div class="box">
     <div class="left">
       <div class="left-title">
-        <input v-model="searchName" type="text" class="left-input" />
+        <el-input
+          v-model="searchName"
+          :prefix-icon="Search"
+          placeholder="搜索"
+          type="text"
+          class="left-input"
+        />
         <el-icon class="left-icon"><Plus /></el-icon>
       </div>
       <ul v-infinite-scroll="load" class="infinite-list" style="overflow: auto">
-        <li v-for="i in list" :key="i.id" class="infinite-list-item">
-          {{ i.name }}
+        <li
+          v-for="i in list"
+          :key="i.id"
+          class="infinite-list-item"
+          @click="select(i)"
+        >
+          <div class="list-img">
+            <img :src="i.pic" />
+          </div>
+          <div class="list-name">
+            <div>{{ i.name }}</div>
+            <div>{{ i.message }}</div>
+          </div>
+          <div class="list-time">
+            <div>{{ i.time }}</div>
+          </div>
         </li>
       </ul>
     </div>
@@ -29,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import { Search } from '@element-plus/icons-vue'
 // import { io } from 'socket.io-client'
 import request from '@/utils/request'
 // const socket = io('http://127.0.0.1:6060')
@@ -38,6 +59,9 @@ interface userList {
   name: string
   age: number
   address: string
+  pic: string
+  message: string
+  time: string
 }
 const state = reactive({
   list: [] as userList[],
@@ -52,7 +76,9 @@ const load = async () => {
   })
 }
 const roomName = ref('其他')
-
+const select = (item: userList) => {
+  roomName.value = item.name
+}
 const inputText = ref('')
 </script>
 
@@ -67,7 +93,7 @@ const inputText = ref('')
   overflow: hidden;
   display: flex;
   .left {
-    width: 200px;
+    width: 300px;
     height: 100%;
     border-right: 1px solid #adadad;
     .left-title {
@@ -77,9 +103,8 @@ const inputText = ref('')
       justify-content: center;
       .left-input {
         border-radius: 5px;
-        width: 100px;
+        width: 200px;
         height: 30px;
-        border: 1px solid #aca8a8;
       }
       .left-icon {
         border-radius: 5px;
@@ -97,12 +122,28 @@ const inputText = ref('')
       .infinite-list-item {
         display: flex;
         align-items: center;
-        justify-content: center;
-        height: 50px;
-        margin-top: 10px;
+        height: 60px;
         background: var(--el-color-primary-light-9);
         margin: 10px;
-        color: var(--el-color-primary);
+        padding: 10px;
+        .list-img {
+          width: 40px;
+          height: 40px;
+          border-radius: 5px;
+          overflow: hidden;
+          img {
+            width: 100%;
+          }
+        }
+        .list-name {
+          padding: 0 20px;
+          font-size: 15px;
+          flex: 1;
+        }
+        .list-time {
+          width: 50px;
+          font-size: 12px;
+        }
       }
     }
   }
