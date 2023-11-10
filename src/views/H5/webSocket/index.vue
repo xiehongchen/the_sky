@@ -41,14 +41,14 @@ socket.on('chat', (data: any) => {
   console.log('chat', data)
   if (!socketRef.value) return
   const div = document.createElement('div')
-  div.innerText = data
+  div.innerText = 'chat ' + data
   socketRef.value.append(div)
 })
 socket.on('message', (data: any) => {
   console.log('message', data)
   if (!socketRef.value) return
   const div = document.createElement('div')
-  div.innerText = data
+  div.innerText = 'messgae ' + data
   socketRef.value.append(div)
 })
 

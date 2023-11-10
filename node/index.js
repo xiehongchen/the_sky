@@ -9,14 +9,20 @@ io.on('connection', (socket) => {
 
   // 创建房间
   socket.on('createRoom', (roomName) => {
-    console.log(`Socket ${socket.id} created and joined room ${roomName}`)
     socket.join(roomName)
+    io.to(roomName).emit(
+      'message',
+      `Socket ${socket.id} joined room ${roomName}`,
+    )
   })
 
   // 加入房间
   socket.on('joinRoom', (roomName) => {
-    console.log(`Socket ${socket.id} joined room ${roomName}`)
     socket.join(roomName)
+    io.to(roomName).emit(
+      'message',
+      `Socket ${socket.id} joined room ${roomName}`,
+    )
   })
 
   // 监听客户端发送的消息
