@@ -126,4 +126,10 @@ export const list = ref<ListItem[]>([
     component: 'CSS_T',
     disabled: true,
   },
+  {
+    id: 21,
+    title: '按钮特效-U',
+    component: 'CSS_U',
+    disabled: false,
+  },
 ])

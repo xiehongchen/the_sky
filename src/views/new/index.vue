@@ -1,119 +1,36 @@
 <template>
-  <div>
-    <Table
-      :loading="loading"
-      :tableData="tableData"
-      :columns="columns"
-      :stripe="stripe"
-      :border="border"
-      :selection="selection"
-      @handleSelectionChange="handleSelectionChange"
-      @filterChange="filterChange"
-      @sortChange="sortChange"
-    >
-      <template #a="scope">
-        <span @click="show(scope.row)">
-          {{ scope.row.a === 1 ? '看看' : 'dad' }}
-        </span>
-      </template>
-    </Table>
+  <div class="main">
+    <div class="box">
+      <div class="item">
+        <div class="button">1</div>
+      </div>
+      <div class="item">2</div>
+    </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import Table from '@/components/table/Table.vue'
+<script setup lang="ts"></script>
 
-const show = (item: any) => {
-  console.log(item)
+<style lang="scss" scoped>
+.main {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(135deg, #224141, #162a2a);
+  padding: 5px;
+  .box {
+    border-spacing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 15%);
+    grid-template-rows: auto;
+    .item {
+      background-color: rgba(0, 12, 23, 0.867);
+      border: 3px solid rgba(53, 162, 253, 0.267);
+      border-radius: 10px;
+      display: flex;
+      height: 220px;
+      justify-content: center;
+      overflow: hidden;
+    }
+  }
 }
-const loading = ref(false)
-const stripe = ref(true)
-const border = ref(true)
-const selection = ref(true)
-
-const handleSelectionChange = (value: any[]) => {
-  console.log('value', value)
-}
-const filterChange = (value: any[]) => {
-  console.log('value', value)
-}
-const sortChange = (obj: any) => {
-  console.log('obj', obj)
-}
-interface Column {
-  label: string
-  prop: string
-  slot?: boolean
-  width?: number
-  fixed?: string
-  sortable?: boolean | string
-  filterKey?: string
-  filters?: filterType[]
-}
-interface filterType {
-  text: string
-  value: string
-}
-const columns = reactive<Column[]>([
-  {
-    label: 'A',
-    prop: 'a',
-    fixed: 'left',
-    width: 200,
-    slot: true,
-  },
-  {
-    label: 'B',
-    width: 800,
-    prop: 'b',
-    sortable: true,
-    filterKey: 'bFilter',
-    filters: [{ text: 'dd', value: '12' }],
-  },
-  {
-    label: 'C',
-    width: 800,
-    prop: 'c',
-  },
-  {
-    label: 'D',
-    prop: 'd',
-  },
-  {
-    label: 'E',
-    prop: 'e',
-  },
-  {
-    label: 'F',
-    prop: 'f',
-  },
-  {
-    label: 'G',
-    prop: 'g',
-  },
-])
-const tableData = reactive([
-  {
-    id: 1,
-    a: 1,
-    b: 2,
-    c: 3,
-    d: 3,
-    e: 2,
-    f: 4,
-    g: 1,
-  },
-  {
-    id: 2,
-    a: 4,
-    b: 5,
-  },
-  {
-    id: 3,
-    a: 'adas',
-    b: 200,
-  },
-])
-</script>
-
-<style lang="scss" scoped></style>
+</style>
