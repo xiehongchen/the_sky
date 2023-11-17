@@ -1,36 +1,27 @@
 <template>
-  <div class="main">
-    <div class="box">
-      <div class="item">
-        <div class="button">1</div>
-      </div>
-      <div class="item">2</div>
-    </div>
-  </div>
+  <div class="main" ref="mainRef"></div>
+  <el-button @click="downloadFile">下载</el-button>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import * as file from '@/utils/useFile'
 
-<style lang="scss" scoped>
-.main {
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(135deg, #224141, #162a2a);
-  padding: 5px;
-  .box {
-    border-spacing: border-box;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 15%);
-    grid-template-rows: auto;
-    .item {
-      background-color: rgba(0, 12, 23, 0.867);
-      border: 3px solid rgba(53, 162, 253, 0.267);
-      border-radius: 10px;
-      display: flex;
-      height: 220px;
-      justify-content: center;
-      overflow: hidden;
-    }
-  }
+const mainRef = ref<HTMLDivElement>()
+const image = file
+  .urlToImage(
+    'https://img1.baidu.com/it/u=4107214055,4091251605&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=705',
+  )
+  .then((res) => {
+    mainRef.value?.appendChild(res as Node)
+    console.log(res)
+  })
+console.log(image)
+const downloadFile = () => {
+  // file.downloadFile(
+  //   'https://img1.baidu.com/it/u=4107214055,4091251605&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=705',
+  //   '消息',
+  // )
 }
-</style>
+</script>
+
+<style lang="scss" scoped></style>
