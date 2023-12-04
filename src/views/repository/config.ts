@@ -10,7 +10,6 @@ function getAssetsImg(name: string) {
   } else {
     return 'src/assets/images/rep/' + name
   }
-  return ''
 }
 getAssetsImg('aa')
 // favicon  logo  图标

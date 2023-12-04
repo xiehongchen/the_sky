@@ -1,0 +1,100 @@
+body{
+  background-image: url("../img/3.jpg");
+  background-size: cover;
+}
+.carousel-container {
+    width: 500px;
+    height: 300px;
+    /* 将隐藏部分注释掉之后会看到一横排的照片，通过改变margin来变更照片 */
+    overflow: hidden;
+    /* outline: 2px solid lightblue; */
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  
+  .carousel-list {
+    /* 轮播图主要是靠通过改变margin-left来改变图的，所以图片区域宽度为显示区域的700%有几张照片就翻多少+1倍 */
+    width: 700%;
+    height: 100%;
+  }
+  
+  .carousel-item {
+    width: 500px;
+    height: 100%;
+    /* 图片撑满区域 */
+    object-fit: cover;
+    float: left;
+  }
+  
+  .indicator {
+    /* 指示器部分，根据显示区域进行定位到下面 */
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    height: 30px;
+    text-align: center;
+  }
+  .indicator-item {
+    /* 指示器样式 */
+    display: inline-block;
+    width: 20px;
+    height: 4px;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  .indicator-item.active {
+    /* 激活时的颜色 */
+    background: #ffa44f;
+  }
+  
+  .arrow-left,
+  .arrow-right {
+    /* 左右翻页样式 */
+    position: absolute;
+    width: 50px;
+    height: 104%;
+    top: -1px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    opacity: 0;
+    color: #fff;
+  }
+  .arrow-left:hover,
+  .arrow-right:hover {
+    /* 鼠标移入的时候将隐藏显示出来 */
+    opacity: 1;
+  }
+  
+  .arrow-left {
+    left: 0;
+  }
+  
+  .arrow-left::before {
+    content: '<';
+  }
+  
+  .arrow-right {
+    right: 0;
+  }
+  .arrow-right::before {
+    content: '>';
+  }
+  
+  .arrow-left::before,
+  .arrow-right::before {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    height: 30px;
+    line-height: 30px;
+    margin-top: -15px;
+  }
+  
