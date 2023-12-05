@@ -218,10 +218,8 @@ function getImageIndex(index: number, len: number, max: number) {
 
   // 计算数组的起始位置
   const start = index - Math.floor(len / 2)
-  console.log('start', start)
   // 生成数组
   const resultArray = Array.from({ length: len }, (_, i) => start + i)
-  console.log('resultArray', resultArray)
   for (let i = 0; i < resultArray.length; i++) {
     if (resultArray[i] < 0) {
       resultArray[i] += max
@@ -256,12 +254,10 @@ function btnClick(type: string) {
 // 自动播放
 const timer = ref()
 function autoPlay() {
-  console.log('开启')
   clearInterval(timer.value)
   timer.value = setInterval(() => btnClick('next'), 1000)
 }
 function stopAutoPlay() {
-  console.log('关闭')
   clearInterval(timer.value)
 }
 // 开启自动播放
