@@ -244,7 +244,7 @@ function btnClick(type: string) {
   if (type === 'next') {
     index.value = index.value + 1 < l ? index.value + 1 : index.value + 1 - l
   } else {
-    index.value = index.value - 1
+    index.value = index.value - 1 < 0 ? index.value - 1 + l : index.value - 1
   }
   if (index.value < 0) return (index.value = 0)
   if (index.value > l - 1) return (index.value = l - 1)
