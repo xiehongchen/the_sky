@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="imgs">
     <div class="skin_img">
       <img
         class="lazyload"
@@ -51,7 +51,13 @@
 </template>
 
 <script setup lang="ts">
+const imgs = ref<HTMLDivElement>()
+nextTick(() => {
+  console.log('imgs', imgs.value?.childNodes)
+})
+
 const imgList = [...document.querySelectorAll('img')]
+console.log('imgList', imgList)
 
 const observer = new IntersectionObserver(
   (entries) => {
@@ -82,5 +88,9 @@ imgList.forEach((img) => observer.observe(img))
   height: 500px;
   overflow: hidden;
   position: relative;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
