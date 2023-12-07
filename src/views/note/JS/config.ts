@@ -66,4 +66,10 @@ export const list = ref<ListItem[]>([
     component: 'JS_J',
     disabled: false,
   },
+  {
+    id: 11,
+    title: 'IntersectionObserver-K',
+    component: 'JS_K',
+    disabled: false,
+  },
 ])
