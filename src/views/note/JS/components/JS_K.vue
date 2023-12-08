@@ -53,6 +53,7 @@
 <script setup lang="ts">
 const imgs = ref<HTMLDivElement>()
 nextTick(() => {
+  console.log('imgs', imgs.value)
   console.log('imgs', imgs.value?.childNodes)
 })
 
