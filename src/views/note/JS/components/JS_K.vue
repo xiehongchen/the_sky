@@ -57,7 +57,6 @@ nextTick(() => {
 })
 
 const imgList = [...document.querySelectorAll('img')]
-console.log('imgList', imgList)
 
 const observer = new IntersectionObserver(
   (entries) => {
