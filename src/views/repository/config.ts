@@ -10,7 +10,6 @@ function getAssetsImg(name: string) {
   } else {
     return 'src/assets/images/rep/' + name
   }
-  return ''
 }
 getAssetsImg('aa')
 // favicon  logo  图标
@@ -344,8 +343,14 @@ export const document: list[] = [
   {
     id: 25,
     title: 'Nest.js',
-    url: 'https://x6.antv.antgroup.com/',
+    url: 'https://nest.nodejs.cn/',
     imgUrl: 'https://nestjs.bootcss.com/img/favicon.ico',
+  },
+  {
+    id: 40,
+    title: 'Electron',
+    url: 'https://www.electronjs.org/zh/',
+    imgUrl: 'https://www.electronjs.org/zh/assets/img/favicon.ico',
   },
 ]
 // 工具

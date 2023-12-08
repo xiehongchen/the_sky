@@ -41,7 +41,15 @@
             <span>{{ item.meta?.title }}</span>
           </template>
           <template v-for="child in item.children" :key="child.path">
-            <el-menu-item :index="child.path" @click="goRoute(child.path)">
+            <el-menu-item
+              v-if="
+                (userInfo.permissions.includes(child.meta?.permissions) ||
+                  userInfo.permissions.includes('sky.*')) &&
+                !child.meta?.isHide
+              "
+              :index="child.path"
+              @click="goRoute(child.path)"
+            >
               <el-icon>
                 <component :is="child.meta?.icon"></component>
               </el-icon>

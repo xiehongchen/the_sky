@@ -1,5 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 import layout from '@/views/layout/index.vue'
+import noteRoutes from './note.ts'
+import h5Routes from './h5.ts'
 
 // 路由配置
 const routes: RouteRecordRaw[] = [
@@ -72,131 +74,8 @@ const routes: RouteRecordRaw[] = [
           },
         ],
       },
-      {
-        path: '/note',
-        name: 'note',
-        // component: () => import('@/views/note/index.vue'),
-        meta: {
-          title: '笔记',
-          icon: 'House',
-          permissions: 'sky.note',
-        },
-        children: [
-          {
-            path: '/note/CSS',
-            name: 'CSS案例',
-            component: () => import('@/views/note/CSS/index.vue'),
-            meta: {
-              title: 'CSS案例',
-              icon: 'Coin',
-              permissions: 'sky.note.css',
-            },
-          },
-          {
-            path: '/note/JS',
-            name: 'JS全概',
-            component: () => import('@/views/note/JS/index.vue'),
-            meta: {
-              title: 'JS全概',
-              icon: 'Coin',
-              permissions: 'sky.note.js',
-            },
-          },
-          {
-            path: '/note/Vue',
-            name: 'Vue学习',
-            component: () => import('@/views/note/Vue/index.vue'),
-            meta: {
-              title: 'Vue学习',
-              icon: 'Coin',
-              permissions: 'sky.note.vue',
-            },
-          },
-          {
-            path: '/note/THREE',
-            name: 'three学习',
-            component: () => import('@/views/note/three/index.vue'),
-            meta: {
-              title: 'three学习',
-              icon: 'Coin',
-              permissions: 'sky.note.three',
-            },
-          },
-          {
-            path: '/note/Visualization',
-            name: '数据可视化',
-            component: () => import('@/views/note/Visualization/index.vue'),
-            meta: {
-              title: '数据可视化',
-              icon: 'Coin',
-              permissions: 'sky.note.visualization',
-            },
-          },
-        ],
-      },
-      {
-        path: '/H5',
-        name: 'H5新特性',
-        // component: () => import('@/views/repository/index.vue'),
-        meta: {
-          title: 'H5新特性',
-          icon: 'Coin',
-          permissions: 'sky.h5',
-        },
-        children: [
-          {
-            path: '/H5/Speech',
-            name: '语音',
-            component: () => import('@/views/H5/Speech.vue'),
-            meta: {
-              title: '语音',
-              icon: 'Coin',
-              permissions: 'sky.h5.speech',
-            },
-          },
-          {
-            path: '/H5/Drag',
-            name: '拖拽',
-            component: () => import('@/views/H5/Drag.vue'),
-            meta: {
-              title: '拖拽',
-              icon: 'Coin',
-              permissions: 'sky.h5.drag',
-            },
-          },
-          {
-            path: '/H5/canvas',
-            name: 'canvas',
-            // component: () => import('@/views/H5/Canvas.vue'),
-            component: () => import('@/views/H5/Canvas/index.vue'),
-            meta: {
-              title: 'canvas',
-              icon: 'Coin',
-              permissions: 'sky.h5.canvas',
-            },
-          },
-          {
-            path: '/H5/video',
-            name: '视频',
-            component: () => import('@/views/H5/Video.vue'),
-            meta: {
-              title: '视频',
-              icon: 'Coin',
-              permissions: 'sky.h5.video',
-            },
-          },
-          {
-            path: '/H5/audio',
-            name: '音频',
-            component: () => import('@/views/H5/Audio.vue'),
-            meta: {
-              title: '音频',
-              icon: 'Coin',
-              permissions: 'sky.h5.audio',
-            },
-          },
-        ],
-      },
+      noteRoutes,
+      h5Routes,
       {
         path: '/diary',
         name: 'diary',

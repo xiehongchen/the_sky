@@ -54,4 +54,22 @@ export const list = ref<ListItem[]>([
     component: 'JS_H',
     disabled: false,
   },
+  {
+    id: 9,
+    title: 'JS长任务-I',
+    component: 'JS_I',
+    disabled: false,
+  },
+  {
+    id: 10,
+    title: '文字跳舞-J',
+    component: 'JS_J',
+    disabled: false,
+  },
+  {
+    id: 11,
+    title: 'IntersectionObserver-K',
+    component: 'JS_K',
+    disabled: false,
+  },
 ])

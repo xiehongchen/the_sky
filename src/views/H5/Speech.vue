@@ -93,10 +93,10 @@ const intonationChoose = (val: any) => {
   value3.value = val
 }
 const synth = window.speechSynthesis
-console.log(synth)
+console.log('synth', synth)
 // 获取语言列表
 const voices = synth.getVoices()
-console.log(voices)
+console.log('voices', voices)
 const options = voices.map((voice: any) => ({
   label: `${voice.name} (${voice.lang})`,
   value: voice.name,
@@ -114,7 +114,7 @@ const play = (status: any) => {
   readTxt.lang = 'zh-CN' // 语言
   readTxt.voice =
     voices.find((voice: any) => voice.name === value4.value) || null // 声音
-  speechSynthesis.speak(readTxt) // 调用说的方法
+  window.speechSynthesis.speak(readTxt) // 调用说的方法
   if (status) {
     speechSynthesis.resume() // 恢复播放
   } else if (status === false) {
