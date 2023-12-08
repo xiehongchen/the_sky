@@ -3,7 +3,12 @@
     <!-- 面包屑，独占一行，第一行 -->
     <template #breadcrumb>
       <el-breadcrumb separator-icon="ArrowRight">
-        <el-breadcrumb-item v-for="(item, index) in route.matched" :key="index" v-show="item.meta.title" :to="item.path">
+        <el-breadcrumb-item
+          v-for="(item, index) in route.matched"
+          :key="index"
+          v-show="item.meta.title"
+          :to="item.path"
+        >
           <span>{{ item.meta.title }}</span>
         </el-breadcrumb-item>
       </el-breadcrumb>
@@ -11,39 +16,149 @@
     <!-- 左侧按钮，第二行 -->
     <template #icon>
       <el-icon style="margin-right: 10px" @click="changeIcon">
-        <component :is="layOutSettingStore.fold ? 'Fold' : 'Expand'"></component>
+        <component
+          :is="layOutSettingStore.fold ? 'Fold' : 'Expand'"
+        ></component>
       </el-icon>
     </template>
     <!-- 左侧内容，第二行 -->
     <template #title>
-      <span @click="router.back()">返回</span>
+      <div style="width: 30px" @click="router.back()">返回</div>
     </template>
     <template #content>
-      <span>{{ router.currentRoute.value.meta.title }}</span>
+      <!-- <span>{{ router.currentRoute.value.meta.title }}</span> -->
+      <div class="tab-box">
+        <div>我的技术总站</div>
+        <div class="tabs">
+          <el-tabs
+            v-model="active"
+            type="card"
+            class="tab-list"
+            :closable="false"
+            @tab-click="clickTab"
+          >
+            <el-tab-pane
+              v-for="item in editableTabs"
+              :key="item.name"
+              :label="item.title"
+              :name="item.name"
+            >
+              <template #label>
+                <span>{{ item.title }}</span>
+                <el-icon
+                  v-if="item.lock"
+                  style="font-size: 16px; margin-left: 15px"
+                  @click.stop="unLock(item.name)"
+                >
+                  <Lock />
+                </el-icon>
+                <el-icon
+                  v-else
+                  style="font-size: 16px; margin-left: 15px"
+                  @click.stop="lock(item.name)"
+                >
+                  <Unlock />
+                </el-icon>
+                <el-icon
+                  style="font-size: 16px; margin-left: 5px"
+                  @click.stop="removeTab(item.name)"
+                >
+                  <Close />
+                </el-icon>
+              </template>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </div>
     </template>
     <!-- 右侧操作，第二行 -->
     <template #extra>
       <div class="right-extra">
+        <!-- 关闭标签 -->
+        <el-button
+          type="primary"
+          icon="CloseBold"
+          circle
+          @click="closeTab"
+        ></el-button>
         <!-- 搜索 -->
-        <el-button ref="test" type="primary" icon="Search" circle @click="goSearch"></el-button>
+        <el-button
+          ref="test"
+          type="primary"
+          icon="Search"
+          circle
+          @click="goSearch"
+        ></el-button>
 
         <!-- 输入框 -->
-        <el-input v-if="isSearch" v-model="inputText" @blur="blurInput" @input="inputEvent" @change="changeInput" @focus="focusInput"
-          placeholder="请输入搜索内容" ref="inputRef" class="input" />
+        <el-input
+          v-if="isSearch"
+          v-model="inputText"
+          @blur="blurInput"
+          @input="inputEvent"
+          @change="changeInput"
+          @focus="focusInput"
+          placeholder="请输入搜索内容"
+          ref="inputRef"
+          class="input"
+        />
+
+        <el-card v-if="searchResultList.length > 0" class="box-card">
+          <ul>
+            <li
+              v-for="(item, index) in searchResultList"
+              :key="index"
+              class="text"
+            >
+              {{ item }}
+            </li>
+          </ul>
+        </el-card>
 
         <!-- 全屏 -->
-        <el-button type="primary" icon="FullScreen" circle @click="FullScreen"></el-button>
+        <el-button
+          type="primary"
+          icon="FullScreen"
+          circle
+          @click="FullScreen"
+        ></el-button>
+
+        <!-- 刷新 -->
+        <el-button
+          type="primary"
+          icon="Refresh"
+          circle
+          @click="refresh"
+        ></el-button>
 
         <!-- 主题选择 -->
-        <el-popover placement="bottom" title="主题设置" :width="300" trigger="hover">
+        <el-popover
+          placement="bottom"
+          title="主题设置"
+          :width="300"
+          trigger="hover"
+        >
           <!-- 表单元素 -->
           <el-form>
             <el-form-item label="主题颜色">
-              <el-color-picker @change="setColor" v-model="color" size="small" show-alpha :predefine="predefineColors" />
+              <el-color-picker
+                @change="setColor"
+                v-model="color"
+                size="small"
+                show-alpha
+                :predefine="predefineColors"
+              />
             </el-form-item>
             <el-form-item label="暗黑模式">
-              <el-switch @change="changeDark" v-model="dark" class="mt-2" style="margin-left: 24px" inline-prompt
-                active-icon="MoonNight" inactive-icon="Sunny" />
+              <el-switch
+                @change="changeDark"
+                v-model="dark"
+                class="mt-2"
+                style="margin-left: 24px"
+                inline-prompt
+                active-icon="MoonNight"
+                inactive-icon="Sunny"
+              />
             </el-form-item>
           </el-form>
           <template #reference>
@@ -52,15 +167,18 @@
         </el-popover>
 
         <!-- 用户信息 -->
-        <img :src="userStore.avatar" style="
+        <img
+          src="../assets/images/rep/hui.png"
+          style="
             width: 32px;
             height: 32px;
             margin: 0px 10px -10px 10px;
             border-radius: 50%;
-          " />
+          "
+        />
         <el-dropdown>
-          <span style="line-height: 30px;width:60px;">
-            {{ userStore.username }}
+          <span style="line-height: 30px; width: 60px">
+            {{ user.userInfo.username }}
           </span>
           <template #dropdown>
             <el-dropdown-menu>
@@ -70,18 +188,67 @@
         </el-dropdown>
       </div>
     </template>
-    <el-card v-if="searchResultList.length > 0" class="box-card" :style="{ top: cardTop + 'px', left: cardLeft + 'px' }">
-      <ul>
-        <li v-for="item, index in searchResultList" :key="index" class="text">{{ item }}</li>
-      </ul>
-    </el-card>
   </el-page-header>
 </template>
 
 <script setup lang="ts">
 //获取用户相关的小仓库
-import { useUserStore } from '@/store/user'
 import { useLayOutSettingStore } from '@/store/setting'
+import { useTab } from '@/store/tab'
+import { REMOVE_TOKEN } from '@/utils/token'
+import { useUserStore } from '@/store/user'
+const user = useUserStore()
+const tab = useTab()
+
+// 标签页
+const active = ref('')
+onMounted(() => {
+  active.value = tab.activeTab
+})
+const editableTabs = ref(tab.tabList)
+watch(tab, () => {
+  editableTabs.value = tab.tabList
+  active.value = tab.activeTab
+})
+
+const lock = (targetName: string) => {
+  tab.lock(targetName)
+}
+
+const unLock = (targetName: string) => {
+  tab.unLock(targetName)
+}
+
+const removeTab = (targetName: string) => {
+  tab.removeTab(targetName)
+  editableTabs.value = tab.tabList
+  active.value = tab.activeTab
+  const resultItem = editableTabs.value.find(
+    (item: any) => item.name === active.value,
+  )
+  if (resultItem) {
+    router.push({
+      path: resultItem.content,
+      query: {
+        ...resultItem.query,
+      },
+    })
+  }
+}
+
+const clickTab = (targetName: any) => {
+  const resultItem = editableTabs.value.find(
+    (item: any) => item.name === targetName.props.name,
+  )
+  if (resultItem) {
+    router.push({
+      path: resultItem.content,
+      query: {
+        ...resultItem.query,
+      },
+    })
+  }
+}
 // 展开收起
 let layOutSettingStore = useLayOutSettingStore()
 const router = useRouter()
@@ -90,9 +257,20 @@ const route = useRoute()
 const changeIcon = () => {
   layOutSettingStore.fold = !layOutSettingStore.fold
 }
+const closeTab = () => {
+  const item = JSON.parse(localStorage.getItem('tabList') || '')
+  // console.log('item', item)
+  if (item) {
+    for (let i = 0; i < item.tabList.length; i++) {
+      if (!item.tabList[i].lock) {
+        removeTab(item.tabList[i].name)
+      }
+    }
+  }
+}
 
 // 搜索
-const inputRef:Ref<HTMLElement | null> = ref(null)
+const inputRef: Ref<HTMLElement | null> = ref(null)
 const isSearch = ref<boolean>(false)
 const goSearch = () => {
   isSearch.value = !isSearch.value
@@ -129,17 +307,23 @@ const searchResult = ref<boolean>(false)
 const searchResultList = ref<Array<string>>([])
 
 function getData() {
-  searchResultList.value = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
-  calculateCardPosition()
-}
-
-const cardTop = ref<number>(0)
-const cardLeft = ref<number>(0)
-// 计算卡片位置
-function calculateCardPosition() {
-  if(!inputRef.value) return
-  cardTop.value = inputRef.value.getBoundingClientRect().top + 40
-  cardLeft.value = inputRef.value.getBoundingClientRect().left
+  searchResultList.value = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+  ]
 }
 
 // 全屏
@@ -153,6 +337,12 @@ const FullScreen = () => {
   }
 }
 
+// 刷新
+const refresh = () => {
+  location.reload()
+  // 从服务器重新加载页面
+  // window.location.reload(true)
+}
 // 主题颜色
 const color = ref('rgba(255, 69, 0, 0.68)')
 const predefineColors = ref([
@@ -183,17 +373,24 @@ const changeDark = () => {
   dark.value ? (html.className = 'dark') : (html.className = '')
 }
 
-// 用户信息
-const userStore = useUserStore()
-
 // 退出登录
 const logout = async () => {
-  await userStore.userLogout()
+  REMOVE_TOKEN()
+  user.removeUserInfo()
   router.push('/login')
 }
 </script>
 
 <style scoped lang="scss">
+.tab-box {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  .tabs {
+    margin-left: 20px;
+    height: 100%;
+  }
+}
 .el-page-header {
   height: 100%;
 
@@ -221,6 +418,9 @@ const logout = async () => {
   :deep(.el-page-header__header) {
     height: 30px;
     line-height: 30px;
+    .el-page-header__content {
+      width: 100%;
+    }
 
     .el-page-header__extra {
       display: flex;
@@ -233,6 +433,7 @@ const logout = async () => {
 .right-extra {
   display: flex;
   flex-direction: row;
+  position: relative;
 
   .input {
     width: 300px;
@@ -240,26 +441,29 @@ const logout = async () => {
     margin-left: 20px;
     border-radius: 20px;
   }
-}
 
-.box-card {
-  position: fixed;
-  padding: 0;
-  width: 300px;
-  height: 300px;
-  overflow: scroll;
-  --el-card-padding: 0px;
-  
-  .text {
-    height: 50px;
-    padding: 5px 5px;
-    line-height: 50px;
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    background-color: #409eff;
-    border-radius: 4px;
+  .box-card {
+    position: absolute;
+    padding: 0;
+    top: 40px;
+    right: 250px;
+    width: 300px;
+    height: 300px;
+    overflow: scroll;
+    --el-card-padding: 0px;
+    z-index: 10;
+
+    .text {
+      height: 50px;
+      padding: 5px 5px;
+      line-height: 50px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #409eff;
+      border-radius: 4px;
+    }
   }
 }
 </style>
