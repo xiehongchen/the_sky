@@ -4,7 +4,6 @@ interface ListItem {
   component: string
   disabled: boolean
 }
-//  ABCDEFGHIJKLMNOPQRSTUVWXYZ
 export const list = ref<ListItem[]>([
   {
     id: 1,
@@ -133,3 +132,4 @@ export const list = ref<ListItem[]>([
     disabled: false,
   },
 ])
+// ABCDEFGHIJKLMNOPQRSTUVWXYZ

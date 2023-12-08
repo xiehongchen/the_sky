@@ -68,8 +68,21 @@ export const list = ref<ListItem[]>([
   },
   {
     id: 11,
-    title: 'IntersectionObserver-K',
+    title: 'IntersectionObserver实现懒加载-K',
     component: 'JS_K',
     disabled: false,
   },
+  {
+    id: 12,
+    title: 'IntersectionObserver实现滚动动画-L',
+    component: 'JS_L',
+    disabled: false,
+  },
+  {
+    id: 13,
+    title: 'IntersectionObserver实现无限滚动-M',
+    component: 'JS_M',
+    disabled: false,
+  },
 ])
+// ABCDEFGHIJKLMNOPQRSTUVWXYZ

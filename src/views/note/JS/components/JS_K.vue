@@ -52,21 +52,24 @@
 
 <script setup lang="ts">
 const imgs = ref<HTMLDivElement>()
-
+const imgList = ref([]) as any
+// node.nodeType === 1 && node.tagName.toLowerCase() === 'img',
 nextTick(() => {
   console.log('imgs', imgs.value)
   console.log('imgs', imgs.value?.childNodes)
+  imgs.value?.childNodes.forEach((skin) => {
+    console.log('skin', skin)
+    imgList.value.push(skin.childNodes[0])
+  })
+  console.log('imgList', imgList.value)
+  imgList.value.forEach((img: any) => observer.observe(img))
 })
-
-const imgList = [...document.querySelectorAll('img')]
 
 const observer = new IntersectionObserver(
   (entries) => {
-    console.log('entries', entries)
     entries.forEach((item: any) => {
       // isIntersecting是一个Boolean值，判断目标元素当前是否可见
       if (item.isIntersecting) {
-        console.log(item.target.dataset.src)
         item.target.src = item.target.dataset.src
         // 图片加载后即停止监听该元素
         observer.unobserve(item.target)
@@ -77,15 +80,12 @@ const observer = new IntersectionObserver(
     root: document.querySelector('.root'),
   },
 )
-
-// observe遍历监听所有img节点
-imgList.forEach((img) => observer.observe(img))
 </script>
 
 <style lang="scss" scoped>
 .skin_img {
   margin-bottom: 20px;
-  width: auto;
+  width: 300px;
   height: 500px;
   overflow: hidden;
   position: relative;

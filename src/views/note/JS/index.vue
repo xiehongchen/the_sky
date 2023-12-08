@@ -14,13 +14,13 @@
     </div>
   </div>
   <div v-else>
-    <el-button @click="back" style="margin: 20px">返回</el-button>
+    <el-button @click="pageLoad = true" style="margin: 20px">返回</el-button>
     <component :is="currentContent" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { list } from './config.ts'
+import { list } from './config'
 const currentContent = shallowRef<ReturnType<typeof defineComponent> | null>(
   null,
 )
@@ -30,10 +30,6 @@ const showContent = async (content: string) => {
   currentContent.value = module.default
 }
 const pageLoad = ref(true)
-const back = () => {
-  currentContent.value = null
-  pageLoad.value = true
-}
 </script>
 
 <style lang="scss" scoped>
@@ -43,8 +39,6 @@ const back = () => {
   height: 100%;
   .box {
     height: 100%;
-    display: flex;
-    flex-wrap: wrap;
     .item {
       text-align: center;
       height: 50px;
