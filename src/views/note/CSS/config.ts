@@ -131,5 +131,11 @@ export const list = ref<ListItem[]>([
     component: 'CSS_U',
     disabled: false,
   },
+  {
+    id: 21,
+    title: '无限滚动动画-V',
+    component: 'CSS_V',
+    disabled: false,
+  },
 ])
 // ABCDEFGHIJKLMNOPQRSTUVWXYZ
